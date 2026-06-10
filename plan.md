@@ -8,7 +8,7 @@ Hookdeck is an Event Gateway designed to receive, process, and deliver webhooks 
 *   **Ecosystem Role**: It sits between third-party SaaS webhooks and your application, replacing the need for custom ingestion logic, manual retry systems, and tunneling tools like ngrok.
 *   **Project Setup**:
     1.  **CLI Installation**: `npm install -g hookdeck-cli` or `brew install hookdeck/hookdeck/hookdeck`.
-    2.  **Authentication**: `hookdeck login --api-key <key>`.
+    2.  **Authentication**: `hookdeck ci --api-key <key>`, or `hookdeck ci` directly while having `HOOKDECK_API_KEY` set in your environment.
     3.  **Initialization**: Typically involves creating a **Source** (where events come in) and a **Destination** (where events go), then linking them with a **Connection**.
 
 ## 2. Core Primitives & APIs
@@ -25,7 +25,67 @@ A Connection links a Source to a Destination and can include Rules (Filters, Tra
 *   **API Creation**: `POST https://api.hookdeck.com/2025-07-01/connections`
 *   **Documentation**: [Connections](https://hookdeck.com/docs/connections.md)
 
-### Mock API & Publish API
+### APIs
+
+Hookdeck provides a robust REST API for managing resources programmatically.
+
+*   **List Sources API (`GET /sources`)**:
+    Retrieves a list of sources.
+    ```json
+    // Example Response
+    {
+      "pagination": {
+        "order_by": "created_at",
+        "dir": "desc",
+        "limit": 100
+      },
+      "count": 1,
+      "models": [
+        {
+          "id": "src_123",
+          "name": "stripe",
+          "description": "Stripe webhooks",
+          "url": "https://events.hookdeck.com/e/src_123",
+          "created_at": "2025-01-01T00:00:00.000Z",
+          "updated_at": "2025-01-01T00:00:00.000Z",
+          "config": {
+            "auth_type": "BASIC_AUTH",
+            "auth": {
+              "username": "user@hookdeck.com",
+              "password": "my-password"
+            },
+            "custom_response": {
+              "content_type": "json",
+              "body": "{ \"prop\": \"value\"}"
+            },
+            "allowed_http_methods": [
+              "POST",
+              "PUT",
+              "PATCH",
+              "DELETE"
+            ]
+          }
+        }
+      ]
+    }
+    ```
+
+*   **Retrieve Transformation API (`GET /transformations/:id`)**:
+    Retrieves a specific transformation, including its JavaScript code.
+    ```json
+    // Example Response
+    {
+      "id": "trf_123",
+      "name": "flatten-payload",
+      "code": "addHandler('transform', (request, context) => {\n  if (request.body.data) {\n    request.body = request.body.data;\n  }\n  return request;\n});",
+      "env": {
+        "MY_SECRET": "secret_value"
+      },
+      "created_at": "2025-01-01T00:00:00.000Z",
+      "updated_at": "2025-01-01T00:00:00.000Z"
+    }
+    ```
+
 Hookdeck allows you to simulate destinations and manually trigger events.
 *   **Mock Destination**: Set `--destination-type MOCK` to have Hookdeck accept events and return 200 OK without forwarding.
 *   **Publish API (Outbound Mocking)**: Send events directly to a source via API.
@@ -81,6 +141,7 @@ Modify payloads using JavaScript handlers.
 2.  **HMAC Verification**: Setting up manual signature verification for providers not natively supported by "Source Types" can be tricky. It requires correctly configuring the `source.config` with the right algorithm and secret.
 3.  **CLI Profile Management**: When working across multiple Hookdeck projects, managing CLI profiles (`--profile`) and ensuring the correct API key is used can lead to configuration errors.
 4.  **Evaluation Limits**: The tasks would be implemented and evaluated in a container environment without public inbound network access, so all the tasks should be done using the CLI and Mock API Destination (A Mock API endpoint that accepts all API requests sent to it, https://mock.hookdeck.com) in Hookdeck.
+5.  **Login**: since we were in headless env, should use `hookdeck ci --api-key TOKEN` to login before start the evaluation.
 
 ## 5. Evaluation Ideas
 
