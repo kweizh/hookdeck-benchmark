@@ -8,7 +8,7 @@ Hookdeck is an Event Gateway designed to receive, process, and deliver webhooks 
 *   **Ecosystem Role**: It sits between third-party SaaS webhooks and your application, replacing the need for custom ingestion logic, manual retry systems, and tunneling tools like ngrok.
 *   **Project Setup**:
     1.  **CLI Installation**: `npm install -g hookdeck-cli` or `brew install hookdeck/hookdeck/hookdeck`.
-    2.  **Authentication**: `hookdeck login` (opens browser) or `hookdeck login --api-key <key>`.
+    2.  **Authentication**: `hookdeck login --api-key <key>`.
     3.  **Initialization**: Typically involves creating a **Source** (where events come in) and a **Destination** (where events go), then linking them with a **Connection**.
 
 ## 2. Core Primitives & APIs
@@ -80,6 +80,7 @@ Modify payloads using JavaScript handlers.
 1.  **Transformation Sandbox Limits**: Transformations run in V8 isolates. They **cannot** perform network requests (no `fetch`), use `async/await`, or access the file system. Developers often try to fetch external data during transformation, which fails. [Discussion](https://hookdeck.com/docs/transformations#limitations).
 2.  **HMAC Verification**: Setting up manual signature verification for providers not natively supported by "Source Types" can be tricky. It requires correctly configuring the `source.config` with the right algorithm and secret.
 3.  **CLI Profile Management**: When working across multiple Hookdeck projects, managing CLI profiles (`--profile`) and ensuring the correct API key is used can lead to configuration errors.
+4.  **Evaluation Limits**: The tasks would be implemented and evaluated in a container environment without public inbound network access, so all the tasks should be done using the CLI and Mock API Destination (A Mock API endpoint that accepts all API requests sent to it, https://mock.hookdeck.com) in Hookdeck.
 
 ## 5. Evaluation Ideas
 
