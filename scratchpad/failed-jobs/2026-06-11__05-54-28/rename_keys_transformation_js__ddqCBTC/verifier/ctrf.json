@@ -1,0 +1,41 @@
+{
+    "reportFormat": "CTRF",
+    "specVersion": "0.0.0",
+    "timestamp": "2026-06-11T05:58:53.021830+00:00",
+    "generatedBy": "pytest",
+    "results": {
+        "tool": {
+            "name": "pytest",
+            "version": "7.4.4"
+        },
+        "summary": {
+            "tests": 1,
+            "passed": 0,
+            "failed": 1,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1781157527181,
+            "stop": 1781157533021
+        },
+        "environment": {
+            "buildName": "Pytest JSON CTRF Report",
+            "buildNumber": "000",
+            "buildUrl": "https://ctrf.io"
+        },
+        "tests": [
+            {
+                "name": "test_final_state.py::test_hookdeck_transformation",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 5685,
+                "start": 1781157527336,
+                "stop": 1781157533021,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "def test_hookdeck_transformation():\n        run_id = os.environ.get(\"ZEALT_RUN_ID\")\n        assert run_id, \"ZEALT_RUN_ID environment variable is missing.\"\n    \n        api_key = os.environ.get(\"HOOKDECK_API_KEY\")\n        assert api_key, \"HOOKDECK_API_KEY environment variable is missing.\"\n    \n        headers = {\n            \"Authorization\": f\"Bearer {api_key}\",\n            \"Content-Type\": \"application/json\"\n        }\n    \n        # Step 2: Verify connection and rules\n        conn_name = f\"transform-conn-{run_id}\"\n        conn_url = f\"https://api.hookdeck.com/2025-07-01/connections?name={conn_name}\"\n        conn_resp = requests.get(conn_url, headers=headers)\n        assert conn_resp.status_code == 200, f\"Failed to get connection: {conn_resp.text}\"\n        conn_data = conn_resp.json()\n        assert \"models\" in conn_data and len(conn_data[\"models\"]) > 0, f\"Connection {conn_name} not found.\"\n    \n        connection = conn_data[\"models\"][0]\n        rules = connection.get(\"rules\", [])\n        has_transform = any(rule.get(\"type\") == \"transform\" for rule in rules)\n        assert has_transform, \"Connection does not have a transformation rule.\"\n    \n        # Step 3: Publish event\n        source_name = f\"transform-source-{run_id}\"\n        publish_url = \"https://hkdk.events/v1/publish\"\n        publish_headers = headers.copy()\n        publish_headers[\"X-Hookdeck-Source-Name\"] = source_name\n    \n        payload = {\n            \"customer_id\": \"test_user_789\",\n            \"status\": \"active\"\n        }\n    \n        pub_resp = requests.post(publish_url, headers=publish_headers, json=payload)\n        assert pub_resp.status_code == 200, f\"Failed to publish event: {pub_resp.text}\"\n    \n        # Step 4: Wait for processing\n        time.sleep(5)\n    \n        # Step 5: Retrieve and verify event\n        dest_name = f\"transform-dest-{run_id}\"\n        events_url = f\"https://api.hookdeck.com/2025-07-01/events?destination_name={dest_name}&order_by=created_at&dir=desc&limit=1\"\n    \n        events_resp = requests.get(events_url, headers=headers)\n        assert events_resp.status_code == 200, f\"Failed to get events: {events_resp.text}\"\n        events_data = events_resp.json()\n        assert \"models\" in events_data and len(events_data[\"models\"]) > 0, \"No events found for the destination.\"\n    \n        latest_event = events_data[\"models\"][0]\n        assert latest_event.get(\"response_status\") == 200, f\"Event response status is not 200: {latest_event.get('response_status')}\"\n    \n        event_data = latest_event.get(\"data\", {})\n        body_data = event_data.get(\"body\", {})\n        if \"body\" in body_data:\n            body_data = body_data[\"body\"]\n    \n>       assert \"userId\" in body_data, f\"userId not found in transformed body: {body_data}\"\nE       AssertionError: userId not found in transformed body: {}\nE       assert 'userId' in {}\n\ntests/test_final_state.py:65: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            }
+        ]
+    }
+}

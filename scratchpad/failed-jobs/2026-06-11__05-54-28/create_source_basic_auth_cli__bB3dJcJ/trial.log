@@ -1,0 +1,79 @@
+Skipping image OS validation for hb__create_source_basic_auth_cli: docker inspect returned 1
+Running command: apt-get update && apt-get install -y curl ripgrep
+Command outputs captured
+Running command: set -euo pipefail; curl -fsSL https://getpochi.com/install.sh | bash -x -s -- pochi-v0.6.14 && mkdir -p /logs/agent/pochi && ~/.pochi/bin/pochi --version
+Command outputs captured
+Running command: ln -sf ~/.pochi/bin/pochi /usr/local/bin/pochi
+Command outputs captured
+Running command: echo zr-bb3djcj > /logs/artifacts/run-id && echo create_source_basic_auth_cli__bB3dJcJ > /logs/artifacts/trial_id
+Command outputs captured
+Running command: mkdir -p ~/.pochi && cat << 'EOF' | sed -e "s/OPENAI_API_KEY/${OPENAI_API_KEY}/g" -e "s/DEEPINFRA_API_KEY/${DEEPINFRA_API_KEY}/g" > ~/.pochi/config.jsonc
+{
+  "providers": {
+    "deepinfra": {
+      "kind": "openai",
+      "baseURL": "https://api.deepinfra.com/v1/openai",
+      "apiKey": "DEEPINFRA_API_KEY",
+      "models": {
+        "zai-org/GLM-4.7-Flash": {
+          "name": "glm-4.7-flash"
+        },
+        "moonshotai/Kimi-K2.6": {
+          "name": "kimi-K2.6"
+        },
+        "deepseek-ai/DeepSeek-V4-Pro": {
+          "name": "DeepSeek-V4-Pro"
+        }
+      }
+    },
+    "openai": {
+      "kind": "openai",
+      "baseURL": "https://api.openai.com/v1",
+      "apiKey": "OPENAI_API_KEY",
+      "models": {
+        "gpt-5.4": {
+          "name": "gpt-5.4"
+        }
+      }
+    }
+  }
+}
+EOF
+Command outputs captured
+Running command: if [ -f /bootstrap/test_initial_state.py ]; then pytest -s --log-cli-level=DEBUG /bootstrap/test_initial_state.py > >(tee /logs/agent/pochi/initial-test-stdout.txt) 2> >(tee /logs/agent/pochi/initial-test-stderr.txt >&2); fi
+Command outputs captured
+Running command: pochi --model google/gemini-3.1-pro --max-steps 200 --max-retries 10 --blobs-dir /logs/agent/pochi/blobs --experimental-stream-trajectory /logs/agent/pochi/trajectory.jsonl > >(tee /logs/agent/pochi/stdout.txt) 2> >(tee /logs/agent/pochi/stderr.txt >&2) <<'EOF'
+# Create a Hookdeck Source with Basic Auth
+
+## Background
+You need to configure a webhook ingestion pipeline using Hookdeck. The incoming webhooks require Basic Authentication to ensure only authorized producers can send events. You will create the necessary Hookdeck resources to receive these events and route them to a mock destination.
+
+## Requirements
+- Create a Hookdeck Source named `secure-source-${run-id}` of type `WEBHOOK`.
+- The source MUST be configured with Basic Authentication (`BASIC_AUTH`). The username must be `admin` and the password must be `secret-password-${run-id}`.
+- Create a Hookdeck Destination named `mock-dest-${run-id}` of type `MOCK_API`.
+- Create a Hookdeck Connection named `secure-connection-${run-id}` that links the `secure-source-${run-id}` to the `mock-dest-${run-id}`.
+- Write the created Source ID to a JSON file at `/home/user/hookdeck-project/source.json`.
+
+## Implementation Hints
+- You can use the Hookdeck CLI or the Hookdeck REST API to create and configure these resources.
+- Use the `ZEALT_RUN_ID` environment variable to determine the `run-id`.
+- If the CLI does not fully support configuring Basic Auth during source creation, you may need to use the Hookdeck API (e.g., `PUT /sources/:id` or `POST /sources`) with your API key.
+
+## Acceptance Criteria
+- Project path: /home/user/hookdeck-project
+- Ensure the real resources (Source, Destination, Connection) are created in the Hookdeck workspace.
+- The Source name must be exactly `secure-source-${run-id}`.
+- The Source must have `auth_type` set to `BASIC_AUTH`, with username `admin` and password `secret-password-${run-id}`.
+- The Destination name must be exactly `mock-dest-${run-id}`.
+- The Destination type must be `MOCK_API`.
+- The Connection name must be exactly `secure-connection-${run-id}`, linking the correct source and destination.
+- Log file: /home/user/hookdeck-project/source.json
+- The log file must contain valid JSON in the format: `{"source_id": "<source_id>"}`.
+
+
+EOF
+Command outputs captured
+Running command: rm -f ~/.pochi/config.jsonc
+Command outputs captured
+The verifier.env contains an API key (often the case for LLM-based verifiers). You will incur costs associated with the API calls.

@@ -1,0 +1,95 @@
+- Initializing MCP connections...
+You
+# Create a Filtered Connection in Hookdeck ## Background You need to route webhooks through Hookdeck but filter out low-value events before they reach your destination. ## Requirements * Create a Hookdeck Connection linking a new Source (type: WEBHOOK) to a new Destination (type: MOCK\_API). * The connection name must be exactly `filtered-conn-${run-id}`. * Add a Filter rule to this connection that only allows events where `body.amount` is strictly greater than 100. * Save the resulting Connection ID to a log file. ## Implementation Hints * Read the current `run-id` from the `ZEALT_RUN_ID` environment variable. * You may use the Hookdeck CLI, REST API, or SDK. If using the API, authenticate using the `HOOKDECK_API_KEY` environment variable. * If you are missing API details for rule creation, consult the official Hookdeck documentation. ## Acceptance Criteria * Project path: /home/user/hookdeck-task * Ensure the real connection creation action is executed and the log artifact exists. * Log file: /home/user/hookdeck-task/output.log * The log file must contain the Connection ID in the format: `Connection ID: <connection_id>`. * The Connection must exist in the Hookdeck workspace with the name `filtered-conn-${run-id}`. * The Connection must have a Filter rule that enforces `body.amount > 100`. * The Source must be of type `WEBHOOK`. * The Destination must be of type `MOCK_API`.   
+
+Pochi
+I'll start by examining the project directory and understanding the environment before implementing the solution.   
+📋 Updating todo list (6 items) ✔ 
+📂 Listing files in /home/user/hookdeck-task recursively ✔ 
+💫 Executing echo "ZEALT_RUN_ID=$ZEALT_RUN_ID" && echo "HOOKDECK_API_KEY=${HOOKDECK_API_KEY:0:10}..." ✔ 
+Good, the environment variables are set. The run-id is `zr-8yx8anc`. The project directory exists but is empty. Now let me consult the Hookdeck API documentation for creating connections with filter rules.   
+📋 Updating todo list (6 items) ✔ 
+🛠️ Tool webFetch ✔ 
+🛠️ Tool webFetch ✔ 
+Let me find the correct API documentation URLs.   
+🛠️ Tool webFetch ✖ "Failed to fetch: Unprocessable Entity"
+🛠️ Tool webSearch ✔ 
+Let me get the detailed API reference for creating connections and filter rules.   
+🛠️ Tool webFetch ✖ "Failed to fetch: Unprocessable Entity"
+🛠️ Tool webFetch ✔ 
+Now I have all the information I need. The key findings: 1. **API base URL**: `https://api.hookdeck.com/2025-07-01` 2. **Source type**: `WEBHOOK` 3. **Destination type**: `MOCK_API` 4. **Filter rule**: Uses `$gt` operator for "greater than" — so for `body.amount > 100`, the filter is `{"body": {"amount": {"$gt": 100}}, "type": "filter"}` 5. **Create connection**: `PUT /2025-07-01/connections` with source, destination, and rules in one call Let me now also check the API reference for the exact destination config for MOCK_API.   
+🛠️ Tool webSearch ✔ 
+Now I have all the details I need. Let me summarize the API call: - **Endpoint**: `PUT https://api.hookdeck.com/2025-07-01/connections` - **Auth**: Bearer token from `HOOKDECK_API_KEY` - **Source type**: `WEBHOOK` (default, but I'll specify it explicitly) - **Destination type**: `MOCK_API` (no `config.url` needed for MOCK_API) - **Filter rule**: `{"type": "filter", "body": {"amount": {"$gt": 100}}}` Let me now create the connection.   
+📋 Updating todo list (4 items) ✔ 
+💫 Executing curl -s -X PUT "https://api.hookdeck.com/2025-07-01/connections" \
+  -H "Authorization: Bearer ${HOOKDECK_API_KEY}" \
+  -H "Content-Type: application/json" \
+  -H "Accept: application/json" \
+  -d '{
+    "name": "filtered-conn-zr-8yx8anc",
+    "source": {
+      "name": "filtered-source-zr-8yx8anc",
+      "type": "WEBHOOK"
+    },
+    "destination": {
+      "name": "filtered-dest-zr-8yx8anc",
+      "type": "MOCK_API"
+    },
+    "rules": [
+      {
+        "type": "filter",
+        "body": {
+          "amount": {
+            "$gt": 100
+          }
+        }
+      }
+    ]
+  }' ✔ 
+The connection was created successfully. The Connection ID is `web_agGANXcsO9JD`. Let me verify the response details: - **Connection ID**: `web_agGANXcsO9JD` - **Connection Name**: `filtered-conn-zr-8yx8anc` ✓ - **Source Type**: `WEBHOOK` ✓ - **Destination Type**: `MOCK_API` ✓ - **Filter Rule**: `{"body":{"amount":{"$gt":100}},"type":"filter"}` ✓ Now let me save the Connection ID to the log file.   
+📋 Updating todo list (4 items) ✔ 
+✏️  Writing /home/user/hookdeck-task/output.log ✔ 
+📋 Updating todo list (4 items) ✔ 
+Let me verify the log file and also confirm the connection still exists via the API:   
+📖 Reading /home/user/hookdeck-task/output.log ✔ 
+💫 Executing curl -s "https://api.hookdeck.com/2025-07-01/connections/web_agGANXcsO9JD" \
+  -H "Authorization: Bearer ${HOOKDECK_API_KEY}" \
+  -H "Accept: application/json" | python3 -m json.tool ✔ 
+All acceptance criteria are met. Let me provide the final summary.   
+🎉 Task Completed
+## Hookdeck Filtered Connection Created
+
+The Hookdeck connection `filtered-conn-zr-8yx8anc` has been successfully created via the REST API with all required components:
+
+### Connection Details
+- **Connection ID**: `web_agGANXcsO9JD`
+- **Connection Name**: `filtered-conn-zr-8yx8anc`
+- **Source**: `filtered-source-zr-8yx8anc` (type: `WEBHOOK`)
+- **Destination**: `filtered-dest-zr-8yx8anc` (type: `MOCK_API`)
+- **Filter Rule**: `body.amount > 100` (using the `$gt` operator)
+
+### Filter Rule JSON
+```json
+{
+  "type": "filter",
+  "body": {
+    "amount": {
+      "$gt": 100
+    }
+  }
+}
+```
+
+### Log File
+The Connection ID has been written to `/home/user/hookdeck-task/output.log`:
+```
+Connection ID: web_agGANXcsO9JD
+```
+
+### Verification
+- ✅ Connection exists in Hookdeck workspace with name `filtered-conn-zr-8yx8anc`
+- ✅ Source is type `WEBHOOK`
+- ✅ Destination is type `MOCK_API`
+- ✅ Filter rule enforces `body.amount > 100` via `$gt` operator
+- ✅ Log artifact at `/home/user/hookdeck-task/output.log` contains `Connection ID: web_agGANXcsO9JD`   
+  

@@ -1,0 +1,117 @@
+{
+    "id": "e6fef531-137b-4740-adc5-b731ef8541a2",
+    "task_name": "flatten_nested_payload_transformation",
+    "trial_name": "flatten_nested_payload_transform__LBPmmdc",
+    "trial_uri": "file:///home/kweizh/zealt/zealt-agent/jobs/2026-06-11__05-24-40/flatten_nested_payload_transform__LBPmmdc",
+    "task_id": {
+        "path": "/home/kweizh/zealt/hookdeck-benchmark/scratchpad/pending-tasks/flatten_nested_payload_transformation"
+    },
+    "source": "pending-tasks",
+    "task_checksum": "5106f20e61393effc83a00ec8f3a09201a501c2c3aa1c8284da22b9e1916b148",
+    "config": {
+        "task": {
+            "path": "/home/kweizh/zealt/hookdeck-benchmark/scratchpad/pending-tasks/flatten_nested_payload_transformation",
+            "git_url": null,
+            "git_commit_id": null,
+            "name": null,
+            "ref": null,
+            "overwrite": false,
+            "download_dir": null,
+            "source": "pending-tasks"
+        },
+        "trial_name": "flatten_nested_payload_transform__LBPmmdc",
+        "trials_dir": "jobs/2026-06-11__05-24-40",
+        "timeout_multiplier": 1.0,
+        "agent_timeout_multiplier": null,
+        "verifier_timeout_multiplier": null,
+        "agent_setup_timeout_multiplier": null,
+        "environment_build_timeout_multiplier": null,
+        "agent": {
+            "name": null,
+            "import_path": "agents.pochi:Pochi",
+            "model_name": "google/gemini-3.5-flash",
+            "skills": [],
+            "override_timeout_sec": null,
+            "override_setup_timeout_sec": null,
+            "max_timeout_sec": null,
+            "kwargs": {},
+            "env": {},
+            "mcp_servers": []
+        },
+        "environment": {
+            "type": "docker",
+            "import_path": null,
+            "force_build": false,
+            "delete": true,
+            "cpu_enforcement_policy": "auto",
+            "memory_enforcement_policy": "auto",
+            "override_cpus": null,
+            "override_memory_mb": null,
+            "override_storage_mb": null,
+            "override_gpus": null,
+            "suppress_override_warnings": false,
+            "mounts": [
+                {
+                    "type": "bind",
+                    "source": "test_initial_state.py",
+                    "target": "/bootstrap/test_initial_state.py"
+                }
+            ],
+            "extra_docker_compose": [],
+            "env": {},
+            "kwargs": {}
+        },
+        "verifier": {
+            "override_timeout_sec": null,
+            "max_timeout_sec": null,
+            "env": {},
+            "disable": false
+        },
+        "artifacts": [
+            "/home/user"
+        ],
+        "extra_instruction_paths": [],
+        "job_id": "71464676-4db3-4841-9759-adcdb6b93e28"
+    },
+    "agent_info": {
+        "name": "pochi",
+        "version": "0.6.14",
+        "model_info": {
+            "name": "gemini-3.5-flash",
+            "provider": "google"
+        }
+    },
+    "agent_result": {
+        "n_input_tokens": 0,
+        "n_cache_tokens": 0,
+        "n_output_tokens": 47046,
+        "cost_usd": null,
+        "rollout_details": null,
+        "metadata": null
+    },
+    "verifier_result": {
+        "rewards": {
+            "reward": 0.0
+        }
+    },
+    "exception_info": null,
+    "started_at": "2026-06-11T05:35:18.224450Z",
+    "finished_at": "2026-06-11T05:37:44.450122Z",
+    "environment_setup": {
+        "started_at": "2026-06-11T05:35:18.227096Z",
+        "finished_at": "2026-06-11T05:35:21.682598Z"
+    },
+    "agent_setup": {
+        "started_at": "2026-06-11T05:35:21.682644Z",
+        "finished_at": "2026-06-11T05:35:36.178340Z"
+    },
+    "agent_execution": {
+        "started_at": "2026-06-11T05:35:36.178434Z",
+        "finished_at": "2026-06-11T05:37:23.965180Z"
+    },
+    "verifier": {
+        "started_at": "2026-06-11T05:37:25.243007Z",
+        "finished_at": "2026-06-11T05:37:32.027815Z"
+    },
+    "step_results": null
+}

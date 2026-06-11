@@ -1,0 +1,65 @@
+{
+    "reportFormat": "CTRF",
+    "specVersion": "0.0.0",
+    "timestamp": "2026-06-11T05:29:32.627156+00:00",
+    "generatedBy": "pytest",
+    "results": {
+        "tool": {
+            "name": "pytest",
+            "version": "7.4.4"
+        },
+        "summary": {
+            "tests": 4,
+            "passed": 4,
+            "failed": 0,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1781155765024,
+            "stop": 1781155772626
+        },
+        "environment": {
+            "buildName": "Pytest JSON CTRF Report",
+            "buildNumber": "000",
+            "buildUrl": "https://ctrf.io"
+        },
+        "tests": [
+            {
+                "name": "test_final_state.py::test_source_exists",
+                "status": "passed",
+                "duration": 190,
+                "start": 1781155765193,
+                "stop": 1781155765383,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_destinations_exist",
+                "status": "passed",
+                "duration": 334,
+                "start": 1781155765383,
+                "stop": 1781155765717,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_connections_exist",
+                "status": "passed",
+                "duration": 855,
+                "start": 1781155765717,
+                "stop": 1781155766572,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_event_delivery",
+                "status": "passed",
+                "duration": 6054,
+                "start": 1781155766572,
+                "stop": 1781155772626,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            }
+        ]
+    }
+}

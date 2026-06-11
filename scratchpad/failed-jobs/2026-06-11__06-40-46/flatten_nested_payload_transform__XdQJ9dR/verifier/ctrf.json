@@ -1,0 +1,41 @@
+{
+    "reportFormat": "CTRF",
+    "specVersion": "0.0.0",
+    "timestamp": "2026-06-11T06:55:19.176360+00:00",
+    "generatedBy": "pytest",
+    "results": {
+        "tool": {
+            "name": "pytest",
+            "version": "7.4.4"
+        },
+        "summary": {
+            "tests": 1,
+            "passed": 0,
+            "failed": 1,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1781160913218,
+            "stop": 1781160919176
+        },
+        "environment": {
+            "buildName": "Pytest JSON CTRF Report",
+            "buildNumber": "000",
+            "buildUrl": "https://ctrf.io"
+        },
+        "tests": [
+            {
+                "name": "test_final_state.py::test_flatten_transformation",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 5797,
+                "start": 1781160913378,
+                "stop": 1781160919175,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "def test_flatten_transformation():\n        run_id = os.environ.get(\"ZEALT_RUN_ID\")\n        assert run_id, \"ZEALT_RUN_ID environment variable is missing\"\n    \n        api_key = os.environ.get(\"HOOKDECK_API_KEY\")\n        assert api_key, \"HOOKDECK_API_KEY environment variable is missing\"\n    \n        source_name = f\"flatten-source-{run_id}\"\n        dest_name = f\"flatten-dest-{run_id}\"\n    \n        # Send test event via Publish API\n        publish_url = \"https://hkdk.events/v1/publish\"\n        headers = {\n            \"Authorization\": f\"Bearer {api_key}\",\n            \"X-Hookdeck-Source-Name\": source_name,\n            \"Content-Type\": \"application/json\"\n        }\n        payload = {\n            \"event_type\": \"user.created\",\n            \"data\": {\n                \"user\": {\n                    \"id\": \"u_999\",\n                    \"email\": \"hello@example.com\"\n                }\n            }\n        }\n        publish_resp = requests.post(publish_url, headers=headers, json=payload)\n        assert publish_resp.status_code == 200, f\"Failed to publish event: {publish_resp.text}\"\n    \n        # Wait for processing\n        time.sleep(5)\n    \n        # Fetch events via Inspect API\n        inspect_url = \"https://api.hookdeck.com/2025-07-01/events\"\n        inspect_headers = {\n            \"Authorization\": f\"Bearer {api_key}\"\n        }\n        inspect_params = {\n            \"destination_name\": dest_name\n        }\n        inspect_resp = requests.get(inspect_url, headers=inspect_headers, params=inspect_params)\n        assert inspect_resp.status_code == 200, f\"Failed to fetch events: {inspect_resp.text}\"\n    \n        events_data = inspect_resp.json()\n        models = events_data.get(\"models\", [])\n        assert len(models) > 0, f\"No events found for destination {dest_name}\"\n    \n        # Verify transformation on the latest event\n        latest_event = models[0]\n        transformed_body = latest_event.get(\"data\", {}).get(\"body\", {}).get(\"body\", {})\n    \n        expected_body = {\n            \"event_type\": \"user.created\",\n            \"user_id\": \"u_999\",\n            \"user_email\": \"hello@example.com\"\n        }\n    \n>       assert transformed_body == expected_body, f\"Transformed body {transformed_body} does not match expected {expected_body}\"\nE       AssertionError: Transformed body {} does not match expected {'event_type': 'user.created', 'user_id': 'u_999', 'user_email': 'hello@example.com'}\nE       assert {} == {'event_type'..._id': 'u_999'}\nE         Right contains 3 more items:\nE         {'event_type': 'user.created',\nE          'user_email': 'hello@example.com',\nE          'user_id': 'u_999'}\nE         Use -v to get more diff\n\ntests/test_final_state.py:63: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            }
+        ]
+    }
+}

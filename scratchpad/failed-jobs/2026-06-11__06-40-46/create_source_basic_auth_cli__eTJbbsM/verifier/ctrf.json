@@ -1,0 +1,50 @@
+{
+    "reportFormat": "CTRF",
+    "specVersion": "0.0.0",
+    "timestamp": "2026-06-11T06:58:01.593955+00:00",
+    "generatedBy": "pytest",
+    "results": {
+        "tool": {
+            "name": "pytest",
+            "version": "7.4.4"
+        },
+        "summary": {
+            "tests": 2,
+            "passed": 1,
+            "failed": 1,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1781161080848,
+            "stop": 1781161081593
+        },
+        "environment": {
+            "buildName": "Pytest JSON CTRF Report",
+            "buildNumber": "000",
+            "buildUrl": "https://ctrf.io"
+        },
+        "tests": [
+            {
+                "name": "test_final_state.py::test_source_configuration",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 223,
+                "start": 1781161081038,
+                "stop": 1781161081261,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "run_id = 'zr-etjbbsm'\napi_key = 'REDACTED'\nsource_id = 'src_zpm2pyopbjmrjq'\n\n    def test_source_configuration(run_id, api_key, source_id):\n        url = f\"https://api.hookdeck.com/2025-07-01/sources/{source_id}\"\n        headers = {\"Authorization\": f\"Bearer {api_key}\"}\n        response = requests.get(url, headers=headers)\n        assert response.status_code == 200, f\"Failed to retrieve source: {response.text}\"\n    \n        source = response.json()\n        expected_name = f\"secure-source-{run_id}\"\n        assert source.get(\"name\") == expected_name, f\"Expected source name {expected_name}, got {source.get('name')}\"\n    \n        config = source.get(\"config\", {})\n        assert config.get(\"auth_type\") == \"BASIC_AUTH\", f\"Expected auth_type BASIC_AUTH, got {config.get('auth_type')}\"\n    \n        auth = config.get(\"auth\", {})\n>       assert auth.get(\"username\") == \"admin\", f\"Expected username admin, got {auth.get('username')}\"\nE       AssertionError: Expected username admin, got None\nE       assert None == 'admin'\nE        +  where None = <built-in method get of dict object at 0x7fb2426d78c0>('username')\nE        +    where <built-in method get of dict object at 0x7fb2426d78c0> = {}.get\n\ntests/test_final_state.py:47: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            },
+            {
+                "name": "test_final_state.py::test_connection_and_destination_configuration",
+                "status": "passed",
+                "duration": 331,
+                "start": 1781161081262,
+                "stop": 1781161081593,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            }
+        ]
+    }
+}

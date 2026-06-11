@@ -1,0 +1,50 @@
+{
+    "reportFormat": "CTRF",
+    "specVersion": "0.0.0",
+    "timestamp": "2026-06-11T06:28:06.025107+00:00",
+    "generatedBy": "pytest",
+    "results": {
+        "tool": {
+            "name": "pytest",
+            "version": "7.4.4"
+        },
+        "summary": {
+            "tests": 2,
+            "passed": 1,
+            "failed": 1,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1781159285636,
+            "stop": 1781159286024
+        },
+        "environment": {
+            "buildName": "Pytest JSON CTRF Report",
+            "buildNumber": "000",
+            "buildUrl": "https://ctrf.io"
+        },
+        "tests": [
+            {
+                "name": "test_final_state.py::test_log_file_exists",
+                "status": "passed",
+                "duration": 2,
+                "start": 1781159285814,
+                "stop": 1781159285816,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_connection_created_and_configured",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 208,
+                "start": 1781159285816,
+                "stop": 1781159286024,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "def test_connection_created_and_configured():\n        run_id = os.environ.get(\"ZEALT_RUN_ID\", \"default-run-id\")\n        api_key = os.environ.get(\"HOOKDECK_API_KEY\")\n        assert api_key, \"HOOKDECK_API_KEY environment variable is missing.\"\n    \n        with open(LOG_FILE, \"r\") as f:\n            content = f.read()\n    \n        connection_id = None\n        for line in content.splitlines():\n            if line.startswith(\"Connection ID:\"):\n                connection_id = line.split(\"Connection ID:\")[1].strip()\n                break\n    \n        assert connection_id, \"Connection ID not found in the log file. Expected format: 'Connection ID: <connection_id>'\"\n    \n        response = requests.get(\n            f\"https://api.hookdeck.com/2025-07-01/connections/{connection_id}\",\n            headers={\"Authorization\": f\"Bearer {api_key}\"}\n        )\n        assert response.status_code == 200, f\"Failed to fetch connection details: {response.text}\"\n    \n        data = response.json()\n    \n        expected_name = f\"filtered-conn-{run_id}\"\n        assert data.get(\"name\") == expected_name, f\"Expected connection name '{expected_name}', got '{data.get('name')}'\"\n    \n        source = data.get(\"source\", {})\n        assert source.get(\"type\") == \"WEBHOOK\", f\"Expected source type 'WEBHOOK', got '{source.get('type')}'\"\n    \n        destination = data.get(\"destination\", {})\n        assert destination.get(\"type\") == \"MOCK_API\", f\"Expected destination type 'MOCK_API', got '{destination.get('type')}'\"\n    \n        rules = data.get(\"rules\", [])\n        has_filter = False\n        for rule in rules:\n            rule_str = json.dumps(rule)\n            if \"body.amount\" in rule_str and \"100\" in rule_str:\n                has_filter = True\n                break\n    \n>       assert has_filter, f\"Could not find a rule that filters by body.amount > 100 in connection rules: {rules}\"\nE       AssertionError: Could not find a rule that filters by body.amount > 100 in connection rules: [{'body': {'amount': {'$gt': 100}}, 'type': 'filter'}]\nE       assert False\n\ntests/test_final_state.py:53: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            }
+        ]
+    }
+}

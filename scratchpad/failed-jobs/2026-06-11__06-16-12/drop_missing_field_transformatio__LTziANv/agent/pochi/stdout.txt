@@ -1,0 +1,62 @@
+- Initializing MCP connections...
+You
+# Drop Request on Missing Field Transformation ## Background Create a Hookdeck transformation that validates incoming webhooks. If a specific required field is missing, the transformation should intentionally fail, dropping the request and preventing it from being forwarded. ## Requirements - Create a Hookdeck Source named `source-${run-id}` of type `WEBHOOK`. - Create a Hookdeck Destination named `dest-${run-id}` of type `MOCK_API`. - Create a Connection named `conn-${run-id}` linking the source and destination. - Create a Transformation named `drop-missing-field-${run-id}` and attach it to the connection. - The transformation must inspect the JSON payload. If the field `required_field` is missing or undefined in the request body, the transformation must throw an error to drop the request. - If `required_field` is present, the transformation must allow the request to pass unmodified. ## Implementation Hints - Read the current `run-id` from the `ZEALT_RUN_ID` environment variable. - You can use the Hookdeck CLI or API to create the Source, Destination, Connection, and Transformation. - In Hookdeck transformations, throwing a JavaScript `Error` results in a `FATAL` execution, which causes the request to be ignored (dropped) instead of being forwarded as an event. - Write the resulting Source ID to a log file so it can be used for verification. ## Acceptance Criteria - Project path: `/home/user/hookdeck-task` - Ensure the real action is executed and the artifacts exist. - Log file: `/home/user/hookdeck-task/output.log` - The log file must contain the Source ID in the format: `Source ID: <source_id>` - A Source, Destination, Connection, and Transformation with the `${run-id}` suffix must be created in the Hookdeck workspace. - The Transformation must correctly drop requests missing `required_field` and allow requests containing `required_field`.   
+
+Pochi
+💭 Thinking for 617 characters   
+📋 Updating todo list (7 items) ✔ 
+💭 Thinking for 83 characters   
+💫 Executing echo "ZEALT_RUN_ID=$ZEALT_RUN_ID" ✔ 
+💫 Executing which hookdeck || echo "hookdeck CLI not found" ✔ 
+💫 Executing mkdir -p /home/user/hookdeck-task ✔ 
+💭 Thinking for 164 characters   
+📋 Updating todo list (7 items) ✔ 
+💭 Thinking for 119 characters   
+💫 Executing hookdeck --help ✔ 
+💭 Thinking for 184 characters   
+💫 Executing hookdeck connection --help ✔ 
+💫 Executing hookdeck gateway --help ✔ 
+💭 Thinking for 145 characters   
+💫 Executing hookdeck gateway source create --help ✔ 
+💫 Executing hookdeck gateway destination create --help ✔ 
+💫 Executing hookdeck gateway connection create --help ✔ 
+💫 Executing hookdeck gateway transformation create --help ✔ 
+💭 Thinking for 1419 characters   
+Now I have the CLI details. Let me create all the resources. The run ID is `zr-ltzianv`.   
+💫 Executing hookdeck gateway source create --name "source-zr-ltzianv" --type WEBHOOK --output json ✔ 
+💫 Executing hookdeck gateway destination create --name "dest-zr-ltzianv" --type MOCK_API --output json ✔ 
+💭 Thinking for 279 characters   
+📋 Updating todo list (7 items) ✔ 
+💭 Thinking for 1008 characters   
+Now let me create the transformation and then the connection with itattached:   
+💫 Executing hookdeck gateway transformation create --name "drop-missing-field-zr-ltzianv" --code 'addHandler("transform", (request, context) => { const body = JSON.parse(request.body); if (body.required_field === undefined || body.required_field === null) { throw new Error("required_field is missing"); } return request; });' --output json ✔ 
+💭 Thinking for 284 characters   
+Now create the connection linking the source and destination with the transformation:   
+💫 Executing hookdeck gateway connection create --name "conn-zr-ltzianv" --source-id "src_t2z8fxdrlxezw1" --destination-id "des_I4hulgJZ2VNB" --rule-transform-name "drop-missing-field-zr-ltzianv" --output json ✔ 
+💭 Thinking for 197 characters   
+All resources are created. Now let me write the Source ID to the logfile:   
+✏️  Writing /home/user/hookdeck-task/output.log ✔ 
+💭 Thinking for 68 characters   
+💫 Executing cat /home/user/hookdeck-task/output.log ✔ 
+📋 Updating todo list (7 items) ✔ 
+🎉 Task Completed
+All Hookdeck resources have been created successfully using the run ID `zr-ltzianv`:
+
+1. **Source** (`source-zr-ltzianv`): Type `WEBHOOK`, ID `src_t2z8fxdrlxezw1`, URL `https://hkdk.events/t2z8fxdrlxezw1`
+2. **Destination** (`dest-zr-ltzianv`): Type `MOCK_API`, ID `des_I4hulgJZ2VNB`
+3. **Connection** (`conn-zr-ltzianv`): Links source → destination with transformation attached, ID `web_d9k9WmoFZOaf`
+4. **Transformation** (`drop-missing-field-zr-ltzianv`): ID `trs_BqVzBxOeWYkuP2`, code:
+   ```javascript
+   addHandler("transform", (request, context) => {
+     const body = JSON.parse(request.body);
+     if (body.required_field === undefined || body.required_field === null) {
+       throw new Error("required_field is missing");
+     }
+     return request;
+   });
+   ```
+   - If `required_field` is missing or undefined → throws an Error → FATAL execution → request is **dropped**
+   - If `required_field` is present → returns request unmodified → request is **forwarded**
+
+The log file at `/home/user/hookdeck-task/output.log` contains: `Source ID: src_t2z8fxdrlxezw1`   
+  

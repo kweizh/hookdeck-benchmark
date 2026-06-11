@@ -1,0 +1,50 @@
+{
+    "reportFormat": "CTRF",
+    "specVersion": "0.0.0",
+    "timestamp": "2026-06-11T05:44:35.429915+00:00",
+    "generatedBy": "pytest",
+    "results": {
+        "tool": {
+            "name": "pytest",
+            "version": "7.4.4"
+        },
+        "summary": {
+            "tests": 2,
+            "passed": 1,
+            "failed": 1,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1781156675047,
+            "stop": 1781156675429
+        },
+        "environment": {
+            "buildName": "Pytest JSON CTRF Report",
+            "buildNumber": "000",
+            "buildUrl": "https://ctrf.io"
+        },
+        "tests": [
+            {
+                "name": "test_final_state.py::test_output_log_exists_and_contains_connection_id",
+                "status": "passed",
+                "duration": 2,
+                "start": 1781156675225,
+                "stop": 1781156675227,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_connection_configuration_via_api",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 202,
+                "start": 1781156675227,
+                "stop": 1781156675429,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "def test_connection_configuration_via_api():\n        run_id = get_run_id()\n    \n        assert os.path.isfile(LOG_FILE), f\"Log file {LOG_FILE} does not exist.\"\n        with open(LOG_FILE, \"r\") as f:\n            content = f.read()\n    \n        match = re.search(r\"Connection ID:\\s*(web_[a-zA-Z0-9_]+)\", content)\n        assert match is not None, \"Could not find 'Connection ID: web_...' in output.log\"\n        connection_id = match.group(1)\n    \n        api_key = os.environ.get(\"HOOKDECK_API_KEY\")\n        assert api_key is not None, \"HOOKDECK_API_KEY environment variable is not set.\"\n    \n        headers = {\n            \"Authorization\": f\"Bearer {api_key}\"\n        }\n    \n        url = f\"https://api.hookdeck.com/2025-07-01/connections/{connection_id}\"\n        response = requests.get(url, headers=headers)\n    \n        assert response.status_code == 200, f\"Failed to get connection {connection_id}. Status: {response.status_code}, Response: {response.text}\"\n    \n        data = response.json()\n    \n        assert data.get(\"name\") == f\"conn-{run_id}\", f\"Expected connection name 'conn-{run_id}', got '{data.get('name')}'\"\n    \n        rules = data.get(\"rules\", [])\n        dedup_rule = next((r for r in rules if r.get(\"type\") == \"deduplicate\"), None)\n        assert dedup_rule is not None, \"No deduplicate rule found in the connection.\"\n    \n>       assert dedup_rule.get(\"window\") == 600, f\"Expected deduplicate window 600, got {dedup_rule.get('window')}\"\nE       AssertionError: Expected deduplicate window 600, got 600000\nE       assert 600000 == 600\nE        +  where 600000 = <built-in method get of dict object at 0x7f61e91c79c0>('window')\nE        +    where <built-in method get of dict object at 0x7f61e91c79c0> = {'include_fields': ['body.id'], 'type': 'deduplicate', 'window': 600000}.get\n\ntests/test_final_state.py:54: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            }
+        ]
+    }
+}

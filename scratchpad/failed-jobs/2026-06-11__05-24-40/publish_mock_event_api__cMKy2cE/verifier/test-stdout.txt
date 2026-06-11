@@ -1,0 +1,58 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-7.4.4, pluggy-1.4.0
+rootdir: /tests
+plugins: json-ctrf-0.5.2
+collected 4 items
+
+tests/test_final_state.py ...F                                           [100%]
+
+=================================== FAILURES ===================================
+_____________________________ test_event_published _____________________________
+
+run_id = 'zr-cmky2ce'
+api_headers = {'Authorization': 'Bearer REDACTED'}
+
+    def test_event_published(run_id, api_headers):
+        source_name = f"mock-source-{run_id}"
+    
+        # First, get the source ID since events are associated with source IDs
+        sources_response = requests.get(f"{API_BASE_URL}/sources", headers=api_headers)
+        assert sources_response.status_code == 200, f"Failed to get sources: {sources_response.text}"
+    
+        source = next((s for s in sources_response.json().get("models", []) if s.get("name") == source_name), None)
+        assert source is not None, f"Source '{source_name}' not found."
+        source_id = source.get("id")
+    
+        # Then query events for this source
+        events_response = requests.get(f"{API_BASE_URL}/events?source_id={source_id}", headers=api_headers)
+        assert events_response.status_code == 200, f"Failed to get events: {events_response.text}"
+    
+        events = events_response.json().get("models", [])
+    
+        # Check if any event has the expected payload
+        event_found = False
+        for event in events:
+            event_data = event.get("data", {}).get("body", {})
+            if isinstance(event_data, dict):
+                body = event_data.get("body", {})
+                if isinstance(body, dict):
+                    if body.get("data", {}).get("run_id") == run_id:
+                        event_found = True
+                        break
+                elif isinstance(event_data, dict) and event_data.get("data", {}).get("run_id") == run_id:
+                    # Sometimes the structure might be flat depending on transformation
+                    event_found = True
+                    break
+    
+>       assert event_found, f"No event found with 'run_id': '{run_id}' for source '{source_name}'."
+E       AssertionError: No event found with 'run_id': 'zr-cmky2ce' for source 'mock-source-zr-cmky2ce'.
+E       assert False
+
+tests/test_final_state.py:85: AssertionError
+==================================== PASSES ====================================
+=========================== short test summary info ============================
+PASSED tests/test_final_state.py::test_output_log_exists_and_content
+PASSED tests/test_final_state.py::test_source_exists
+PASSED tests/test_final_state.py::test_destination_exists
+FAILED tests/test_final_state.py::test_event_published - AssertionError: No e...
+========================= 1 failed, 3 passed in 1.05s ==========================

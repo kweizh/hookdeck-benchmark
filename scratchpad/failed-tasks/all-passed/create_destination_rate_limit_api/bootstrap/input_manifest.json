@@ -1,0 +1,7 @@
+{
+  "library_name": "Hookdeck",
+  "task_name": "create_destination_rate_limit_api",
+  "complexity_level": "simple single terminal command",
+  "research_plan_path": "plan.md",
+  "output_dir": "tasks/"
+}

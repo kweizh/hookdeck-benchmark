@@ -1,0 +1,123 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-7.4.4, pluggy-1.4.0
+rootdir: /bootstrap
+plugins: json-ctrf-0.5.2
+collected 3 items
+
+bootstrap/test_initial_state.py::test_project_dir_exists PASSED
+bootstrap/test_initial_state.py::test_hookdeck_api_key_set PASSED
+bootstrap/test_initial_state.py::test_target_request_id_prepared FAILED
+
+=================================== FAILURES ===================================
+_______________________ test_target_request_id_prepared ________________________
+
+    def test_target_request_id_prepared():
+        api_key = os.environ.get("HOOKDECK_API_KEY")
+        if not api_key:
+            pytest.skip("HOOKDECK_API_KEY not set")
+    
+        # Publish an event to ensure there is at least one request
+        publish_req = urllib.request.Request(
+            "https://hkdk.events/v1/publish",
+            data=json.dumps({"event": "test.created", "data": {"id": 123}}).encode("utf-8"),
+            headers={
+                "Authorization": f"Bearer {api_key}",
+                "X-Hookdeck-Source-Name": "my-source",
+                "Content-Type": "application/json"
+            },
+            method="POST"
+        )
+        try:
+            urllib.request.urlopen(publish_req)
+        except Exception as e:
+            print(f"Failed to publish event: {e}")
+    
+        time.sleep(2) # Wait for ingestion
+    
+        # Fetch the latest request
+        req = urllib.request.Request(
+            "https://api.hookdeck.com/2025-07-01/requests?limit=1",
+            headers={"Authorization": f"Bearer {api_key}"}
+        )
+    
+        try:
+>           with urllib.request.urlopen(req) as response:
+
+bootstrap/test_initial_state.py:46: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+usr/lib/python3.12/urllib/request.py:215: in urlopen
+    return opener.open(url, data, timeout)
+usr/lib/python3.12/urllib/request.py:521: in open
+    response = meth(req, response)
+usr/lib/python3.12/urllib/request.py:630: in http_response
+    response = self.parent.error(
+usr/lib/python3.12/urllib/request.py:559: in error
+    return self._call_chain(*args)
+usr/lib/python3.12/urllib/request.py:492: in _call_chain
+    result = func(*args)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <urllib.request.HTTPDefaultErrorHandler object at 0x7f34a18aeea0>
+req = <urllib.request.Request object at 0x7f34a18c2db0>
+fp = <http.client.HTTPResponse object at 0x7f34a18adc30>, code = 403
+msg = 'Forbidden', hdrs = <http.client.HTTPMessage object at 0x7f34a17ed010>
+
+    def http_error_default(self, req, fp, code, msg, hdrs):
+>       raise HTTPError(req.full_url, code, msg, hdrs, fp)
+E       urllib.error.HTTPError: HTTP Error 403: Forbidden
+
+usr/lib/python3.12/urllib/request.py:639: HTTPError
+
+During handling of the above exception, another exception occurred:
+
+    def test_target_request_id_prepared():
+        api_key = os.environ.get("HOOKDECK_API_KEY")
+        if not api_key:
+            pytest.skip("HOOKDECK_API_KEY not set")
+    
+        # Publish an event to ensure there is at least one request
+        publish_req = urllib.request.Request(
+            "https://hkdk.events/v1/publish",
+            data=json.dumps({"event": "test.created", "data": {"id": 123}}).encode("utf-8"),
+            headers={
+                "Authorization": f"Bearer {api_key}",
+                "X-Hookdeck-Source-Name": "my-source",
+                "Content-Type": "application/json"
+            },
+            method="POST"
+        )
+        try:
+            urllib.request.urlopen(publish_req)
+        except Exception as e:
+            print(f"Failed to publish event: {e}")
+    
+        time.sleep(2) # Wait for ingestion
+    
+        # Fetch the latest request
+        req = urllib.request.Request(
+            "https://api.hookdeck.com/2025-07-01/requests?limit=1",
+            headers={"Authorization": f"Bearer {api_key}"}
+        )
+    
+        try:
+            with urllib.request.urlopen(req) as response:
+                data = json.loads(response.read().decode("utf-8"))
+                models = data.get("models", [])
+                assert len(models) > 0, "No requests found in Hookdeck workspace."
+                request_id = models[0]["id"]
+    
+                # Export to .bashrc so the agent has it
+                bashrc_path = "/home/user/.bashrc"
+                with open(bashrc_path, "a") as f:
+                    f.write(f'\nexport TARGET_REQUEST_ID="{request_id}"\n')
+    
+                # Also set it in the current environment for subsequent tests if any
+                os.environ["TARGET_REQUEST_ID"] = request_id
+        except Exception as e:
+>           pytest.fail(f"Failed to fetch requests to prepare TARGET_REQUEST_ID: {e}")
+E           Failed: Failed to fetch requests to prepare TARGET_REQUEST_ID: HTTP Error 403: Forbidden
+
+bootstrap/test_initial_state.py:60: Failed
+=========================== short test summary info ============================
+FAILED bootstrap/test_initial_state.py::test_target_request_id_prepared - Fai...
+========================= 1 failed, 2 passed in 2.63s ==========================

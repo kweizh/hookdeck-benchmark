@@ -1,0 +1,7 @@
+profile = 'default'
+
+[default]
+api_key = '37riyaxq034rszs4urnpmaxus6uqcgvy8emb1xm8h0hw9025cn'
+project_id = 'tm_y0vMXx2IWjqZ'
+project_mode = 'inbound'
+project_type = 'Gateway'

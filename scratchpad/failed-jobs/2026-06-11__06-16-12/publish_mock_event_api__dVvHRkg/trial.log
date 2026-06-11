@@ -1,0 +1,73 @@
+Skipping image OS validation for hb__publish_mock_event_api: docker inspect returned 1
+Running command: apt-get update && apt-get install -y curl ripgrep
+Command outputs captured
+Running command: set -euo pipefail; curl -fsSL https://getpochi.com/install.sh | bash -x -s -- pochi-v0.6.14 && mkdir -p /logs/agent/pochi && ~/.pochi/bin/pochi --version
+Command outputs captured
+Running command: ln -sf ~/.pochi/bin/pochi /usr/local/bin/pochi
+Command outputs captured
+Running command: echo zr-dvvhrkg > /logs/artifacts/run-id && echo publish_mock_event_api__dVvHRkg > /logs/artifacts/trial_id
+Command outputs captured
+Running command: mkdir -p ~/.pochi && cat << 'EOF' | sed -e "s/OPENAI_API_KEY/${OPENAI_API_KEY}/g" -e "s/DEEPINFRA_API_KEY/${DEEPINFRA_API_KEY}/g" > ~/.pochi/config.jsonc
+{
+  "providers": {
+    "deepinfra": {
+      "kind": "openai",
+      "baseURL": "https://api.deepinfra.com/v1/openai",
+      "apiKey": "DEEPINFRA_API_KEY",
+      "models": {
+        "zai-org/GLM-4.7-Flash": {
+          "name": "glm-4.7-flash"
+        },
+        "moonshotai/Kimi-K2.6": {
+          "name": "kimi-K2.6"
+        },
+        "deepseek-ai/DeepSeek-V4-Pro": {
+          "name": "DeepSeek-V4-Pro"
+        }
+      }
+    },
+    "openai": {
+      "kind": "openai",
+      "baseURL": "https://api.openai.com/v1",
+      "apiKey": "OPENAI_API_KEY",
+      "models": {
+        "gpt-5.4": {
+          "name": "gpt-5.4"
+        }
+      }
+    }
+  }
+}
+EOF
+Command outputs captured
+Running command: if [ -f /bootstrap/test_initial_state.py ]; then pytest -s --log-cli-level=DEBUG /bootstrap/test_initial_state.py > >(tee /logs/agent/pochi/initial-test-stdout.txt) 2> >(tee /logs/agent/pochi/initial-test-stderr.txt >&2); fi
+Command outputs captured
+Running command: pochi --model zai/glm-5.1 --max-steps 200 --max-retries 10 --blobs-dir /logs/agent/pochi/blobs --experimental-stream-trajectory /logs/agent/pochi/trajectory.jsonl > >(tee /logs/agent/pochi/stdout.txt) 2> >(tee /logs/agent/pochi/stderr.txt >&2) <<'EOF'
+# Publish Mock Event via API
+
+## Background
+Hookdeck provides a Publish API to send events directly to a source, which is useful for outbound mocking and testing.
+
+## Requirements
+- Create a Hookdeck connection linking a new source `mock-source-${run-id}` to a mock destination `mock-dest-${run-id}`.
+- Use the Publish API to send an event to `mock-source-${run-id}` with the JSON payload: `{"event": "test.created", "data": {"run_id": "${run-id}"}}`.
+- Write a log file containing the name of the source.
+
+## Implementation Hints
+- Read the `run-id` from the `ZEALT_RUN_ID` environment variable.
+- The API key is available in the `HOOKDECK_API_KEY` environment variable.
+
+## Acceptance Criteria
+- Project path: /home/user/hookdeck-task
+- Ensure the real actions are executed and the log artifact exists.
+- Log file: /home/user/hookdeck-task/output.log
+- The log file must contain the source name in the format: `Source Name: mock-source-<run-id>`.
+- A connection must exist in Hookdeck linking `mock-source-<run-id>` to `mock-dest-<run-id>`.
+- The destination must be of type `MOCK_API`.
+- An event with the payload `{"event": "test.created", "data": {"run_id": "<run-id>"}}` must have been successfully published to the source and processed by Hookdeck.
+
+EOF
+Command outputs captured
+Running command: rm -f ~/.pochi/config.jsonc
+Command outputs captured
+The verifier.env contains an API key (often the case for LLM-based verifiers). You will incur costs associated with the API calls.

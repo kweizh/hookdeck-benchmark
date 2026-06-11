@@ -1,0 +1,50 @@
+{
+    "reportFormat": "CTRF",
+    "specVersion": "0.0.0",
+    "timestamp": "2026-06-11T05:30:53.714572+00:00",
+    "generatedBy": "pytest",
+    "results": {
+        "tool": {
+            "name": "pytest",
+            "version": "7.4.4"
+        },
+        "summary": {
+            "tests": 2,
+            "passed": 1,
+            "failed": 1,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1781155853268,
+            "stop": 1781155853714
+        },
+        "environment": {
+            "buildName": "Pytest JSON CTRF Report",
+            "buildNumber": "000",
+            "buildUrl": "https://ctrf.io"
+        },
+        "tests": [
+            {
+                "name": "test_final_state.py::test_sources_file_exists",
+                "status": "passed",
+                "duration": 2,
+                "start": 1781155853458,
+                "stop": 1781155853460,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_sources_file_content",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 254,
+                "start": 1781155853460,
+                "stop": 1781155853714,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "def test_sources_file_content():\n        \"\"\"Verify that the file contains exactly the expected source names.\"\"\"\n        api_key = os.environ.get(\"HOOKDECK_API_KEY\")\n        assert api_key, \"HOOKDECK_API_KEY environment variable is missing\"\n    \n        url = \"https://api.hookdeck.com/2025-07-01/sources\"\n        headers = {\"Authorization\": f\"Bearer {api_key}\"}\n        response = requests.get(url, headers=headers)\n        assert response.status_code == 200, f\"Failed to fetch sources from Hookdeck API: {response.text}\"\n    \n        data = response.json()\n        expected_names = {model[\"name\"] for model in data.get(\"models\", [])}\n    \n        with open(SOURCES_FILE, \"r\") as f:\n            content = f.read()\n    \n        actual_names = {line.strip() for line in content.splitlines() if line.strip()}\n    \n>       assert actual_names == expected_names, (\n            f\"Sources in file do not match expected sources. \"\n            f\"Expected: {expected_names}, Actual: {actual_names}\"\n        )\nE       AssertionError: Sources in file do not match expected sources. Expected: {'auth-source-2-zr-5dgm9ov', 'my-source-zr-2fw8mac', 'hmac-source-zr-ynkzz5y', 'mock-source-zr-rycang7', 'test-source-88888', 'fanout-source-zr-ibzxyqv', 'custom-methods-source-zr-bbtrk2g', 'mock-source-zr-ygqdr4j', 'mock-source-zr-edkjoev', 'safe-transform-src-zr-a7uu4tv', 'legacy-source-zr-vsibpjz', 'fan-out-source-zr-8uvdzfr', 'legacy-source-zr-mbaje2f', 'stripe-zr-qfzavxl', 'auth-source-test7', 'my-source-zr-dherap7', 'stripe-source-zr-zasggek', 'source-zr-uvdf9lt', 'stripe-zr-fknwf7p', 'test-source-zr-ffrgkr2', 'source-zr-lkmomjm', 'hmac-source-zr-y6dbzds', 'mock-source-1781118765', 'test-source-zr-gccu54k', 'fanout-source-zr-pypymgq', 'header-source-zr-ivntxnv', 'fan-out-source-zr-rclrdv9', 'safe-transform-src-zr-kktqwqh', 'stripe-zr-d5rcksb', 'test-api2', 'safe-transform-src-zr-55vekvz', 'stripe-zr-cmd2czb', 'my-source-zr-tp8hvh7', 'header-source-zr-98uzy2k', 'mock-source-1781118860', 'source-zr-ujjvtqf', 'header-source-zr-d2xu5xj', 'mock-source-test1', 'source-zr-7itibkv', 'transform-source-zr-dov2ghu', 'custom-methods-source-zr-53e365h', 'source-zr-uqkxhyp', 'secure-source-zr-vohywfj', 'hmac-source-zr-i2emwuw', 'auth-source-zr-jevaz6b', 'source-test', 'custom-retry-source-zr-sxofgdv', 'source-zr-yowcmkl', 'custom-methods-source-zr-wdjka3t', 'mock-source-run002', 'auth-source-zr-5dgm9ov', 'source-zr-mjzzwqj', 'secure-source-zr-nzetx68', 'source-zr-vv6mprj', 'stripe-source-zr-tb2krzg', 'source-zr-gcepdec', 'test-source-99999', 'fan-out-source-test1234', 'legacy-source-zr-clgzyfl', 'mock-source-241f6e59', 'mock-source-test123', 'source-zr-8mkgmjf', 'auth-source-test5', 'source-zr-zgz6exw', 'legacy-source-zr-u4kj7j9', 'mock-source-zr-virenxb', 'source-zr-pg49tcu', 'stripe-source-zr-azbecyc', 'auth-source-test3', 'mock-source-zr-ykwwbyc', 'secure-source-zr-w984qiy', 'test-source-zr-9rwfaiz', 'fan-out-source-zr-cvt9zat', 'fanout-source-zr-n79pg7b', 'test-source-zr-jz3lhpi', 'source-zr-ctv9dgg', 'stripe-source-zr-hntbqww', 'test-source-12345', 'secure-source-zr-p87hxlb-2', 'auth-source-test4', 'secure-source-zr-p87hxlb', 'auth-source-zr-yim4mbt', 'fanout-source-zr-fwdcwdh', 'custom-retry-source-zr-aqwqgzo', 'auth-source-test-zr-5dgm9ov', 'hmac-source-test', 'safe-transform-src-zr-tzgtau3', 'custom-retry-source-zr-aktjzpv', 'stripe-source-zr-9qoq6iz', 'auth-source-test8', 'source-zr-zuqcjmt', 'fan-out-source-zr-qqlupnq', 'header-source-zr-bwvs9ub', 'fan-out-source-zr-nnghhqh', 'mock-source-1781118814', 'custom-methods-source-zr-kfehpfj', 'hmac-source-zr-i6ewcau', 'my-source-zr-scmbdzm', 'fanout-source-zr-yetprgo', 'custom-retry-source-zr-hsqn4zs'}, Actual: {'auth-source-2-zr-5dgm9ov', 'auth-source-zr-3mkhk2x', 'my-source-zr-2fw8mac', 'hmac-source-zr-ynkzz5y', 'mock-source-zr-rycang7', 'test-source-88888', 'fanout-source-zr-ibzxyqv', 'custom-methods-source-zr-bbtrk2g', 'mock-source-zr-ygqdr4j', 'mock-source-zr-edkjoev', 'safe-transform-src-zr-a7uu4tv', 'legacy-source-zr-vsibpjz', 'fan-out-source-zr-8uvdzfr', 'header-source-zr-qnwhz2t', 'legacy-source-zr-mbaje2f', 'stripe-zr-qfzavxl', 'auth-source-test7', 'my-source-zr-dherap7', 'test-source-publish', 'stripe-source-zr-zasggek', 'source-zr-uvdf9lt', 'stripe-zr-fknwf7p', 'test-source-zr-ffrgkr2', 'source-zr-lkmomjm', 'hmac-source-zr-y6dbzds', 'fan-out-source-zr-zivuhyx', 'secure-source-zr-m87my5c', 'mock-source-1781118765', 'test-source-123', 'test-source-zr-gccu54k', 'fanout-source-zr-pypymgq', 'header-source-zr-ivntxnv', 'fan-out-source-zr-rclrdv9', 'safe-transform-src-zr-kktqwqh', 'fanout-src-zr-8uetvrt', 'stripe-zr-d5rcksb', 'test-api2', 'safe-transform-src-zr-55vekvz', 'stripe-zr-cmd2czb', 'source-zr-ca6tqio', 'my-source-zr-tp8hvh7', 'mock-source-41axgk2f', 'header-source-zr-98uzy2k', 'fanout-source-zr-zieuhd3', 'test-wrapper-source-zr-nzaoubn', 'mock-source-1781118860', 'source-zr-ujjvtqf', 'header-source-zr-d2xu5xj', 'mock-source-test1', 'source-zr-7itibkv', 'transform-source-zr-dov2ghu', 'custom-methods-source-zr-53e365h', 'source-zr-uqkxhyp', 'custom-methods-source-zr-iq56c3r', 'secure-source-zr-vohywfj', 'test-source-zr-nzaoubn', 'mock-source-8pd1efs3', 'hmac-source-zr-i2emwuw', 'auth-source-zr-jevaz6b', 'source-test', 'custom-retry-source-zr-sxofgdv', 'mock-source-zr-dfz9ejl', 'source-zr-yowcmkl', 'custom-methods-source-zr-wdjka3t', 'mock-source-run002', 'auth-source-zr-5dgm9ov', 'source-zr-mjzzwqj', 'secure-source-zr-nzetx68', 'source-zr-vv6mprj', 'stripe-source-zr-tb2krzg', 'source-zr-gcepdec', 'test-source-99999', 'fan-out-source-test1234', 'legacy-source-zr-clgzyfl', 'mock-source-241f6e59', 'safe-transform-src-zr-tzstikr', 'mock-source-test123', 'source-zr-8mkgmjf', 'auth-source-test5', 'source-zr-zgz6exw', 'legacy-source-zr-u4kj7j9', 'mock-source-zr-virenxb', 'stripe-zr-hgqgseq', 'custom-retry-source-zr-rkdv7od', 'source-zr-pg49tcu', 'stripe-source-zr-azbecyc', 'auth-source-test3', 'mock-source-zr-ykwwbyc', 'legacy-source-zr-wvpxrtd', 'zealt-benchmark', 'secure-source-zr-w984qiy', 'test-source-zr-9rwfaiz', 'stripe-source-zr-xv8wdjk', 'fan-out-source-zr-cvt9zat', 'fanout-source-zr-n79pg7b', 'test-source-zr-jz3lhpi', 'source-zr-ctv9dgg', 'hmac-source-zr-5ypehms', 'stripe-source-zr-hntbqww', 'test-source-12345', 'secure-source-zr-p87hxlb-2', 'auth-source-test4', 'secure-source-zr-p87hxlb', 'auth-source-zr-yim4mbt', 'fanout-source-zr-fwdcwdh', 'custom-retry-source-zr-aqwqgzo', 'auth-source-test-zr-5dgm9ov', 'hmac-source-test', 'safe-transform-src-zr-tzgtau3', 'hmac-source-zr-nydxzuv', 'custom-retry-source-zr-aktjzpv', 'source-zr-aaewucg', 'stripe-source-zr-9qoq6iz', 'auth-source-test8', 'source-zr-d9nizby', 'source-zr-zuqcjmt', 'fan-out-source-zr-qqlupnq', 'header-source-zr-bwvs9ub', 'fan-out-source-zr-nnghhqh', 'mock-source-1781118814', 'stripe-source-zr-3syqvef', 'custom-methods-source-zr-kfehpfj', 'hmac-source-zr-i6ewcau', 'harbor-src-zr-qibaenm', 'zealt-src-zr-carbkj3', 'my-source-zr-scmbdzm', 'fanout-source-zr-yetprgo', 'custom-retry-source-zr-hsqn4zs', 'test-source-zr-i5txsfa', 'my-source-zr-nzaoubn'}\nE       assert {'auth-source...e-test7', ...} == {'auth-source...e-test7', ...}\nE         Extra items in the left set:\nE         'auth-source-zr-3mkhk2x'\nE         'source-zr-ca6tqio'\nE         'mock-source-41axgk2f'\nE         'fanout-source-zr-zieuhd3'\nE         'safe-transform-src-zr-tzstikr'\nE         'test-wrapper-source-zr-nzaoubn'...\nE         \nE         ...Full output truncated (25 lines hidden), use '-vv' to show\n\ntests/test_final_state.py:30: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            }
+        ]
+    }
+}

@@ -1,0 +1,41 @@
+{
+    "reportFormat": "CTRF",
+    "specVersion": "0.0.0",
+    "timestamp": "2026-06-11T06:24:15.235760+00:00",
+    "generatedBy": "pytest",
+    "results": {
+        "tool": {
+            "name": "pytest",
+            "version": "7.4.4"
+        },
+        "summary": {
+            "tests": 1,
+            "passed": 0,
+            "failed": 1,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1781159054850,
+            "stop": 1781159055235
+        },
+        "environment": {
+            "buildName": "Pytest JSON CTRF Report",
+            "buildNumber": "000",
+            "buildUrl": "https://ctrf.io"
+        },
+        "tests": [
+            {
+                "name": "test_final_state.py::test_connection_created_and_configured_correctly",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 226,
+                "start": 1781159055009,
+                "stop": 1781159055235,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "def test_connection_created_and_configured_correctly():\n        # Step 1: Read run-id\n        run_id = os.environ.get(\"ZEALT_RUN_ID\")\n        assert run_id is not None, \"ZEALT_RUN_ID environment variable is not set.\"\n    \n        # Step 2: Read the Connection ID from output.log\n        assert os.path.isfile(LOG_FILE), f\"Log file not found at {LOG_FILE}\"\n    \n        connection_id = None\n        with open(LOG_FILE, \"r\") as f:\n            for line in f:\n                if line.startswith(\"Connection ID:\"):\n                    connection_id = line.split(\"Connection ID:\")[1].strip()\n                    break\n    \n        assert connection_id is not None, f\"Could not find 'Connection ID: <id>' in {LOG_FILE}\"\n    \n        # Step 3 & 4: Fetch connection details from Hookdeck API\n        api_key = os.environ.get(\"HOOKDECK_API_KEY\")\n        assert api_key is not None, \"HOOKDECK_API_KEY environment variable is not set.\"\n    \n        url = f\"https://api.hookdeck.com/2025-07-01/connections/{connection_id}\"\n        headers = {\"Authorization\": f\"Bearer {api_key}\"}\n    \n        response = requests.get(url, headers=headers)\n        assert response.status_code == 200, f\"Failed to fetch connection {connection_id}. Status: {response.status_code}, Response: {response.text}\"\n    \n        data = response.json()\n    \n        # Step 5: Verify connection name\n        expected_conn_name = f\"conn-{run_id}\"\n        assert data.get(\"name\") == expected_conn_name, f\"Expected connection name '{expected_conn_name}', got '{data.get('name')}'\"\n    \n        # Step 6: Verify source name\n        source = data.get(\"source\", {})\n        expected_source_name = f\"source-{run_id}\"\n        assert source.get(\"name\") == expected_source_name, f\"Expected source name '{expected_source_name}', got '{source.get('name')}'\"\n    \n        # Step 7: Verify destination name and type\n        destination = data.get(\"destination\", {})\n        expected_dest_name = f\"dest-{run_id}\"\n        assert destination.get(\"name\") == expected_dest_name, f\"Expected destination name '{expected_dest_name}', got '{destination.get('name')}'\"\n        assert destination.get(\"type\") == \"MOCK_API\", f\"Expected destination type 'MOCK_API', got '{destination.get('type')}'\"\n    \n        # Step 8: Verify rules\n        rules = data.get(\"rules\", [])\n        has_correct_filter = False\n        for rule in rules:\n            if rule.get(\"type\") == \"filter\":\n                # The structure for rule body depends on Hookdeck API, but usually filter rules\n                # have a \"body\" object specifying the match criteria.\n                # We just need to check if body.type is \"order.created\"\n                body_filter = rule.get(\"body\", {})\n                if body_filter.get(\"type\") == \"order.created\":\n                    has_correct_filter = True\n                    break\n    \n>       assert has_correct_filter, f\"Could not find a filter rule where body.type is 'order.created'. Rules found: {rules}\"\nE       AssertionError: Could not find a filter rule where body.type is 'order.created'. Rules found: [{'body': {'type': [{'equals': 'order.created'}]}, 'type': 'filter'}]\nE       assert False\n\ntests/test_final_state.py:65: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            }
+        ]
+    }
+}

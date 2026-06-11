@@ -1,0 +1,59 @@
+{
+    "reportFormat": "CTRF",
+    "specVersion": "0.0.0",
+    "timestamp": "2026-06-11T06:09:00.882282+00:00",
+    "generatedBy": "pytest",
+    "results": {
+        "tool": {
+            "name": "pytest",
+            "version": "7.4.4"
+        },
+        "summary": {
+            "tests": 3,
+            "passed": 2,
+            "failed": 1,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1781158140280,
+            "stop": 1781158140881
+        },
+        "environment": {
+            "buildName": "Pytest JSON CTRF Report",
+            "buildNumber": "000",
+            "buildUrl": "https://ctrf.io"
+        },
+        "tests": [
+            {
+                "name": "test_final_state.py::test_source_log_exists",
+                "status": "passed",
+                "duration": 1,
+                "start": 1781158140436,
+                "stop": 1781158140437,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_source_log_contains_source_id",
+                "status": "passed",
+                "duration": 1,
+                "start": 1781158140437,
+                "stop": 1781158140438,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_hookdeck_source_configuration",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 442,
+                "start": 1781158140439,
+                "stop": 1781158140881,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "def test_hookdeck_source_configuration():\n        # Extract source ID from log file\n        with open(LOG_FILE, \"r\") as f:\n            content = f.read()\n    \n        match = re.search(r\"Source ID:\\s*(src_[a-zA-Z0-9]+)\", content)\n        assert match, \"Could not extract Source ID from log file.\"\n        source_id = match.group(1)\n    \n        # Get run-id\n        run_id = os.environ.get(\"ZEALT_RUN_ID\")\n        assert run_id, \"ZEALT_RUN_ID environment variable is not set.\"\n    \n        # Get API key\n        api_key = os.environ.get(\"HOOKDECK_API_KEY\")\n        assert api_key, \"HOOKDECK_API_KEY environment variable is not set.\"\n    \n        # Call Hookdeck API\n        url = f\"https://api.hookdeck.com/2025-07-01/sources/{source_id}\"\n        headers = {\n            \"Authorization\": f\"Bearer {api_key}\"\n        }\n        response = requests.get(url, headers=headers)\n        assert response.status_code == 200, f\"Failed to fetch source from Hookdeck API. Status: {response.status_code}, Response: {response.text}\"\n    \n        data = response.json()\n    \n        expected_name = f\"fireblocks-source-{run_id}\"\n        assert data.get(\"name\") == expected_name, f\"Expected source name '{expected_name}', got '{data.get('name')}'\"\n>       assert data.get(\"type\") == \"FIREBLOCKS\", f\"Expected source type 'FIREBLOCKS', got '{data.get('type')}'\"\nE       AssertionError: Expected source type 'FIREBLOCKS', got 'WEBHOOK'\nE       assert 'WEBHOOK' == 'FIREBLOCKS'\nE         - FIREBLOCKS\nE         + WEBHOOK\n\ntests/test_final_state.py:46: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            }
+        ]
+    }
+}

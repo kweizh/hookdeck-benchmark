@@ -1,0 +1,65 @@
+import os
+import pytest
+import requests
+
+PROJECT_DIR = "/home/user/hookdeck-task"
+LOG_FILE = os.path.join(PROJECT_DIR, "output.log")
+
+def test_connection_created_and_configured_correctly():
+    # Step 1: Read run-id
+    run_id = os.environ.get("ZEALT_RUN_ID")
+    assert run_id is not None, "ZEALT_RUN_ID environment variable is not set."
+
+    # Step 2: Read the Connection ID from output.log
+    assert os.path.isfile(LOG_FILE), f"Log file not found at {LOG_FILE}"
+    
+    connection_id = None
+    with open(LOG_FILE, "r") as f:
+        for line in f:
+            if line.startswith("Connection ID:"):
+                connection_id = line.split("Connection ID:")[1].strip()
+                break
+                
+    assert connection_id is not None, f"Could not find 'Connection ID: <id>' in {LOG_FILE}"
+
+    # Step 3 & 4: Fetch connection details from Hookdeck API
+    api_key = os.environ.get("HOOKDECK_API_KEY")
+    assert api_key is not None, "HOOKDECK_API_KEY environment variable is not set."
+    
+    url = f"https://api.hookdeck.com/2025-07-01/connections/{connection_id}"
+    headers = {"Authorization": f"Bearer {api_key}"}
+    
+    response = requests.get(url, headers=headers)
+    assert response.status_code == 200, f"Failed to fetch connection {connection_id}. Status: {response.status_code}, Response: {response.text}"
+    
+    data = response.json()
+    
+    # Step 5: Verify connection name
+    expected_conn_name = f"conn-{run_id}"
+    assert data.get("name") == expected_conn_name, f"Expected connection name '{expected_conn_name}', got '{data.get('name')}'"
+    
+    # Step 6: Verify source name
+    source = data.get("source", {})
+    expected_source_name = f"source-{run_id}"
+    assert source.get("name") == expected_source_name, f"Expected source name '{expected_source_name}', got '{source.get('name')}'"
+    
+    # Step 7: Verify destination name and type
+    destination = data.get("destination", {})
+    expected_dest_name = f"dest-{run_id}"
+    assert destination.get("name") == expected_dest_name, f"Expected destination name '{expected_dest_name}', got '{destination.get('name')}'"
+    assert destination.get("type") == "MOCK_API", f"Expected destination type 'MOCK_API', got '{destination.get('type')}'"
+    
+    # Step 8: Verify rules
+    rules = data.get("rules", [])
+    has_correct_filter = False
+    for rule in rules:
+        if rule.get("type") == "filter":
+            # The structure for rule body depends on Hookdeck API, but usually filter rules 
+            # have a "body" object specifying the match criteria.
+            # We just need to check if body.type is "order.created"
+            body_filter = rule.get("body", {})
+            if body_filter.get("type") == "order.created":
+                has_correct_filter = True
+                break
+                
+    assert has_correct_filter, f"Could not find a filter rule where body.type is 'order.created'. Rules found: {rules}"

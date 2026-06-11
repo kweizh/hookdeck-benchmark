@@ -1,0 +1,66 @@
+{
+    "id": "e653f4bd-c092-4529-ac31-b75050c8c44a",
+    "started_at": "2026-06-11T06:40:48.102778",
+    "updated_at": "2026-06-11T07:02:28.237448",
+    "finished_at": "2026-06-11T07:02:28.237448",
+    "n_total_trials": 20,
+    "stats": {
+        "n_completed_trials": 20,
+        "n_errored_trials": 2,
+        "n_running_trials": 0,
+        "n_pending_trials": 0,
+        "n_cancelled_trials": 0,
+        "n_retries": 0,
+        "evals": {
+            "pochi__deepseek-4-pro__pending-tasks": {
+                "n_trials": 19,
+                "n_errors": 2,
+                "metrics": [
+                    {
+                        "mean": 0.5
+                    }
+                ],
+                "pass_at_k": {},
+                "reward_stats": {
+                    "reward": {
+                        "0.0": [
+                            "rename_keys_transformation_js__t3vyJpA",
+                            "connection_deduplicate_rule__JPDGRqT",
+                            "js_transformation_custom_header__PMp8Zoj",
+                            "drop_missing_field_transformatio__8JSLVjL",
+                            "create_source_basic_auth_cli__eTJbbsM",
+                            "connection_filter_rule_cli__8yX8Anc",
+                            "flatten_nested_payload_transform__XdQJ9dR",
+                            "publish_mock_event_api__7kYNuS4",
+                            "create_fireblocks_source__VfFFBAi"
+                        ],
+                        "1.0": [
+                            "fan_out_three_destinations__6w2xFzs",
+                            "fan_out_two_mock_destinations_cl__32dvFA3",
+                            "create_connection_cli__e7J4h6W",
+                            "create_filter_connection_cli__tqfrT3w",
+                            "list_sources_api__gLNzDSF",
+                            "stripe_to_mock_api_cli__BZ4QCrj",
+                            "configure_retry_strategy__e6Hs3d4",
+                            "retrieve_request_volume_metrics__imj84cB",
+                            "create_destination_rate_limit_ap__nsqdfdv",
+                            "create_shopify_source_http_desti__5on67rZ"
+                        ]
+                    }
+                },
+                "exception_stats": {
+                    "AgentTimeoutError": [
+                        "js_transformation_custom_header__PMp8Zoj"
+                    ],
+                    "InitialStateError": [
+                        "retrieve_request_by_id_api__TKkRPbJ"
+                    ]
+                }
+            }
+        },
+        "n_input_tokens": 0,
+        "n_cache_tokens": 0,
+        "n_output_tokens": 541198,
+        "cost_usd": null
+    }
+}

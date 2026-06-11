@@ -1,0 +1,54 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-7.4.4, pluggy-1.4.0
+rootdir: /tests
+plugins: json-ctrf-0.5.2
+collected 2 items
+
+tests/test_final_state.py .F                                             [100%]
+
+=================================== FAILURES ===================================
+____________________ test_connection_configuration_via_api _____________________
+
+    def test_connection_configuration_via_api():
+        run_id = get_run_id()
+    
+        assert os.path.isfile(LOG_FILE), f"Log file {LOG_FILE} does not exist."
+        with open(LOG_FILE, "r") as f:
+            content = f.read()
+    
+        match = re.search(r"Connection ID:\s*(web_[a-zA-Z0-9_]+)", content)
+        assert match is not None, "Could not find 'Connection ID: web_...' in output.log"
+        connection_id = match.group(1)
+    
+        api_key = os.environ.get("HOOKDECK_API_KEY")
+        assert api_key is not None, "HOOKDECK_API_KEY environment variable is not set."
+    
+        headers = {
+            "Authorization": f"Bearer {api_key}"
+        }
+    
+        url = f"https://api.hookdeck.com/2025-07-01/connections/{connection_id}"
+        response = requests.get(url, headers=headers)
+    
+        assert response.status_code == 200, f"Failed to get connection {connection_id}. Status: {response.status_code}, Response: {response.text}"
+    
+        data = response.json()
+    
+        assert data.get("name") == f"conn-{run_id}", f"Expected connection name 'conn-{run_id}', got '{data.get('name')}'"
+    
+        rules = data.get("rules", [])
+        dedup_rule = next((r for r in rules if r.get("type") == "deduplicate"), None)
+        assert dedup_rule is not None, "No deduplicate rule found in the connection."
+    
+>       assert dedup_rule.get("window") == 600, f"Expected deduplicate window 600, got {dedup_rule.get('window')}"
+E       AssertionError: Expected deduplicate window 600, got 600000
+E       assert 600000 == 600
+E        +  where 600000 = <built-in method get of dict object at 0x7f61e91c79c0>('window')
+E        +    where <built-in method get of dict object at 0x7f61e91c79c0> = {'include_fields': ['body.id'], 'type': 'deduplicate', 'window': 600000}.get
+
+tests/test_final_state.py:54: AssertionError
+==================================== PASSES ====================================
+=========================== short test summary info ============================
+PASSED tests/test_final_state.py::test_output_log_exists_and_contains_connection_id
+FAILED tests/test_final_state.py::test_connection_configuration_via_api - Ass...
+========================= 1 failed, 1 passed in 0.38s ==========================

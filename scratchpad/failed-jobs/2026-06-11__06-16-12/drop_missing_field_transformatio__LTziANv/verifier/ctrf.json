@@ -1,0 +1,41 @@
+{
+    "reportFormat": "CTRF",
+    "specVersion": "0.0.0",
+    "timestamp": "2026-06-11T06:24:52.753210+00:00",
+    "generatedBy": "pytest",
+    "results": {
+        "tool": {
+            "name": "pytest",
+            "version": "7.4.4"
+        },
+        "summary": {
+            "tests": 1,
+            "passed": 0,
+            "failed": 1,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1781159086684,
+            "stop": 1781159092752
+        },
+        "environment": {
+            "buildName": "Pytest JSON CTRF Report",
+            "buildNumber": "000",
+            "buildUrl": "https://ctrf.io"
+        },
+        "tests": [
+            {
+                "name": "test_final_state.py::test_transformation_drops_missing_field",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 5916,
+                "start": 1781159086836,
+                "stop": 1781159092752,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "run_id = 'zr-ltzianv'\napi_key = 'REDACTED'\nsource_id = 'src_t2z8fxdrlxezw1'\n\n    def test_transformation_drops_missing_field(run_id, api_key, source_id):\n        \"\"\"Publish events and verify the transformation drops the one missing the required field.\"\"\"\n    \n        publish_url = \"https://hkdk.events/v1/publish\"\n        headers = {\n            \"Authorization\": f\"Bearer {api_key}\",\n            \"X-Hookdeck-Source-Name\": f\"source-{run_id}\",\n            \"Content-Type\": \"application/json\"\n        }\n    \n        # 1. Publish event WITHOUT required_field\n        payload_missing = {\"other_field\": \"value\"}\n        resp_missing = requests.post(publish_url, headers=headers, json=payload_missing)\n        assert resp_missing.status_code == 200, f\"Failed to publish event missing required field: {resp_missing.text}\"\n    \n        # 2. Publish event WITH required_field\n        payload_present = {\"required_field\": \"value\"}\n        resp_present = requests.post(publish_url, headers=headers, json=payload_present)\n        assert resp_present.status_code == 200, f\"Failed to publish event with required field: {resp_present.text}\"\n    \n        # Sleep to allow Hookdeck to process the events\n        time.sleep(5)\n    \n        # 3. Retrieve requests for the source\n        requests_url = f\"https://api.hookdeck.com/2025-07-01/requests?source_id={source_id}\"\n        req_headers = {\n            \"Authorization\": f\"Bearer {api_key}\"\n        }\n    \n        resp_requests = requests.get(requests_url, headers=req_headers)\n        assert resp_requests.status_code == 200, f\"Failed to retrieve requests: {resp_requests.text}\"\n    \n        data = resp_requests.json()\n        models = data.get(\"models\", [])\n    \n        # We expect at least 2 requests (the ones we just sent)\n        # Find the one with other_field\n        req_missing = next((r for r in models if r.get(\"data\", {}).get(\"body\", {}).get(\"body\", {}).get(\"other_field\") == \"value\"), None)\n>       assert req_missing is not None, \"Could not find the request missing 'required_field' in Hookdeck\"\nE       AssertionError: Could not find the request missing 'required_field' in Hookdeck\nE       assert None is not None\n\ntests/test_final_state.py:70: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            }
+        ]
+    }
+}

@@ -1,0 +1,41 @@
+{
+    "reportFormat": "CTRF",
+    "specVersion": "0.0.0",
+    "timestamp": "2026-06-11T05:47:45.906006+00:00",
+    "generatedBy": "pytest",
+    "results": {
+        "tool": {
+            "name": "pytest",
+            "version": "7.4.4"
+        },
+        "summary": {
+            "tests": 1,
+            "passed": 0,
+            "failed": 1,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1781156860184,
+            "stop": 1781156865905
+        },
+        "environment": {
+            "buildName": "Pytest JSON CTRF Report",
+            "buildNumber": "000",
+            "buildUrl": "https://ctrf.io"
+        },
+        "tests": [
+            {
+                "name": "test_final_state.py::test_hookdeck_transformation",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 5540,
+                "start": 1781156860365,
+                "stop": 1781156865905,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "def test_hookdeck_transformation():\n        run_id = os.environ.get(\"ZEALT_RUN_ID\")\n        assert run_id, \"ZEALT_RUN_ID environment variable is not set.\"\n    \n        api_key = os.environ.get(\"HOOKDECK_API_KEY\")\n        assert api_key, \"HOOKDECK_API_KEY environment variable is not set.\"\n    \n        source_name = f\"webhook-source-{run_id}\"\n        connection_name = f\"transform-connection-{run_id}\"\n        secret_val = f\"secret-val-{run_id}\"\n    \n        # 1. Publish test event\n        publish_url = \"https://hkdk.events/v1/publish\"\n        headers = {\n            \"Authorization\": f\"Bearer {api_key}\",\n            \"X-Hookdeck-Source-Name\": source_name,\n            \"Content-Type\": \"application/json\"\n        }\n        payload = {\"old_key\": \"test_value\"}\n        publish_res = requests.post(publish_url, headers=headers, json=payload)\n        assert publish_res.status_code in (200, 201, 202), f\"Failed to publish event: {publish_res.text}\"\n    \n        # 2. Wait for event processing\n        time.sleep(5)\n    \n        # 3. Retrieve connection ID\n        conn_url = \"https://api.hookdeck.com/2025-07-01/connections\"\n        conn_res = requests.get(conn_url, headers={\"Authorization\": f\"Bearer {api_key}\"}, params={\"name\": connection_name})\n        assert conn_res.status_code == 200, f\"Failed to list connections: {conn_res.text}\"\n        conn_data = conn_res.json()\n        assert \"models\" in conn_data and len(conn_data[\"models\"]) > 0, f\"Connection {connection_name} not found.\"\n        conn_id = conn_data[\"models\"][0][\"id\"]\n    \n        # 4. Retrieve latest event for connection\n        events_url = \"https://api.hookdeck.com/2025-07-01/events\"\n    \n        latest_event = None\n        for _ in range(3):\n            events_res = requests.get(events_url, headers={\"Authorization\": f\"Bearer {api_key}\"}, params={\"connection_id\": conn_id, \"limit\": 1})\n            assert events_res.status_code == 200, f\"Failed to list events: {events_res.text}\"\n            events_data = events_res.json()\n            if \"models\" in events_data and len(events_data[\"models\"]) > 0:\n                latest_event = events_data[\"models\"][0]\n                break\n            time.sleep(3)\n    \n        assert latest_event is not None, f\"No events found for connection {connection_name}.\"\n    \n        event_data = latest_event.get(\"data\", {})\n    \n        # Check custom header\n        event_headers = event_data.get(\"headers\", {})\n>       assert \"x-custom-secret\" in event_headers, f\"Custom header 'x-custom-secret' not found in event headers: {event_headers}\"\nE       AssertionError: Custom header 'x-custom-secret' not found in event headers: {}\nE       assert 'x-custom-secret' in {}\n\ntests/test_final_state.py:59: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            }
+        ]
+    }
+}

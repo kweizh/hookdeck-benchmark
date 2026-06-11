@@ -1,0 +1,6 @@
+{
+  "task_name": "list_sources_api",
+  "task_description": "# List Hookdeck Sources\n\n## Background\nRetrieve a list of all configured sources in the Hookdeck workspace.\n\n## Requirements\n- Fetch the list of sources from the Hookdeck API.\n- Extract the names of all sources and save them to a file.\n\n## Implementation Hints\n- Use the `HOOKDECK_API_KEY` environment variable for authentication.\n\n## Acceptance Criteria\n- Project path: /home/user/myproject\n- Ensure the script is executed and the artifacts exist.\n- Log file: /home/user/myproject/sources.txt\n- The file must contain exactly the names of all sources in the workspace, with each name on a separate line. Order does not matter. Extraneous whitespace or empty lines are ignored.\n",
+  "task_integrations": "- Hookdeck",
+  "truth": "# Verification Plan\n\n## Setup\n- Skip setup for this one-off job.\n\n## Verification Steps\n1. Check that `/home/user/myproject/sources.txt` exists.\n2. Fetch the expected list of sources using the Hookdeck API (GET https://api.hookdeck.com/2025-07-01/sources) authenticated with `HOOKDECK_API_KEY`.\n3. Extract the `name` field from the returned models in the API response.\n4. Read the contents of `/home/user/myproject/sources.txt`.\n5. Verify that the file contains exactly the expected source names (ignoring order and empty lines).\n"
+}

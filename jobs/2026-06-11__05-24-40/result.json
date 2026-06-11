@@ -1,0 +1,63 @@
+{
+    "id": "71464676-4db3-4841-9759-adcdb6b93e28",
+    "started_at": "2026-06-11T05:24:42.939365",
+    "updated_at": "2026-06-11T05:42:31.496928",
+    "finished_at": "2026-06-11T05:42:31.496928",
+    "n_total_trials": 20,
+    "stats": {
+        "n_completed_trials": 20,
+        "n_errored_trials": 1,
+        "n_running_trials": 0,
+        "n_pending_trials": 0,
+        "n_cancelled_trials": 0,
+        "n_retries": 0,
+        "evals": {
+            "pochi__gemini-3.5-flash__pending-tasks": {
+                "n_trials": 19,
+                "n_errors": 1,
+                "metrics": [
+                    {
+                        "mean": 0.45
+                    }
+                ],
+                "pass_at_k": {},
+                "reward_stats": {
+                    "reward": {
+                        "0.0": [
+                            "rename_keys_transformation_js__doV2ghu",
+                            "connection_deduplicate_rule__uJjvtQF",
+                            "list_sources_api__guFWUZM",
+                            "js_transformation_custom_header__NVtazZo",
+                            "drop_missing_field_transformatio__m5cpWLD",
+                            "create_source_basic_auth_cli__7gjUtqw",
+                            "connection_filter_rule_cli__YvhQk7Q",
+                            "flatten_nested_payload_transform__LBPmmdc",
+                            "publish_mock_event_api__cMKy2cE",
+                            "create_fireblocks_source__uhLGb2y"
+                        ],
+                        "1.0": [
+                            "fan_out_three_destinations__N79pG7b",
+                            "fan_out_two_mock_destinations_cl__cVT9Zat",
+                            "create_connection_cli__aZBecyc",
+                            "create_filter_connection_cli__zuQcjmT",
+                            "stripe_to_mock_api_cli__sq4mqJb",
+                            "configure_retry_strategy__X2E7zjH",
+                            "retrieve_request_volume_metrics__FZcU5EL",
+                            "create_destination_rate_limit_ap__PwrSRjT",
+                            "create_shopify_source_http_desti__osCJMzC"
+                        ]
+                    }
+                },
+                "exception_stats": {
+                    "InitialStateError": [
+                        "retrieve_request_by_id_api__RxphGuF"
+                    ]
+                }
+            }
+        },
+        "n_input_tokens": 0,
+        "n_cache_tokens": 0,
+        "n_output_tokens": 882218,
+        "cost_usd": null
+    }
+}

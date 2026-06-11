@@ -1,0 +1,57 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-7.4.4, pluggy-1.4.0
+rootdir: /tests
+plugins: json-ctrf-0.5.2
+collected 3 items
+
+tests/test_final_state.py ..F                                            [100%]
+
+=================================== FAILURES ===================================
+______________________ test_hookdeck_source_configuration ______________________
+
+    def test_hookdeck_source_configuration():
+        # Extract source ID from log file
+        with open(LOG_FILE, "r") as f:
+            content = f.read()
+    
+        match = re.search(r"Source ID:\s*(src_[a-zA-Z0-9]+)", content)
+        assert match, "Could not extract Source ID from log file."
+        source_id = match.group(1)
+    
+        # Get run-id
+        run_id = os.environ.get("ZEALT_RUN_ID")
+        assert run_id, "ZEALT_RUN_ID environment variable is not set."
+    
+        # Get API key
+        api_key = os.environ.get("HOOKDECK_API_KEY")
+        assert api_key, "HOOKDECK_API_KEY environment variable is not set."
+    
+        # Call Hookdeck API
+        url = f"https://api.hookdeck.com/2025-07-01/sources/{source_id}"
+        headers = {
+            "Authorization": f"Bearer {api_key}"
+        }
+        response = requests.get(url, headers=headers)
+        assert response.status_code == 200, f"Failed to fetch source from Hookdeck API. Status: {response.status_code}, Response: {response.text}"
+    
+        data = response.json()
+    
+        expected_name = f"fireblocks-source-{run_id}"
+        assert data.get("name") == expected_name, f"Expected source name '{expected_name}', got '{data.get('name')}'"
+        assert data.get("type") == "FIREBLOCKS", f"Expected source type 'FIREBLOCKS', got '{data.get('type')}'"
+    
+        config = data.get("config", {})
+        auth = config.get("auth", {})
+>       assert auth.get("environment") == "sandbox", f"Expected config.auth.environment to be 'sandbox', got '{auth.get('environment')}'"
+E       AssertionError: Expected config.auth.environment to be 'sandbox', got 'None'
+E       assert None == 'sandbox'
+E        +  where None = <built-in method get of dict object at 0x7fd6782b9980>('environment')
+E        +    where <built-in method get of dict object at 0x7fd6782b9980> = {}.get
+
+tests/test_final_state.py:50: AssertionError
+==================================== PASSES ====================================
+=========================== short test summary info ============================
+PASSED tests/test_final_state.py::test_source_log_exists
+PASSED tests/test_final_state.py::test_source_log_contains_source_id
+FAILED tests/test_final_state.py::test_hookdeck_source_configuration - Assert...
+========================= 1 failed, 2 passed in 0.36s ==========================

@@ -1,0 +1,80 @@
+Skipping image OS validation for hb__configure_retry_strategy: docker inspect returned 1
+Running command: apt-get update && apt-get install -y curl ripgrep
+Command outputs captured
+Running command: set -euo pipefail; curl -fsSL https://getpochi.com/install.sh | bash -x -s -- pochi-v0.6.14 && mkdir -p /logs/agent/pochi && ~/.pochi/bin/pochi --version
+Command outputs captured
+Running command: ln -sf ~/.pochi/bin/pochi /usr/local/bin/pochi
+Command outputs captured
+Running command: echo zr-e6hs3d4 > /logs/artifacts/run-id && echo configure_retry_strategy__e6Hs3d4 > /logs/artifacts/trial_id
+Command outputs captured
+Running command: mkdir -p ~/.pochi && cat << 'EOF' | sed -e "s/OPENAI_API_KEY/${OPENAI_API_KEY}/g" -e "s/DEEPINFRA_API_KEY/${DEEPINFRA_API_KEY}/g" > ~/.pochi/config.jsonc
+{
+  "providers": {
+    "deepinfra": {
+      "kind": "openai",
+      "baseURL": "https://api.deepinfra.com/v1/openai",
+      "apiKey": "DEEPINFRA_API_KEY",
+      "models": {
+        "zai-org/GLM-4.7-Flash": {
+          "name": "glm-4.7-flash"
+        },
+        "moonshotai/Kimi-K2.6": {
+          "name": "kimi-K2.6"
+        },
+        "deepseek-ai/DeepSeek-V4-Pro": {
+          "name": "DeepSeek-V4-Pro"
+        }
+      }
+    },
+    "openai": {
+      "kind": "openai",
+      "baseURL": "https://api.openai.com/v1",
+      "apiKey": "OPENAI_API_KEY",
+      "models": {
+        "gpt-5.4": {
+          "name": "gpt-5.4"
+        }
+      }
+    }
+  }
+}
+EOF
+Command outputs captured
+Running command: if [ -f /bootstrap/test_initial_state.py ]; then pytest -s --log-cli-level=DEBUG /bootstrap/test_initial_state.py > >(tee /logs/agent/pochi/initial-test-stdout.txt) 2> >(tee /logs/agent/pochi/initial-test-stderr.txt >&2); fi
+Command outputs captured
+Running command: pochi --model deepseek/deepseek-4-pro --max-steps 200 --max-retries 10 --blobs-dir /logs/agent/pochi/blobs --experimental-stream-trajectory /logs/agent/pochi/trajectory.jsonl > >(tee /logs/agent/pochi/stdout.txt) 2> >(tee /logs/agent/pochi/stderr.txt >&2) <<'EOF'
+# Configure a Retry Strategy with Hookdeck
+
+## Background
+Hookdeck provides a robust event gateway that can automatically retry failed webhook deliveries. By default, it might retry on various failures, but you can configure custom retry rules to control exactly which HTTP status codes trigger a retry.
+
+## Requirements
+- Create a Hookdeck Connection that links a Webhook source to a Mock API destination.
+- Configure a retry rule on this connection so that it **only** retries on 5xx server errors (e.g., 500-599) and **ignores** 4xx client errors.
+- The Connection name must be `retry-test-${run-id}`.
+- The Source name must be `src-${run-id}` (type: `WEBHOOK`).
+- The Destination name must be `dest-${run-id}` (type: `MOCK_API`).
+- Save the resulting Connection ID to a log file.
+
+## Implementation Hints
+- Read the current `run-id` from the `ZEALT_RUN_ID` environment variable.
+- Use the `hookdeck connection upsert` command to create the connection and define the rules inline via the `--rules` flag.
+- The retry rule needs a `response_status_codes` array. You can use ranges like `500-599` or operators like `>=500` to match 5xx errors.
+- Write the created Connection ID to `/home/user/hookdeck-task/output.log`.
+
+## Acceptance Criteria
+- Project path: /home/user/hookdeck-task
+- Ensure the real connection creation action is executed and the log artifact exists.
+- Log file: /home/user/hookdeck-task/output.log
+- The Connection name must be `retry-test-${run-id}` where `run-id` is read from the `ZEALT_RUN_ID` environment variable.
+- The Source must be named `src-${run-id}` of type `WEBHOOK`.
+- The Destination must be named `dest-${run-id}` of type `MOCK_API`.
+- The Connection must have a Retry rule configured. The `response_status_codes` of the retry rule must match 5xx errors (e.g., contains `500-599` or `>=500`) and must not match 4xx errors.
+- The log file must contain the Connection ID in the format: `Connection ID: <connection_id>`.
+
+
+EOF
+Command outputs captured
+Running command: rm -f ~/.pochi/config.jsonc
+Command outputs captured
+The verifier.env contains an API key (often the case for LLM-based verifiers). You will incur costs associated with the API calls.

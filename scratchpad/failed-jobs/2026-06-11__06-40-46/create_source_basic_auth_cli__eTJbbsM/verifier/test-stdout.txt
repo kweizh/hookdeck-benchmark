@@ -1,0 +1,41 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-7.4.4, pluggy-1.4.0
+rootdir: /tests
+plugins: json-ctrf-0.5.2
+collected 2 items
+
+tests/test_final_state.py F.                                             [100%]
+
+=================================== FAILURES ===================================
+__________________________ test_source_configuration ___________________________
+
+run_id = 'zr-etjbbsm'
+api_key = 'REDACTED'
+source_id = 'src_zpm2pyopbjmrjq'
+
+    def test_source_configuration(run_id, api_key, source_id):
+        url = f"https://api.hookdeck.com/2025-07-01/sources/{source_id}"
+        headers = {"Authorization": f"Bearer {api_key}"}
+        response = requests.get(url, headers=headers)
+        assert response.status_code == 200, f"Failed to retrieve source: {response.text}"
+    
+        source = response.json()
+        expected_name = f"secure-source-{run_id}"
+        assert source.get("name") == expected_name, f"Expected source name {expected_name}, got {source.get('name')}"
+    
+        config = source.get("config", {})
+        assert config.get("auth_type") == "BASIC_AUTH", f"Expected auth_type BASIC_AUTH, got {config.get('auth_type')}"
+    
+        auth = config.get("auth", {})
+>       assert auth.get("username") == "admin", f"Expected username admin, got {auth.get('username')}"
+E       AssertionError: Expected username admin, got None
+E       assert None == 'admin'
+E        +  where None = <built-in method get of dict object at 0x7fb2426d78c0>('username')
+E        +    where <built-in method get of dict object at 0x7fb2426d78c0> = {}.get
+
+tests/test_final_state.py:47: AssertionError
+==================================== PASSES ====================================
+=========================== short test summary info ============================
+PASSED tests/test_final_state.py::test_connection_and_destination_configuration
+FAILED tests/test_final_state.py::test_source_configuration - AssertionError:...
+========================= 1 failed, 1 passed in 0.74s ==========================

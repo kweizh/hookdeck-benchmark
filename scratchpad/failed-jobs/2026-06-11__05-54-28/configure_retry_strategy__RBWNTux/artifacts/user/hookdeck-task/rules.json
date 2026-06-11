@@ -1,0 +1,11 @@
+[
+  {
+    "type": "retry",
+    "strategy": "linear",
+    "count": 5,
+    "interval": 1000,
+    "response_status_codes": [
+      ">=500"
+    ]
+  }
+]

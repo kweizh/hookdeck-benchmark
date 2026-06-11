@@ -1,0 +1,80 @@
+Skipping image OS validation for hb__connection_deduplicate_rule: docker inspect returned 1
+Running command: apt-get update && apt-get install -y curl ripgrep
+Command outputs captured
+Running command: set -euo pipefail; curl -fsSL https://getpochi.com/install.sh | bash -x -s -- pochi-v0.6.14 && mkdir -p /logs/agent/pochi && ~/.pochi/bin/pochi --version
+Command outputs captured
+Running command: ln -sf ~/.pochi/bin/pochi /usr/local/bin/pochi
+Command outputs captured
+Running command: echo zr-hvenjd5 > /logs/artifacts/run-id && echo connection_deduplicate_rule__hvenjD5 > /logs/artifacts/trial_id
+Command outputs captured
+Running command: mkdir -p ~/.pochi && cat << 'EOF' | sed -e "s/OPENAI_API_KEY/${OPENAI_API_KEY}/g" -e "s/DEEPINFRA_API_KEY/${DEEPINFRA_API_KEY}/g" > ~/.pochi/config.jsonc
+{
+  "providers": {
+    "deepinfra": {
+      "kind": "openai",
+      "baseURL": "https://api.deepinfra.com/v1/openai",
+      "apiKey": "DEEPINFRA_API_KEY",
+      "models": {
+        "zai-org/GLM-4.7-Flash": {
+          "name": "glm-4.7-flash"
+        },
+        "moonshotai/Kimi-K2.6": {
+          "name": "kimi-K2.6"
+        },
+        "deepseek-ai/DeepSeek-V4-Pro": {
+          "name": "DeepSeek-V4-Pro"
+        }
+      }
+    },
+    "openai": {
+      "kind": "openai",
+      "baseURL": "https://api.openai.com/v1",
+      "apiKey": "OPENAI_API_KEY",
+      "models": {
+        "gpt-5.4": {
+          "name": "gpt-5.4"
+        }
+      }
+    }
+  }
+}
+EOF
+Command outputs captured
+Running command: if [ -f /bootstrap/test_initial_state.py ]; then pytest -s --log-cli-level=DEBUG /bootstrap/test_initial_state.py > >(tee /logs/agent/pochi/initial-test-stdout.txt) 2> >(tee /logs/agent/pochi/initial-test-stderr.txt >&2); fi
+Command outputs captured
+Running command: pochi --model anthropic/claude-4-6-sonnet --max-steps 200 --max-retries 10 --blobs-dir /logs/agent/pochi/blobs --experimental-stream-trajectory /logs/agent/pochi/trajectory.jsonl > >(tee /logs/agent/pochi/stdout.txt) 2> >(tee /logs/agent/pochi/stderr.txt >&2) <<'EOF'
+# Set up a Hookdeck Connection with a Deduplicate Rule
+
+## Background
+Hookdeck provides rules to process events before delivery. You need to create a connection that deduplicates incoming events based on a custom time window and specific fields.
+
+## Requirements
+- Create a Hookdeck Source of type `WEBHOOK` named `source-${run-id}`.
+- Create a Hookdeck Destination of type `MOCK_API` named `mock-api-${run-id}`.
+- Create a Connection named `conn-${run-id}` that links the source to the destination.
+- Add a `deduplicate` rule to the connection. The rule must have a window of `600` seconds and include the field `id` in the deduplication logic.
+- Extract the created Connection ID and save it to a log file.
+
+## Implementation Hints
+- Read the current `run-id` from the `ZEALT_RUN_ID` environment variable.
+- You can use the Hookdeck CLI or the Hookdeck REST API to create the resources and apply the rule.
+- Remember that you are in a headless environment, so ensure you authenticate appropriately with Hookdeck using the API key.
+- Write the resulting Connection ID to `/home/user/hookdeck-task/output.log`.
+
+## Acceptance Criteria
+- Project path: /home/user/hookdeck-task
+- Ensure the real connection creation action is executed and the artifact exists.
+- Log file: /home/user/hookdeck-task/output.log
+- The log file must contain the Connection ID in the format: `Connection ID: <connection_id>`.
+- The connection must exist in the Hookdeck workspace.
+- The connection must be named `conn-${run-id}`.
+- The connection must have a deduplicate rule with `window` set to 600 and `include_fields` containing `id`.
+- The source must be named `source-${run-id}` and have type `WEBHOOK`.
+- The destination must be named `mock-api-${run-id}` and have type `MOCK_API`.
+
+
+EOF
+Command outputs captured
+Running command: rm -f ~/.pochi/config.jsonc
+Command outputs captured
+The verifier.env contains an API key (often the case for LLM-based verifiers). You will incur costs associated with the API calls.

@@ -1,0 +1,117 @@
+{
+    "id": "12a08d3b-574c-4ced-8a4c-62b8ce8516ef",
+    "task_name": "create_shopify_source_http_destination",
+    "trial_name": "create_shopify_source_http_desti__5on67rZ",
+    "trial_uri": "file:///home/kweizh/zealt/zealt-agent/jobs/2026-06-11__06-40-46/create_shopify_source_http_desti__5on67rZ",
+    "task_id": {
+        "path": "/home/kweizh/zealt/hookdeck-benchmark/scratchpad/pending-tasks/create_shopify_source_http_destination"
+    },
+    "source": "pending-tasks",
+    "task_checksum": "5b23c0a58d53dba7e555aae9587218f68d1564f6879086ddb9711dadc9699b45",
+    "config": {
+        "task": {
+            "path": "/home/kweizh/zealt/hookdeck-benchmark/scratchpad/pending-tasks/create_shopify_source_http_destination",
+            "git_url": null,
+            "git_commit_id": null,
+            "name": null,
+            "ref": null,
+            "overwrite": false,
+            "download_dir": null,
+            "source": "pending-tasks"
+        },
+        "trial_name": "create_shopify_source_http_desti__5on67rZ",
+        "trials_dir": "jobs/2026-06-11__06-40-46",
+        "timeout_multiplier": 1.0,
+        "agent_timeout_multiplier": null,
+        "verifier_timeout_multiplier": null,
+        "agent_setup_timeout_multiplier": null,
+        "environment_build_timeout_multiplier": null,
+        "agent": {
+            "name": null,
+            "import_path": "agents.pochi:Pochi",
+            "model_name": "deepseek/deepseek-4-pro",
+            "skills": [],
+            "override_timeout_sec": null,
+            "override_setup_timeout_sec": null,
+            "max_timeout_sec": null,
+            "kwargs": {},
+            "env": {},
+            "mcp_servers": []
+        },
+        "environment": {
+            "type": "docker",
+            "import_path": null,
+            "force_build": false,
+            "delete": true,
+            "cpu_enforcement_policy": "auto",
+            "memory_enforcement_policy": "auto",
+            "override_cpus": null,
+            "override_memory_mb": null,
+            "override_storage_mb": null,
+            "override_gpus": null,
+            "suppress_override_warnings": false,
+            "mounts": [
+                {
+                    "type": "bind",
+                    "source": "test_initial_state.py",
+                    "target": "/bootstrap/test_initial_state.py"
+                }
+            ],
+            "extra_docker_compose": [],
+            "env": {},
+            "kwargs": {}
+        },
+        "verifier": {
+            "override_timeout_sec": null,
+            "max_timeout_sec": null,
+            "env": {},
+            "disable": false
+        },
+        "artifacts": [
+            "/home/user"
+        ],
+        "extra_instruction_paths": [],
+        "job_id": "e653f4bd-c092-4529-ac31-b75050c8c44a"
+    },
+    "agent_info": {
+        "name": "pochi",
+        "version": "0.6.14",
+        "model_info": {
+            "name": "deepseek-4-pro",
+            "provider": "deepseek"
+        }
+    },
+    "agent_result": {
+        "n_input_tokens": 0,
+        "n_cache_tokens": 0,
+        "n_output_tokens": 23903,
+        "cost_usd": null,
+        "rollout_details": null,
+        "metadata": null
+    },
+    "verifier_result": {
+        "rewards": {
+            "reward": 1.0
+        }
+    },
+    "exception_info": null,
+    "started_at": "2026-06-11T06:56:15.176106Z",
+    "finished_at": "2026-06-11T07:02:28.224041Z",
+    "environment_setup": {
+        "started_at": "2026-06-11T06:56:15.178602Z",
+        "finished_at": "2026-06-11T06:56:17.808773Z"
+    },
+    "agent_setup": {
+        "started_at": "2026-06-11T06:56:17.808812Z",
+        "finished_at": "2026-06-11T06:56:31.181696Z"
+    },
+    "agent_execution": {
+        "started_at": "2026-06-11T06:56:31.181797Z",
+        "finished_at": "2026-06-11T07:02:13.974340Z"
+    },
+    "verifier": {
+        "started_at": "2026-06-11T07:02:15.311159Z",
+        "finished_at": "2026-06-11T07:02:16.515868Z"
+    },
+    "step_results": null
+}

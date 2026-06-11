@@ -1,0 +1,61 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-7.4.4, pluggy-1.4.0
+rootdir: /tests
+plugins: json-ctrf-0.5.2
+collected 1 item
+
+tests/test_final_state.py F                                              [100%]
+
+=================================== FAILURES ===================================
+___________________ test_transformation_drops_missing_field ____________________
+
+run_id = 'zr-xumvtkg'
+api_key = 'REDACTED'
+source_id = 'src_n8s8uvlmwo305x'
+
+    def test_transformation_drops_missing_field(run_id, api_key, source_id):
+        """Publish events and verify the transformation drops the one missing the required field."""
+    
+        publish_url = "https://hkdk.events/v1/publish"
+        headers = {
+            "Authorization": f"Bearer {api_key}",
+            "X-Hookdeck-Source-Name": f"source-{run_id}",
+            "Content-Type": "application/json"
+        }
+    
+        # 1. Publish event WITHOUT required_field
+        payload_missing = {"other_field": "value"}
+        resp_missing = requests.post(publish_url, headers=headers, json=payload_missing)
+        assert resp_missing.status_code == 200, f"Failed to publish event missing required field: {resp_missing.text}"
+    
+        # 2. Publish event WITH required_field
+        payload_present = {"required_field": "value"}
+        resp_present = requests.post(publish_url, headers=headers, json=payload_present)
+        assert resp_present.status_code == 200, f"Failed to publish event with required field: {resp_present.text}"
+    
+        # Sleep to allow Hookdeck to process the events
+        time.sleep(5)
+    
+        # 3. Retrieve requests for the source
+        requests_url = f"https://api.hookdeck.com/2025-07-01/requests?source_id={source_id}"
+        req_headers = {
+            "Authorization": f"Bearer {api_key}"
+        }
+    
+        resp_requests = requests.get(requests_url, headers=req_headers)
+        assert resp_requests.status_code == 200, f"Failed to retrieve requests: {resp_requests.text}"
+    
+        data = resp_requests.json()
+        models = data.get("models", [])
+    
+        # We expect at least 2 requests (the ones we just sent)
+        # Find the one with other_field
+        req_missing = next((r for r in models if r.get("data", {}).get("body", {}).get("body", {}).get("other_field") == "value"), None)
+>       assert req_missing is not None, "Could not find the request missing 'required_field' in Hookdeck"
+E       AssertionError: Could not find the request missing 'required_field' in Hookdeck
+E       assert None is not None
+
+tests/test_final_state.py:70: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_final_state.py::test_transformation_drops_missing_field - A...
+============================== 1 failed in 6.00s ===============================

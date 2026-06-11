@@ -1,0 +1,78 @@
+Skipping image OS validation for hb__drop_missing_field_transformation: docker inspect returned 1
+Running command: apt-get update && apt-get install -y curl ripgrep
+Command outputs captured
+Running command: set -euo pipefail; curl -fsSL https://getpochi.com/install.sh | bash -x -s -- pochi-v0.6.14 && mkdir -p /logs/agent/pochi && ~/.pochi/bin/pochi --version
+Command outputs captured
+Running command: ln -sf ~/.pochi/bin/pochi /usr/local/bin/pochi
+Command outputs captured
+Running command: echo zr-8jslvjl > /logs/artifacts/run-id && echo drop_missing_field_transformatio__8JSLVjL > /logs/artifacts/trial_id
+Command outputs captured
+Running command: mkdir -p ~/.pochi && cat << 'EOF' | sed -e "s/OPENAI_API_KEY/${OPENAI_API_KEY}/g" -e "s/DEEPINFRA_API_KEY/${DEEPINFRA_API_KEY}/g" > ~/.pochi/config.jsonc
+{
+  "providers": {
+    "deepinfra": {
+      "kind": "openai",
+      "baseURL": "https://api.deepinfra.com/v1/openai",
+      "apiKey": "DEEPINFRA_API_KEY",
+      "models": {
+        "zai-org/GLM-4.7-Flash": {
+          "name": "glm-4.7-flash"
+        },
+        "moonshotai/Kimi-K2.6": {
+          "name": "kimi-K2.6"
+        },
+        "deepseek-ai/DeepSeek-V4-Pro": {
+          "name": "DeepSeek-V4-Pro"
+        }
+      }
+    },
+    "openai": {
+      "kind": "openai",
+      "baseURL": "https://api.openai.com/v1",
+      "apiKey": "OPENAI_API_KEY",
+      "models": {
+        "gpt-5.4": {
+          "name": "gpt-5.4"
+        }
+      }
+    }
+  }
+}
+EOF
+Command outputs captured
+Running command: if [ -f /bootstrap/test_initial_state.py ]; then pytest -s --log-cli-level=DEBUG /bootstrap/test_initial_state.py > >(tee /logs/agent/pochi/initial-test-stdout.txt) 2> >(tee /logs/agent/pochi/initial-test-stderr.txt >&2); fi
+Command outputs captured
+Running command: pochi --model deepseek/deepseek-4-pro --max-steps 200 --max-retries 10 --blobs-dir /logs/agent/pochi/blobs --experimental-stream-trajectory /logs/agent/pochi/trajectory.jsonl > >(tee /logs/agent/pochi/stdout.txt) 2> >(tee /logs/agent/pochi/stderr.txt >&2) <<'EOF'
+# Drop Request on Missing Field Transformation
+
+## Background
+Create a Hookdeck transformation that validates incoming webhooks. If a specific required field is missing, the transformation should intentionally fail, dropping the request and preventing it from being forwarded.
+
+## Requirements
+- Create a Hookdeck Source named `source-${run-id}` of type `WEBHOOK`.
+- Create a Hookdeck Destination named `dest-${run-id}` of type `MOCK_API`.
+- Create a Connection named `conn-${run-id}` linking the source and destination.
+- Create a Transformation named `drop-missing-field-${run-id}` and attach it to the connection.
+- The transformation must inspect the JSON payload. If the field `required_field` is missing or undefined in the request body, the transformation must throw an error to drop the request.
+- If `required_field` is present, the transformation must allow the request to pass unmodified.
+
+## Implementation Hints
+- Read the current `run-id` from the `ZEALT_RUN_ID` environment variable.
+- You can use the Hookdeck CLI or API to create the Source, Destination, Connection, and Transformation.
+- In Hookdeck transformations, throwing a JavaScript `Error` results in a `FATAL` execution, which causes the request to be ignored (dropped) instead of being forwarded as an event.
+- Write the resulting Source ID to a log file so it can be used for verification.
+
+## Acceptance Criteria
+- Project path: `/home/user/hookdeck-task`
+- Ensure the real action is executed and the artifacts exist.
+- Log file: `/home/user/hookdeck-task/output.log`
+- The log file must contain the Source ID in the format: `Source ID: <source_id>`
+- A Source, Destination, Connection, and Transformation with the `${run-id}` suffix must be created in the Hookdeck workspace.
+- The Transformation must correctly drop requests missing `required_field` and allow requests containing `required_field`.
+
+
+EOF
+Command outputs captured
+Running command: rm -f ~/.pochi/config.jsonc
+Command outputs captured
+The verifier.env contains an API key (often the case for LLM-based verifiers). You will incur costs associated with the API calls.

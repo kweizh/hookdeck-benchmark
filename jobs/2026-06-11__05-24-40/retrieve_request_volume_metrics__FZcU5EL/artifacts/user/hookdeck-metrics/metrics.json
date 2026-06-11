@@ -1,0 +1,1 @@
+{"data":[{"time_bucket":null,"dimensions":{},"metrics":{"count":99}}],"metadata":{"granularity":null,"query_time_ms":21,"row_count":1,"row_limit":1000000,"truncated":false}}
