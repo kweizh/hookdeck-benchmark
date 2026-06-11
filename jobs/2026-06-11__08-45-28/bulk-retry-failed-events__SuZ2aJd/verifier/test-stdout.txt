@@ -1,0 +1,16 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-7.4.4, pluggy-1.4.0
+rootdir: /tests
+plugins: json-ctrf-0.5.2
+collected 5 items
+
+tests/test_final_state.py .....                                          [100%]
+
+==================================== PASSES ====================================
+=========================== short test summary info ============================
+PASSED tests/test_final_state.py::test_output_log_contains_connection_id
+PASSED tests/test_final_state.py::test_logged_connection_matches_seed_name
+PASSED tests/test_final_state.py::test_no_failed_events_remain
+PASSED tests/test_final_state.py::test_at_least_one_event_succeeded_after_retry
+PASSED tests/test_final_state.py::test_latest_attempt_was_triggered_by_bulk_or_manual_retry
+============================== 5 passed in 2.11s ===============================

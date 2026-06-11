@@ -1,0 +1,86 @@
+{
+    "reportFormat": "CTRF",
+    "specVersion": "0.0.0",
+    "timestamp": "2026-06-11T08:40:38.552020+00:00",
+    "generatedBy": "pytest",
+    "results": {
+        "tool": {
+            "name": "pytest",
+            "version": "7.4.4"
+        },
+        "summary": {
+            "tests": 6,
+            "passed": 5,
+            "failed": 1,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1781167237037,
+            "stop": 1781167238551
+        },
+        "environment": {
+            "buildName": "Pytest JSON CTRF Report",
+            "buildNumber": "000",
+            "buildUrl": "https://ctrf.io"
+        },
+        "tests": [
+            {
+                "name": "test_final_state.py::test_log_file_contains_required_fields",
+                "status": "passed",
+                "duration": 2,
+                "start": 1781167237231,
+                "stop": 1781167237233,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_transformation_env_and_code",
+                "status": "passed",
+                "duration": 221,
+                "start": 1781167237233,
+                "stop": 1781167237454,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_connection_wiring",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 208,
+                "start": 1781167237455,
+                "stop": 1781167237663,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "env_state = {'api_key': 'REDACTED', 'log': {'connection_id': 'web_ozXePKsJkOKm', 'destin...r-2bsrjf8', 'expected_secret': 's3cr3t-zr-2bsrjf8', 'source_name': 'hmac-src-zr-2bsrjf8', ...}, 'run_id': 'zr-2bsrjf8'}\nconnection = {'created_at': '2026-06-11T08:39:16.481Z', 'description': None, 'destination': {'config': {'auth': {}, 'auth_type': 'H....}, 'created_at': '2026-06-11T08:37:39.123Z', 'description': None, 'disabled_at': None, ...}, 'disabled_at': None, ...}\ntransformation = {'code': '\\nvar module = { exports: {} };\\n(function () {\\n  \\'use strict\\';\\n  var ERROR = \\'input is invalid type\\';..., 'created_at': '2026-06-11T08:37:39.243Z', 'env': {'MY_SECRET': 's3cr3t-zr-2bsrjf8'}, 'id': 'trs_vlTOVOxjBzPn7r', ...}\n\n    def test_connection_wiring(env_state, connection, transformation):\n        names = env_state[\"names\"]\n        assert connection.get(\"name\") == names[\"connection_name\"], (\n            f\"Expected connection name '{names['connection_name']}', got '{connection.get('name')}'.\"\n        )\n        source = connection.get(\"source\") or {}\n        destination = connection.get(\"destination\") or {}\n        assert source.get(\"name\") == names[\"source_name\"], (\n            f\"Connection source name mismatch: expected '{names['source_name']}', got '{source.get('name')}'.\"\n        )\n        assert source.get(\"type\") == \"WEBHOOK\", (\n            f\"Connection source type must be 'WEBHOOK', got '{source.get('type')}'.\"\n        )\n        assert destination.get(\"name\") == names[\"destination_name\"], (\n            f\"Connection destination name mismatch: expected '{names['destination_name']}', got '{destination.get('name')}'.\"\n        )\n        dtype = destination.get(\"type\")\n        dcfg = destination.get(\"config\") or {}\n        durl = dcfg.get(\"url\") or \"\"\n        assert dtype == \"MOCK_API\" or (\n            dtype == \"HTTP\" and isinstance(durl, str) and durl.startswith(\"https://mock.hookdeck.com/\")\n        ), (\n            f\"Destination must be MOCK_API or HTTP pointing at https://mock.hookdeck.com/...; \"\n            f\"got type='{dtype}' url='{durl}'.\"\n        )\n        rules = connection.get(\"rules\") or []\n        trf_rule_ids = [\n            r.get(\"transformation_id\") for r in rules if r.get(\"type\") == \"transformation\"\n        ]\n>       assert transformation.get(\"id\") in trf_rule_ids, (\n            f\"Connection rules do not reference transformation_id='{transformation.get('id')}'. \"\n            f\"Found transformation rules: {trf_rule_ids}\"\n        )\nE       AssertionError: Connection rules do not reference transformation_id='trs_vlTOVOxjBzPn7r'. Found transformation rules: []\nE       assert 'trs_vlTOVOxjBzPn7r' in []\nE        +  where 'trs_vlTOVOxjBzPn7r' = <built-in method get of dict object at 0x7fa8b760ab00>('id')\nE        +    where <built-in method get of dict object at 0x7fa8b760ab00> = {'code': '\\nvar module = { exports: {} };\\n(function () {\\n  \\'use strict\\';\\n  var ERROR = \\'input is invalid type\\';..., 'created_at': '2026-06-11T08:37:39.243Z', 'env': {'MY_SECRET': 's3cr3t-zr-2bsrjf8'}, 'id': 'trs_vlTOVOxjBzPn7r', ...}.get\n\ntests/test_final_state.py:267: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            },
+            {
+                "name": "test_final_state.py::test_secret_not_leaked_in_non_transformation_resources",
+                "status": "passed",
+                "duration": 0,
+                "start": 1781167237664,
+                "stop": 1781167237664,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_signature_header_matches_recomputed_hmac",
+                "status": "passed",
+                "duration": 884,
+                "start": 1781167237665,
+                "stop": 1781167238549,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_signed_at_header_is_fresh_iso",
+                "status": "passed",
+                "duration": 1,
+                "start": 1781167238550,
+                "stop": 1781167238551,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            }
+        ]
+    }
+}

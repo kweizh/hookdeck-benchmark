@@ -1,0 +1,12 @@
+Source Name: bulk-source-zr-ytw68jk
+Destination Name: bulk-dest-zr-ytw68jk
+Published Count: 100
+Batch ID: BATCH-001
+Connection ID: web_fUK41qqUNyvp
+Source ID: src_6nk7lgu564g9mm
+Destination ID: des_rmQSnWHdzaau
+Requests Ingested: 100
+Events Successful: 100
+Requests With Batch Header: 100
+Unique Body i-Values: 100
+Body Coverage Complete: True

@@ -1,0 +1,86 @@
+{
+    "reportFormat": "CTRF",
+    "specVersion": "0.0.0",
+    "timestamp": "2026-06-11T09:37:52.909765+00:00",
+    "generatedBy": "pytest",
+    "results": {
+        "tool": {
+            "name": "pytest",
+            "version": "7.4.4"
+        },
+        "summary": {
+            "tests": 6,
+            "passed": 5,
+            "failed": 1,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1781170671139,
+            "stop": 1781170672909
+        },
+        "environment": {
+            "buildName": "Pytest JSON CTRF Report",
+            "buildNumber": "000",
+            "buildUrl": "https://ctrf.io"
+        },
+        "tests": [
+            {
+                "name": "test_final_state.py::test_query_script_exists",
+                "status": "passed",
+                "duration": 2,
+                "start": 1781170671293,
+                "stop": 1781170671295,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_query_script_uses_server_side_operators",
+                "status": "passed",
+                "duration": 1,
+                "start": 1781170671295,
+                "stop": 1781170671296,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_window_output_schema",
+                "status": "passed",
+                "duration": 1,
+                "start": 1781170671296,
+                "stop": 1781170671297,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_seed_expectation_matches_live_server",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 257,
+                "start": 1781170671298,
+                "stop": 1781170671555,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "seed = {'all_event_ids': ['evt_38uVZSNyt1eAUdTlQK', 'evt_X6Xc5VzSYsupYvAm9p', 'evt_Ab3h28mTQatQ4FnslT', 'evt_RYnBnR48mVZ9vXRL...iIuqWPOmdZP4EEfy', 'evt_X0KokEJWeiRU0tB3it'], 'source_id': 'src_hw8c8lktjxwqqy', 'source_name': 'qwin-zr-itptk2t', ...}\n\n    def test_seed_expectation_matches_live_server(seed: dict):\n        \"\"\"Independently issue the same server-side query and confirm the seed expectation is still authoritative.\"\"\"\n        server_events = _list_events(seed[\"source_id\"], seed[\"window_start\"], seed[\"window_end\"])\n        server_ids = sorted(e[\"id\"] for e in server_events)\n        expected_ids = sorted(seed[\"expected_ids\"])\n>       assert server_ids == expected_ids, (\n            \"Server-side query returned a different set of event IDs than the seed recorded.\\n\"\n            f\"Server: {server_ids}\\nSeed:   {expected_ids}\"\n        )\nE       AssertionError: Server-side query returned a different set of event IDs than the seed recorded.\nE         Server: ['evt_DHt0tA2oWEsDl2pX6F', 'evt_FEOAffDuKT1zmZHNrD', 'evt_G5iIuqWPOmdZP4EEfy', 'evt_QbI5e74E1lB7y4wB4p']\nE         Seed:   ['evt_DHt0tA2oWEsDl2pX6F', 'evt_FEOAffDuKT1zmZHNrD', 'evt_G5iIuqWPOmdZP4EEfy', 'evt_QbI5e74E1lB7y4wB4p', 'evt_X0KokEJWeiRU0tB3it']\nE       assert ['evt_DHt0tA2...4E1lB7y4wB4p'] == ['evt_DHt0tA2...JWeiRU0tB3it']\nE         Right contains one more item: 'evt_X0KokEJWeiRU0tB3it'\nE         Use -v to get more diff\n\ntests/test_final_state.py:121: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            },
+            {
+                "name": "test_final_state.py::test_window_output_matches_server_side_query",
+                "status": "passed",
+                "duration": 276,
+                "start": 1781170671556,
+                "stop": 1781170671832,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_no_events_outside_window",
+                "status": "passed",
+                "duration": 1076,
+                "start": 1781170671833,
+                "stop": 1781170672909,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            }
+        ]
+    }
+}

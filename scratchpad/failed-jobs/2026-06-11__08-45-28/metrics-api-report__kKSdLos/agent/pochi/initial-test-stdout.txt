@@ -1,0 +1,151 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-7.4.4, pluggy-1.4.0
+rootdir: /bootstrap
+plugins: json-ctrf-0.5.2
+collected 9 items
+
+bootstrap/test_initial_state.py::test_requests_library_available PASSED
+bootstrap/test_initial_state.py::test_hookdeck_api_key_env_var_set PASSED
+bootstrap/test_initial_state.py::test_zealt_run_id_env_var_set PASSED
+bootstrap/test_initial_state.py::test_project_directory_exists PASSED
+bootstrap/test_initial_state.py::test_workspace_directory_exists PASSED
+bootstrap/test_initial_state.py::test_hookdeck_api_reachable 
+-------------------------------- live log call ---------------------------------
+DEBUG    urllib3.connectionpool:connectionpool.py:1062 Starting new HTTPS connection (1): api.hookdeck.com:443
+DEBUG    urllib3.connectionpool:connectionpool.py:544 https://api.hookdeck.com:443 "GET /2025-07-01/sources?limit=1 HTTP/1.1" 200 None
+PASSED
+bootstrap/test_initial_state.py::test_provision_hookdeck_resources_and_seed_metrics 
+-------------------------------- live log call ---------------------------------
+DEBUG    urllib3.connectionpool:connectionpool.py:1062 Starting new HTTPS connection (1): api.hookdeck.com:443
+DEBUG    urllib3.connectionpool:connectionpool.py:544 https://api.hookdeck.com:443 "PUT /2025-07-01/sources HTTP/1.1" 200 None
+DEBUG    urllib3.connectionpool:connectionpool.py:1062 Starting new HTTPS connection (1): api.hookdeck.com:443
+DEBUG    urllib3.connectionpool:connectionpool.py:544 https://api.hookdeck.com:443 "PUT /2025-07-01/destinations HTTP/1.1" 200 None
+DEBUG    urllib3.connectionpool:connectionpool.py:1062 Starting new HTTPS connection (1): api.hookdeck.com:443
+DEBUG    urllib3.connectionpool:connectionpool.py:544 https://api.hookdeck.com:443 "PUT /2025-07-01/transformations HTTP/1.1" 200 None
+DEBUG    urllib3.connectionpool:connectionpool.py:1062 Starting new HTTPS connection (1): api.hookdeck.com:443
+DEBUG    urllib3.connectionpool:connectionpool.py:544 https://api.hookdeck.com:443 "PUT /2025-07-01/connections HTTP/1.1" 422 154
+FAILED
+bootstrap/test_initial_state.py::test_resource_ids_file_was_written FAILED
+bootstrap/test_initial_state.py::test_seed_event_count_file_was_written FAILED
+
+=================================== FAILURES ===================================
+______________ test_provision_hookdeck_resources_and_seed_metrics ______________
+
+    def test_provision_hookdeck_resources_and_seed_metrics():
+        """Provision per-run Hookdeck resources and pre-seed traffic.
+    
+        The function is idempotent: PUT-based upserts mean retrying the initial
+        state will reuse existing resources for the same run-id rather than
+        duplicating them.
+        """
+        run_id = _run_id()
+        src_name = f"metrics-src-{run_id}"
+        dst_name = f"metrics-dst-{run_id}"
+        conn_name = f"metrics-conn-{run_id}"
+        trf_name = f"metrics-trf-{run_id}"
+    
+        # 1. Upsert source.
+        source = _put_json(
+            f"{API_BASE}/sources",
+            {"name": src_name, "type": "WEBHOOK"},
+        )
+        source_id = source["id"]
+        source_url = source.get("url")
+        assert source_url, f"Source response missing url field: {source}"
+    
+        # 2. Upsert mock destination.
+        destination = _put_json(
+            f"{API_BASE}/destinations",
+            {
+                "name": dst_name,
+                "type": "HTTP",
+                "config": {"url": "https://mock.hookdeck.com/metrics-test"},
+            },
+        )
+        destination_id = destination["id"]
+    
+        # 3. Upsert a JS transformation so the transformations metric reports data.
+        transformation_code = (
+            "addHandler('transform', (request, context) => {\n"
+            "  request.headers['x-zealt-metrics-test'] = 'true';\n"
+            "  return request;\n"
+            "});\n"
+        )
+        transformation = _put_json(
+            f"{API_BASE}/transformations",
+            {"name": trf_name, "code": transformation_code},
+        )
+        transformation_id = transformation["id"]
+    
+        # 4. Upsert the connection wiring source -> transform -> destination.
+>       connection = _put_json(
+            f"{API_BASE}/connections",
+            {
+                "name": conn_name,
+                "source": {"id": source_id},
+                "destination": {"id": destination_id},
+                "rules": [
+                    {
+                        "type": "transform",
+                        "transformation": {"id": transformation_id},
+                    }
+                ],
+            },
+        )
+
+bootstrap/test_initial_state.py:146: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+url = 'https://api.hookdeck.com/2025-07-01/connections'
+payload = {'destination': {'id': 'des_FOG4kpKgJeQP'}, 'name': 'metrics-conn-zr-kksdlos', 'rules': [{'transformation': {'id': 'trs_66aX3bhzo64MOh'}, 'type': 'transform'}], 'source': {'id': 'src_z7kko03h1nyym1'}}
+
+    def _put_json(url: str, payload: dict) -> dict:
+        resp = requests.put(url, headers=_auth_headers(), json=payload, timeout=60)
+>       assert resp.status_code in (200, 201), (
+            f"PUT {url} failed with {resp.status_code}: {resp.text[:500]}"
+        )
+E       AssertionError: PUT https://api.hookdeck.com/2025-07-01/connections failed with 422: {"level":"info","handled":true,"report":true,"data":["destination.name is required","source.name is required"],"status":422,"code":"UNPROCESSABLE_ENTITY"}
+E       assert 422 in (200, 201)
+E        +  where 422 = <Response [422]>.status_code
+
+bootstrap/test_initial_state.py:93: AssertionError
+------------------------------ Captured log call -------------------------------
+DEBUG    urllib3.connectionpool:connectionpool.py:1062 Starting new HTTPS connection (1): api.hookdeck.com:443
+DEBUG    urllib3.connectionpool:connectionpool.py:544 https://api.hookdeck.com:443 "PUT /2025-07-01/sources HTTP/1.1" 200 None
+DEBUG    urllib3.connectionpool:connectionpool.py:1062 Starting new HTTPS connection (1): api.hookdeck.com:443
+DEBUG    urllib3.connectionpool:connectionpool.py:544 https://api.hookdeck.com:443 "PUT /2025-07-01/destinations HTTP/1.1" 200 None
+DEBUG    urllib3.connectionpool:connectionpool.py:1062 Starting new HTTPS connection (1): api.hookdeck.com:443
+DEBUG    urllib3.connectionpool:connectionpool.py:544 https://api.hookdeck.com:443 "PUT /2025-07-01/transformations HTTP/1.1" 200 None
+DEBUG    urllib3.connectionpool:connectionpool.py:1062 Starting new HTTPS connection (1): api.hookdeck.com:443
+DEBUG    urllib3.connectionpool:connectionpool.py:544 https://api.hookdeck.com:443 "PUT /2025-07-01/connections HTTP/1.1" 422 154
+______________________ test_resource_ids_file_was_written ______________________
+
+    def test_resource_ids_file_was_written():
+>       assert os.path.isfile(RESOURCE_IDS_PATH), (
+            f"{RESOURCE_IDS_PATH} must exist after provisioning Hookdeck resources."
+        )
+E       AssertionError: /workspace/resource_ids.json must exist after provisioning Hookdeck resources.
+E       assert False
+E        +  where False = <function isfile at 0x7fd365824220>('/workspace/resource_ids.json')
+E        +    where <function isfile at 0x7fd365824220> = <module 'posixpath' (frozen)>.isfile
+E        +      where <module 'posixpath' (frozen)> = os.path
+
+bootstrap/test_initial_state.py:209: AssertionError
+____________________ test_seed_event_count_file_was_written ____________________
+
+    def test_seed_event_count_file_was_written():
+>       assert os.path.isfile(SEED_COUNT_PATH), (
+            f"{SEED_COUNT_PATH} must record how many events were seeded."
+        )
+E       AssertionError: /workspace/seed_event_count.txt must record how many events were seeded.
+E       assert False
+E        +  where False = <function isfile at 0x7fd365824220>('/workspace/seed_event_count.txt')
+E        +    where <function isfile at 0x7fd365824220> = <module 'posixpath' (frozen)>.isfile
+E        +      where <module 'posixpath' (frozen)> = os.path
+
+bootstrap/test_initial_state.py:221: AssertionError
+=========================== short test summary info ============================
+FAILED bootstrap/test_initial_state.py::test_provision_hookdeck_resources_and_seed_metrics
+FAILED bootstrap/test_initial_state.py::test_resource_ids_file_was_written - ...
+FAILED bootstrap/test_initial_state.py::test_seed_event_count_file_was_written
+========================= 3 failed, 6 passed in 2.51s ==========================

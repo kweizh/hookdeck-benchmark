@@ -1,0 +1,66 @@
+{
+    "id": "24c51515-4b76-47e8-b594-7e42b777b963",
+    "started_at": "2026-06-11T08:45:31.051710",
+    "updated_at": "2026-06-11T09:07:39.252316",
+    "finished_at": "2026-06-11T09:07:39.252316",
+    "n_total_trials": 20,
+    "stats": {
+        "n_completed_trials": 20,
+        "n_errored_trials": 3,
+        "n_running_trials": 0,
+        "n_pending_trials": 0,
+        "n_cancelled_trials": 0,
+        "n_retries": 0,
+        "evals": {
+            "pochi__claude-4-6-sonnet__pending-tasks": {
+                "n_trials": 18,
+                "n_errors": 3,
+                "metrics": [
+                    {
+                        "mean": 0.4
+                    }
+                ],
+                "pass_at_k": {},
+                "reward_stats": {
+                    "reward": {
+                        "1.0": [
+                            "filter-plus-transform-chain__C99ZCjC",
+                            "retry-strategy-5xx-only__YboiAUp",
+                            "delay-rule-deferred-delivery__Z35YVQo",
+                            "destination-rate-limit-per-minut__QogZrbr",
+                            "shopify-source-hmac-verification__tk6WW2q",
+                            "poll-event-delivery-status__kJxcJ5e",
+                            "stripe-filter-charge-succeeded__eLJNUn8",
+                            "bulk-retry-failed-events__SuZ2aJd"
+                        ],
+                        "0.0": [
+                            "fanout-two-destinations-rate-lim__WWa9KqX",
+                            "query-operators-time-window__7Tvxugj",
+                            "transformation-flatten-rename-he__dcmbEUq",
+                            "deduplication-rule-window__9buVzFz",
+                            "source-basic-auth-custom-respons__emuSas4",
+                            "cli-listen-replay-via-api__TzPTfEW",
+                            "transformation-drop-invalid__rxqz5zV",
+                            "source-custom-response-xml__J6n5aRP",
+                            "transformation-hmac-env-secret__VcZp85T",
+                            "publish-api-bulk-100__Ytw68jk"
+                        ]
+                    }
+                },
+                "exception_stats": {
+                    "InitialStateError": [
+                        "metrics-api-report__kKSdLos",
+                        "pagination-cursor-iterator__u93QQqB"
+                    ],
+                    "AgentTimeoutError": [
+                        "cli-listen-replay-via-api__TzPTfEW"
+                    ]
+                }
+            }
+        },
+        "n_input_tokens": 0,
+        "n_cache_tokens": 0,
+        "n_output_tokens": 612904,
+        "cost_usd": null
+    }
+}

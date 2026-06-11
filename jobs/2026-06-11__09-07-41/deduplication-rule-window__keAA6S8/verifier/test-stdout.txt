@@ -1,0 +1,16 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-7.4.4, pluggy-1.4.0
+rootdir: /tests
+plugins: json-ctrf-0.5.2
+collected 5 items
+
+tests/test_final_state.py .....                                          [100%]
+
+==================================== PASSES ====================================
+=========================== short test summary info ============================
+PASSED tests/test_final_state.py::test_log_file_records_resource_ids
+PASSED tests/test_final_state.py::test_connection_uses_run_id_named_resources_and_mock_destination
+PASSED tests/test_final_state.py::test_connection_has_single_deduplicate_rule_with_300s_window_on_id_and_type
+PASSED tests/test_final_state.py::test_exactly_three_successful_events_delivered_through_connection
+PASSED tests/test_final_state.py::test_duplicate_requests_were_ignored_by_deduplication
+============================== 5 passed in 1.29s ===============================

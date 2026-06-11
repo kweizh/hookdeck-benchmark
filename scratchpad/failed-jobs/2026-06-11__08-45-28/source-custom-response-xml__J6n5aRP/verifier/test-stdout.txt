@@ -1,0 +1,91 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-7.4.4, pluggy-1.4.0
+rootdir: /tests
+plugins: json-ctrf-0.5.2
+collected 5 items
+
+tests/test_final_state.py ....F                                          [100%]
+
+=================================== FAILURES ===================================
+________ test_source_returns_configured_xml_response_and_delivers_event ________
+
+connection = {'created_at': '2026-06-11T08:56:43.952Z', 'description': None, 'destination': {'config': {'auth': {}, 'auth_type': 'H....}, 'created_at': '2026-06-11T08:56:34.804Z', 'description': None, 'disabled_at': None, ...}, 'disabled_at': None, ...}
+parsed_log = {'connection_id': 'web_3vWJPr7IDWfw', 'source_url': 'https://hkdk.events/17zecodvn6id9n'}
+
+    def test_source_returns_configured_xml_response_and_delivers_event(connection, parsed_log):
+        source_url = parsed_log["source_url"]
+        connection_id = parsed_log["connection_id"]
+        destination_id = (connection.get("destination") or {}).get("id")
+        source_id = (connection.get("source") or {}).get("id")
+        assert destination_id and source_id, (
+            "Connection is missing source.id or destination.id."
+        )
+    
+        marker = f"probe-{_run_id()}-{uuid.uuid4().hex[:8]}"
+        payload = {
+            "probe": marker,
+            "sent_at": datetime.now(timezone.utc).isoformat(),
+        }
+    
+        # Step 1: POST to source URL and validate the synchronous XML response.
+        resp = requests.post(
+            source_url,
+            json=payload,
+            timeout=30,
+        )
+        assert resp.status_code == 200, (
+            f"POST {source_url} returned {resp.status_code}: {resp.text}"
+        )
+        content_type = resp.headers.get("Content-Type", "")
+        assert "xml" in content_type.lower(), (
+            "Response Content-Type must indicate XML (contain the substring "
+            f"'xml'); got {content_type!r}."
+        )
+        assert resp.text.strip() == EXPECTED_BODY, (
+            f"Response body must equal {EXPECTED_BODY!r}; got {resp.text!r}."
+        )
+    
+        # Step 2: Poll the Inspect API and confirm the event was delivered to the
+        # mock destination. We locate the request by probe payload, then find the
+        # corresponding event.
+        deadline = time.time() + 90
+        matching_request_id = None
+        while time.time() < deadline and matching_request_id is None:
+            list_resp = requests.get(
+                f"{API_BASE}/requests",
+                headers=_auth_headers(),
+                params={
+                    "source_id": source_id,
+                    "order_by": "created_at",
+                    "dir": "desc",
+                    "limit": 50,
+                },
+                timeout=30,
+            )
+            assert list_resp.status_code == 200, (
+                f"GET /requests failed: {list_resp.status_code} {list_resp.text}"
+            )
+            for req in list_resp.json().get("models", []):
+                body = (((req.get("data") or {}).get("body") or {}).get("body")) or {}
+                if isinstance(body, dict) and body.get("probe") == marker:
+                    matching_request_id = req.get("id")
+                    break
+            if matching_request_id is None:
+                time.sleep(3)
+    
+>       assert matching_request_id, (
+            f"No Hookdeck request found whose body.probe matches {marker!r} on "
+            f"source {source_id} within the polling window."
+        )
+E       AssertionError: No Hookdeck request found whose body.probe matches 'probe-zr-j6n5arp-fd314c17' on source src_17zecodvn6id9n within the polling window.
+E       assert None
+
+tests/test_final_state.py:225: AssertionError
+==================================== PASSES ====================================
+=========================== short test summary info ============================
+PASSED tests/test_final_state.py::test_log_file_has_required_fields
+PASSED tests/test_final_state.py::test_connection_name_and_active
+PASSED tests/test_final_state.py::test_source_custom_response_configured
+PASSED tests/test_final_state.py::test_destination_is_mock_api
+FAILED tests/test_final_state.py::test_source_returns_configured_xml_response_and_delivers_event
+==================== 1 failed, 4 passed in 93.82s (0:01:33) ====================

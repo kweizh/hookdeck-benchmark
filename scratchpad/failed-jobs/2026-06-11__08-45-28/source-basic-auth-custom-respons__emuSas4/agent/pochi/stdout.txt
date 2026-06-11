@@ -1,0 +1,132 @@
+- Initializing MCP connections...
+You
+# Secure Hookdeck Source with Basic Auth and Custom JSON Response ## Background You are protecting a public webhook endpoint with Hookdeck. The endpoint must reject anonymous traffic, accept only requests authenticated with HTTP Basic Auth, and answer authorized callers with a tailored JSON payload that downstream callers depend on. Events received from authorized callers must be queued for delivery to a Mock API destination. ## Requirements * Create a Hookdeck Source of type `WEBHOOK`. * Configure the source so that incoming requests must authenticate with HTTP Basic Auth using username `eval-user` and password `eval-pass`. * Configure a custom response on the source: the response `content_type` must be `json` and the response body must equal `{"ok": true, "id": "abc"}`. * Create a Mock API destination and link it to the source via a connection so authorized events are routed to the mock. * Persist the created source identifier and source URL to `/home/user/hookdeck-project/source.json` so the verifier can probe the live endpoint. ## Implementation Hints * The Hookdeck CLI may not expose every source configuration field; the REST API at `https://api.hookdeck.com/2025-07-01/sources` is authoritative for `config.auth_type`, `config.auth`, and `config.custom_response`. * Read the current `run-id` from the `ZEALT_RUN_ID` environment variable and append it to every resource name to keep concurrent runs isolated. * The Hookdeck source `url` field returned from the API is the public ingest URL clients must call. * The Hookdeck API key is provided in the `HOOKDECK_API_KEY` environment variable. ## Acceptance Criteria * Project path: /home/user/hookdeck-project * Ensure the real Hookdeck resources (source, destination, connection) are created in the workspace. * All resource names must be suffixed with the value of `ZEALT_RUN_ID` (referred to as `${run-id}`). * The source `config.auth_type` must be exactly `BASIC_AUTH` with the specified username and password. * The source `config.custom_response.content_type` must be `json` and `config.custom_response.body` must encode the exact JSON object `{"ok": true, "id": "abc"}`. * The destination must be of type `MOCK_API` (or a Hookdeck destination whose behavior is functionally a mock API). * A connection must link the source to the mock destination. * Log file: /home/user/hookdeck-project/source.json * The log file must contain valid JSON with at least the fields `source_id` and `source_url` populated from the created source. * The live source URL must respond with HTTP 200 and the configured custom JSON body when called with the correct Basic Auth credentials, and must reject calls with wrong credentials.   
+
+Pochi
+💭 Thinking for 461 characters   
+📋 Updating todo list (6 items) ✔ 
+💫 Executing echo "HOOKDECK_API_KEY=${HOOKDECK_API_KEY}" && echo "ZEALT_RUN_ID=${ZEALT_RUN_ID}" ✔ 
+📋 Updating todo list (6 items) ✔ 
+💫 Executing mkdir -p /home/user/hookdeck-project && echo "Directory created" ✔ 
+📋 Updating todo list (6 items) ✔ 
+Now let me create the Hookdeck source with Basic Auth and custom response via the REST API:   
+💫 Executing RUN_ID="${ZEALT_RUN_ID}" && \
+API_KEY="${HOOKDECK_API_KEY}" && \
+SOURCE_NAME="source-${RUN_ID}" && \
+echo "Creating source: ${SOURCE_NAME}" && \
+curl -s -X POST "https://api.hookdeck.com/2025-07-01/sources" \
+  -H "Authorization: Bearer ${API_KEY}" \
+  -H "Content-Type: application/json" \
+  -d "{
+    \"name\": \"${SOURCE_NAME}\",
+    \"type\": \"WEBHOOK\",
+    \"config\": {
+      \"auth_type\": \"BASIC_AUTH\",
+      \"auth\": {
+        \"username\": \"eval-user\",
+        \"password\": \"eval-pass\"
+      },
+      \"custom_response\": {
+        \"content_type\": \"json\",
+        \"body\": \"{\\\"ok\\\": true, \\\"id\\\": \\\"abc\\\"}\"
+      }
+    }
+  }" | tee /tmp/source_response.json ✔ 
+Source created successfully. Now create the Mock API destination:   
+📋 Updating todo list (6 items) ✔ 
+💫 Executing RUN_ID="${ZEALT_RUN_ID}" && \
+API_KEY="${HOOKDECK_API_KEY}" && \
+DEST_NAME="destination-${RUN_ID}" && \
+echo "Creating destination: ${DEST_NAME}" && \
+curl -s -X POST "https://api.hookdeck.com/2025-07-01/destinations" \
+  -H "Authorization: Bearer ${API_KEY}" \
+  -H "Content-Type: application/json" \
+  -d "{
+    \"name\": \"${DEST_NAME}\",
+    \"type\": \"MOCK_API\"
+  }" | tee /tmp/destination_response.json ✔ 
+📋 Updating todo list (6 items) ✔ 
+💫 Executing RUN_ID="${ZEALT_RUN_ID}" && \
+API_KEY="${HOOKDECK_API_KEY}" && \
+SOURCE_ID=$(cat /tmp/source_response.json | python3 -c "import sys,json; d=json.load(sys.stdin); print(d['id'])") && \
+DEST_ID=$(cat /tmp/destination_response.json | python3 -c "import sys,json; d=json.load(sys.stdin); print(d['id'])") && \
+CONN_NAME="connection-${RUN_ID}" && \
+echo "Creating connection: ${CONN_NAME} (source=${SOURCE_ID}, dest=${DEST_ID})" && \
+curl -s -X POST "https://api.hookdeck.com/2025-07-01/connections" \
+  -H "Authorization: Bearer ${API_KEY}" \
+  -H "Content-Type: application/json" \
+  -d "{
+    \"name\": \"${CONN_NAME}\",
+    \"source_id\": \"${SOURCE_ID}\",
+    \"destination_id\": \"${DEST_ID}\"
+  }" | tee /tmp/connection_response.json ✔ 
+Connection created. Now persist the source ID and URL to the JSON file:   
+📋 Updating todo list (6 items) ✔ 
+💫 Executing python3 -c "
+import json
+
+with open('/tmp/source_response.json') as f:
+    source = json.load(f)
+
+output = {
+    'source_id': source['id'],
+    'source_url': source['url'],
+    'source_name': source['name'],
+    'auth_type': source['config']['auth_type'],
+    'custom_response': source['config']['custom_response']
+}
+
+with open('/home/user/hookdeck-project/source.json', 'w') as f:
+    json.dump(output, f, indent=2)
+
+print(json.dumps(output, indent=2))
+" ✔ 
+Now let me verify the live endpoint works correctly:   
+💫 Executing SOURCE_URL="https://hkdk.events/4zxfz7vr1ntgli"
+
+echo "=== Test 1: Valid Basic Auth (should return 200 with custom JSON) ==="
+curl -s -w "\nHTTP_STATUS:%{http_code}" -u "eval-user:eval-pass" -X POST "${SOURCE_URL}" \
+  -H "Content-Type: application/json" \
+  -d '{"test": "payload"}'
+
+echo ""
+echo ""
+echo "=== Test 2: Wrong credentials (should be rejected) ==="
+curl -s -w "\nHTTP_STATUS:%{http_code}" -u "wrong-user:wrong-pass" -X POST "${SOURCE_URL}" \
+  -H "Content-Type: application/json" \
+  -d '{"test": "payload"}'
+
+echo ""
+echo ""
+echo "=== Test 3: No credentials (should be rejected) ==="
+curl -s -w "\nHTTP_STATUS:%{http_code}" -X POST "${SOURCE_URL}" \
+  -H "Content-Type: application/json" \
+  -d '{"test": "payload"}' ✔ 
+All tests pass. Let me do a final verification of the saved JSON file:   
+💫 Executing cat /home/user/hookdeck-project/source.json ✔ 
+📋 Updating todo list (6 items) ✔ 
+🎉 Task Completed
+All Hookdeck resources have been created and verified successfully.
+
+## Resources Created (suffix: `zr-emusas4`)
+
+| Resource | Name | ID |
+|---|---|---|
+| Source | `source-zr-emusas4` | `src_4zxfz7vr1ntgli` |
+| Destination | `destination-zr-emusas4` | `des_Ih95TBEkmQtQ` |
+| Connection | `connection-zr-emusas4` | `web_Nfor5oztBSJU` |
+
+## Source Configuration
+- **Type**: `WEBHOOK`
+- **Auth**: `BASIC_AUTH` (username: `eval-user`, password: `eval-pass`)
+- **Custom Response**: `content_type: json`, body: `{"ok": true, "id": "abc"}`
+- **Public URL**: `https://hkdk.events/4zxfz7vr1ntgli`
+
+## Live Endpoint Verification
+- ✅ Valid credentials (`eval-user:eval-pass`) → HTTP 200 + `{"ok":true,"id":"abc"}`
+- ✅ Wrong credentials → HTTP 401
+- ✅ No credentials → HTTP 401
+
+## Output File
+`/home/user/hookdeck-project/source.json` contains `source_id` and `source_url` along with the full source configuration details.   
+  

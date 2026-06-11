@@ -1,0 +1,77 @@
+{
+    "reportFormat": "CTRF",
+    "specVersion": "0.0.0",
+    "timestamp": "2026-06-11T09:18:11.801565+00:00",
+    "generatedBy": "pytest",
+    "results": {
+        "tool": {
+            "name": "pytest",
+            "version": "7.4.4"
+        },
+        "summary": {
+            "tests": 4,
+            "passed": 0,
+            "failed": 4,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1781169479972,
+            "stop": 1781169491801
+        },
+        "environment": {
+            "buildName": "Pytest JSON CTRF Report",
+            "buildNumber": "000",
+            "buildUrl": "https://ctrf.io"
+        },
+        "tests": [
+            {
+                "name": "test_final_state.py::test_connection_and_transformation_wired",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 215,
+                "start": 1781169480149,
+                "stop": 1781169480364,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "run_id = 'zr-3jfjhys'\nauth_headers = {'Authorization': 'Bearer REDACTED'}\ntransformation_id = 'trs_tvWQSOJx2tNu8y'\n\n    def test_connection_and_transformation_wired(run_id, auth_headers, transformation_id):\n        \"\"\"The Connection conn-${run-id} must reference the Transformation in its rules.\"\"\"\n        resp = requests.get(\n            f\"{API_BASE}/connections\",\n            headers=auth_headers,\n            params={\"name\": f\"conn-{run_id}\"},\n        )\n        assert resp.status_code == 200, (\n            f\"Failed to retrieve connections: {resp.status_code} {resp.text}\"\n        )\n        models = resp.json().get(\"models\", [])\n        assert len(models) >= 1, f\"No connection named 'conn-{run_id}' found\"\n    \n        conn = models[0]\n        rules = conn.get(\"rules\", []) or []\n        transformation_rules = [r for r in rules if r.get(\"type\") == \"transformation\"]\n>       assert transformation_rules, (\n            f\"Connection 'conn-{run_id}' has no transformation rule. Rules: {rules}\"\n        )\nE       AssertionError: Connection 'conn-zr-3jfjhys' has no transformation rule. Rules: [{'type': 'transform', 'transformation_id': 'trs_1DjxKbR6ayEwXz'}]\nE       assert []\n\ntests/test_final_state.py:126: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            },
+            {
+                "name": "test_final_state.py::test_valid_payloads_delivered_and_invalid_dropped",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 10896,
+                "start": 1781169480364,
+                "stop": 1781169491260,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "publish_and_wait = True\nauth_headers = {'Authorization': 'Bearer REDACTED'}\nsource_id = 'src_bgefsq8mu5q4oq'\n\n    def test_valid_payloads_delivered_and_invalid_dropped(\n        publish_and_wait, auth_headers, source_id\n    ):\n        \"\"\"Each valid payload yields events_count>=1 and ignored_count==0;\n        each invalid payload yields events_count==0 and ignored_count>=1.\"\"\"\n        requests_list = _fetch_all_requests(auth_headers, source_id)\n    \n        # Valid payloads must have been turned into events.\n        for vp in VALID_PAYLOADS:\n            match = _find_request_matching(\n                requests_list,\n                lambda body, vp=vp: body.get(\"user_id\") == vp[\"user_id\"]\n                and body.get(\"amount\") == vp[\"amount\"],\n            )\n>           assert match is not None, (\n                f\"Could not find request for valid payload {vp!r} in Hookdeck\"\n            )\nE           AssertionError: Could not find request for valid payload {'user_id': 'u-valid-1', 'amount': 12.5} in Hookdeck\nE           assert None is not None\n\ntests/test_final_state.py:150: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            },
+            {
+                "name": "test_final_state.py::test_only_valid_events_delivered_to_destination",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 297,
+                "start": 1781169491260,
+                "stop": 1781169491557,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "publish_and_wait = True\nauth_headers = {'Authorization': 'Bearer REDACTED'}\nsource_id = 'src_bgefsq8mu5q4oq'\n\n    def test_only_valid_events_delivered_to_destination(\n        publish_and_wait, auth_headers, source_id\n    ):\n        \"\"\"Inspect API: only the 2 valid payloads should appear as SUCCESSFUL events.\"\"\"\n        resp = requests.get(\n            f\"{API_BASE}/events\",\n            headers=auth_headers,\n            params={\"source_id\": source_id, \"status\": \"SUCCESSFUL\", \"limit\": 50},\n        )\n        assert resp.status_code == 200, (\n            f\"Failed to retrieve events: {resp.status_code} {resp.text}\"\n        )\n        events = resp.json().get(\"models\", [])\n        bodies = [\n            ev.get(\"data\", {}).get(\"body\", {}).get(\"body\", {}) for ev in events\n        ]\n    \n        # Each valid payload must be represented by at least one delivered event.\n        for vp in VALID_PAYLOADS:\n>           assert any(\n                b.get(\"user_id\") == vp[\"user_id\"] and b.get(\"amount\") == vp[\"amount\"]\n                for b in bodies\n            ), (\n                f\"Valid payload {vp!r} not found among successful events. \"\n                f\"Delivered bodies: {bodies}\"\n            )\nE           AssertionError: Valid payload {'user_id': 'u-valid-1', 'amount': 12.5} not found among successful events. Delivered bodies: []\nE           assert False\nE            +  where False = any(<generator object test_only_valid_events_delivered_to_destination.<locals>.<genexpr> at 0x7f1f6e686340>)\n\ntests/test_final_state.py:205: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            },
+            {
+                "name": "test_final_state.py::test_transformation_logs_structured_validation_failure",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 243,
+                "start": 1781169491558,
+                "stop": 1781169491801,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "publish_and_wait = True\nauth_headers = {'Authorization': 'Bearer REDACTED'}\ntransformation_id = 'trs_tvWQSOJx2tNu8y'\n\n    def test_transformation_logs_structured_validation_failure(\n        publish_and_wait, auth_headers, transformation_id\n    ):\n        \"\"\"Among recent transformation executions, at least 3 must include a console.log\n        line containing 'validation_failed'. The set of those messages must collectively\n        mention 'user_id' (>=2 times) and 'amount' (>=1 time).\"\"\"\n        resp = requests.get(\n            f\"{API_BASE}/transformations/{transformation_id}/executions\",\n            headers=auth_headers,\n            params={\"limit\": 100},\n        )\n        assert resp.status_code == 200, (\n            f\"Failed to retrieve transformation executions: \"\n            f\"{resp.status_code} {resp.text}\"\n        )\n        executions = resp.json().get(\"models\", [])\n>       assert executions, (\n            f\"No transformation executions found for {transformation_id}\"\n        )\nE       AssertionError: No transformation executions found for trs_tvWQSOJx2tNu8y\nE       assert []\n\ntests/test_final_state.py:241: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            }
+        ]
+    }
+}

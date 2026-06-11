@@ -1,0 +1,99 @@
+{
+    "reportFormat": "CTRF",
+    "specVersion": "0.0.0",
+    "timestamp": "2026-06-11T09:39:51.194445+00:00",
+    "generatedBy": "pytest",
+    "results": {
+        "tool": {
+            "name": "pytest",
+            "version": "7.4.4"
+        },
+        "summary": {
+            "tests": 7,
+            "passed": 0,
+            "failed": 7,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1781170790856,
+            "stop": 1781170791194
+        },
+        "environment": {
+            "buildName": "Pytest JSON CTRF Report",
+            "buildNumber": "000",
+            "buildUrl": "https://ctrf.io"
+        },
+        "tests": [
+            {
+                "name": "test_final_state.py::test_source_exists_and_is_webhook",
+                "status": "failed",
+                "duration": 42,
+                "start": 1781170791091,
+                "stop": 1781170791133,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "@pytest.fixture(scope=\"session\")\n    def result_ids() -> dict:\n        \"\"\"Parse the executor-produced log file and return the recorded IDs.\"\"\"\n>       assert os.path.isfile(LOG_FILE), (\n            f\"Expected log file {LOG_FILE} to exist after the task; it does not.\"\n        )\nE       AssertionError: Expected log file /home/user/hookdeck-task/output.log to exist after the task; it does not.\nE       assert False\nE        +  where False = <function isfile at 0x7f370bb98220>('/home/user/hookdeck-task/output.log')\nE        +    where <function isfile at 0x7f370bb98220> = <module 'posixpath' (frozen)>.isfile\nE        +      where <module 'posixpath' (frozen)> = os.path\n\ntests/test_final_state.py:38: AssertionError"
+            },
+            {
+                "name": "test_final_state.py::test_destination_exists_and_is_mock_api",
+                "status": "failed",
+                "duration": 10,
+                "start": 1781170791133,
+                "stop": 1781170791143,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "@pytest.fixture(scope=\"session\")\n    def result_ids() -> dict:\n        \"\"\"Parse the executor-produced log file and return the recorded IDs.\"\"\"\n>       assert os.path.isfile(LOG_FILE), (\n            f\"Expected log file {LOG_FILE} to exist after the task; it does not.\"\n        )\nE       AssertionError: Expected log file /home/user/hookdeck-task/output.log to exist after the task; it does not.\nE       assert False\nE        +  where False = <function isfile at 0x7f370bb98220>('/home/user/hookdeck-task/output.log')\nE        +    where <function isfile at 0x7f370bb98220> = <module 'posixpath' (frozen)>.isfile\nE        +      where <module 'posixpath' (frozen)> = os.path\n\ntests/test_final_state.py:38: AssertionError"
+            },
+            {
+                "name": "test_final_state.py::test_connection_references_transformation",
+                "status": "failed",
+                "duration": 8,
+                "start": 1781170791143,
+                "stop": 1781170791151,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "@pytest.fixture(scope=\"session\")\n    def result_ids() -> dict:\n        \"\"\"Parse the executor-produced log file and return the recorded IDs.\"\"\"\n>       assert os.path.isfile(LOG_FILE), (\n            f\"Expected log file {LOG_FILE} to exist after the task; it does not.\"\n        )\nE       AssertionError: Expected log file /home/user/hookdeck-task/output.log to exist after the task; it does not.\nE       assert False\nE        +  where False = <function isfile at 0x7f370bb98220>('/home/user/hookdeck-task/output.log')\nE        +    where <function isfile at 0x7f370bb98220> = <module 'posixpath' (frozen)>.isfile\nE        +      where <module 'posixpath' (frozen)> = os.path\n\ntests/test_final_state.py:38: AssertionError"
+            },
+            {
+                "name": "test_final_state.py::test_transformation_code_contract",
+                "status": "failed",
+                "duration": 9,
+                "start": 1781170791152,
+                "stop": 1781170791161,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "@pytest.fixture(scope=\"session\")\n    def result_ids() -> dict:\n        \"\"\"Parse the executor-produced log file and return the recorded IDs.\"\"\"\n>       assert os.path.isfile(LOG_FILE), (\n            f\"Expected log file {LOG_FILE} to exist after the task; it does not.\"\n        )\nE       AssertionError: Expected log file /home/user/hookdeck-task/output.log to exist after the task; it does not.\nE       assert False\nE        +  where False = <function isfile at 0x7f370bb98220>('/home/user/hookdeck-task/output.log')\nE        +    where <function isfile at 0x7f370bb98220> = <module 'posixpath' (frozen)>.isfile\nE        +      where <module 'posixpath' (frozen)> = os.path\n\ntests/test_final_state.py:38: AssertionError"
+            },
+            {
+                "name": "test_final_state.py::test_exactly_two_events_delivered",
+                "status": "failed",
+                "duration": 12,
+                "start": 1781170791161,
+                "stop": 1781170791173,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "@pytest.fixture(scope=\"session\")\n    def result_ids() -> dict:\n        \"\"\"Parse the executor-produced log file and return the recorded IDs.\"\"\"\n>       assert os.path.isfile(LOG_FILE), (\n            f\"Expected log file {LOG_FILE} to exist after the task; it does not.\"\n        )\nE       AssertionError: Expected log file /home/user/hookdeck-task/output.log to exist after the task; it does not.\nE       assert False\nE        +  where False = <function isfile at 0x7f370bb98220>('/home/user/hookdeck-task/output.log')\nE        +    where <function isfile at 0x7f370bb98220> = <module 'posixpath' (frozen)>.isfile\nE        +      where <module 'posixpath' (frozen)> = os.path\n\ntests/test_final_state.py:38: AssertionError"
+            },
+            {
+                "name": "test_final_state.py::test_delivered_event_bodies_and_headers",
+                "status": "failed",
+                "duration": 10,
+                "start": 1781170791174,
+                "stop": 1781170791184,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "@pytest.fixture(scope=\"session\")\n    def result_ids() -> dict:\n        \"\"\"Parse the executor-produced log file and return the recorded IDs.\"\"\"\n>       assert os.path.isfile(LOG_FILE), (\n            f\"Expected log file {LOG_FILE} to exist after the task; it does not.\"\n        )\nE       AssertionError: Expected log file /home/user/hookdeck-task/output.log to exist after the task; it does not.\nE       assert False\nE        +  where False = <function isfile at 0x7f370bb98220>('/home/user/hookdeck-task/output.log')\nE        +    where <function isfile at 0x7f370bb98220> = <module 'posixpath' (frozen)>.isfile\nE        +      where <module 'posixpath' (frozen)> = os.path\n\ntests/test_final_state.py:38: AssertionError"
+            },
+            {
+                "name": "test_final_state.py::test_dropped_event_recorded_as_ignored",
+                "status": "failed",
+                "duration": 9,
+                "start": 1781170791184,
+                "stop": 1781170791193,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "@pytest.fixture(scope=\"session\")\n    def result_ids() -> dict:\n        \"\"\"Parse the executor-produced log file and return the recorded IDs.\"\"\"\n>       assert os.path.isfile(LOG_FILE), (\n            f\"Expected log file {LOG_FILE} to exist after the task; it does not.\"\n        )\nE       AssertionError: Expected log file /home/user/hookdeck-task/output.log to exist after the task; it does not.\nE       assert False\nE        +  where False = <function isfile at 0x7f370bb98220>('/home/user/hookdeck-task/output.log')\nE        +    where <function isfile at 0x7f370bb98220> = <module 'posixpath' (frozen)>.isfile\nE        +      where <module 'posixpath' (frozen)> = os.path\n\ntests/test_final_state.py:38: AssertionError"
+            }
+        ]
+    }
+}

@@ -1,0 +1,28 @@
+FROM ubuntu:24.04
+
+RUN apt-get update -y && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+        curl wget ca-certificates git python3 python3-pip python3-pytest bash ripgrep jq && \
+    ln -s /usr/bin/python3 /usr/bin/python && \
+    curl -fsSL https://deb.nodesource.com/setup_24.x | bash - && \
+    apt-get install -y --no-install-recommends nodejs && \
+    npm i -g hookdeck-cli && \
+    pip3 install --break-system-packages pytest-json-ctrf requests && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+RUN mkdir -p /home/user && chmod 0755 /home/user
+RUN mkdir -p /home/user/project && chmod 0755 /home/user/project
+
+LABEL Author="generate-harbor-tasks"
+LABEL Description="Hookdeck CLI task environment with Node.js v24, hookdeck-cli, and Python requests for API verification."
+
+CMD ["/bin/bash", "-c", "trap : TERM INT; sleep infinity & wait"]
+
+# Container contents:
+#   - always required apt packages: curl wget ca-certificates git python3 python3-pip python3-pytest bash ripgrep jq
+#   - always required pip3 packages: pytest-json-ctrf
+#   - Node.js v24 (provides `node`/`npm` for hookdeck-cli installation)
+#   - hookdeck-cli installed globally via npm (exposes the `hookdeck` binary)
+#   - requests: used by initial- and final-state tests for Hookdeck REST API verification
+#   - /home/user/project: empty working directory for the agent's local server and artifacts

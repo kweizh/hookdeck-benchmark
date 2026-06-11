@@ -1,0 +1,92 @@
+{
+    "reportFormat": "CTRF",
+    "specVersion": "0.0.0",
+    "timestamp": "2026-06-11T09:39:50.420337+00:00",
+    "generatedBy": "pytest",
+    "results": {
+        "tool": {
+            "name": "pytest",
+            "version": "7.4.4"
+        },
+        "summary": {
+            "tests": 7,
+            "passed": 7,
+            "failed": 0,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1781170788783,
+            "stop": 1781170790420
+        },
+        "environment": {
+            "buildName": "Pytest JSON CTRF Report",
+            "buildNumber": "000",
+            "buildUrl": "https://ctrf.io"
+        },
+        "tests": [
+            {
+                "name": "test_final_state.py::test_log_file_has_all_ids",
+                "status": "passed",
+                "duration": 3,
+                "start": 1781170788999,
+                "stop": 1781170789002,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_connection_a_configuration",
+                "status": "passed",
+                "duration": 224,
+                "start": 1781170789002,
+                "stop": 1781170789226,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_connection_b_configuration",
+                "status": "passed",
+                "duration": 171,
+                "start": 1781170789226,
+                "stop": 1781170789397,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_event_a_state",
+                "status": "passed",
+                "duration": 203,
+                "start": 1781170789397,
+                "stop": 1781170789600,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_event_a_attempts_history",
+                "status": "passed",
+                "duration": 341,
+                "start": 1781170789600,
+                "stop": 1781170789941,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_event_b_state",
+                "status": "passed",
+                "duration": 197,
+                "start": 1781170789941,
+                "stop": 1781170790138,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_event_b_attempts_history",
+                "status": "passed",
+                "duration": 280,
+                "start": 1781170790139,
+                "stop": 1781170790419,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            }
+        ]
+    }
+}

@@ -1,0 +1,19 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-7.4.4, pluggy-1.4.0
+rootdir: /tests
+plugins: json-ctrf-0.5.2
+collected 8 items
+
+tests/test_final_state.py ........                                       [100%]
+
+==================================== PASSES ====================================
+=========================== short test summary info ============================
+PASSED tests/test_final_state.py::test_source_exists_with_expected_name_and_type
+PASSED tests/test_final_state.py::test_fast_destination_is_mock_api_with_no_rate_limit
+PASSED tests/test_final_state.py::test_slow_destination_is_mock_api_with_2_per_second
+PASSED tests/test_final_state.py::test_fast_connection_links_source_to_fast_destination
+PASSED tests/test_final_state.py::test_slow_connection_links_source_to_slow_destination
+PASSED tests/test_final_state.py::test_fast_destination_received_all_12_events_without_pacing
+PASSED tests/test_final_state.py::test_slow_destination_received_all_12_events_with_rate_limit_pacing
+PASSED tests/test_final_state.py::test_events_are_owned_by_the_two_expected_connections
+============================== 8 passed in 5.78s ===============================

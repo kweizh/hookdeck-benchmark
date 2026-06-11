@@ -1,0 +1,78 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-7.4.4, pluggy-1.4.0
+rootdir: /tests
+plugins: json-ctrf-0.5.2
+collected 3 items
+
+tests/test_final_state.py EEE                                            [100%]
+
+==================================== ERRORS ====================================
+__________ ERROR at setup of test_connection_destination_is_mock_api ___________
+
+    @pytest.fixture(scope="module")
+    def connection() -> dict:
+        run_id = _run_id()
+        conn_name = f"delay-conn-{run_id}"
+        resp = requests.get(
+            f"{API_BASE}/connections",
+            params={"name": conn_name},
+            headers=_headers(),
+            timeout=30,
+        )
+        assert resp.status_code == 200, (
+            f"Listing connections by name failed: HTTP {resp.status_code} body={resp.text}"
+        )
+        payload = resp.json()
+        models = payload.get("models", [])
+>       assert len(models) == 1, (
+            f"Expected exactly 1 connection named {conn_name!r}, got {len(models)}: "
+            f"{[m.get('name') for m in models]}"
+        )
+E       AssertionError: Expected exactly 1 connection named 'delay-conn-zr-gfoztkx', got 0: []
+E       assert 0 == 1
+E        +  where 0 = len([])
+
+tests/test_final_state.py:76: AssertionError
+__________ ERROR at setup of test_connection_has_delay_rule_with_5000 __________
+
+    @pytest.fixture(scope="module")
+    def connection() -> dict:
+        run_id = _run_id()
+        conn_name = f"delay-conn-{run_id}"
+        resp = requests.get(
+            f"{API_BASE}/connections",
+            params={"name": conn_name},
+            headers=_headers(),
+            timeout=30,
+        )
+        assert resp.status_code == 200, (
+            f"Listing connections by name failed: HTTP {resp.status_code} body={resp.text}"
+        )
+        payload = resp.json()
+        models = payload.get("models", [])
+>       assert len(models) == 1, (
+            f"Expected exactly 1 connection named {conn_name!r}, got {len(models)}: "
+            f"{[m.get('name') for m in models]}"
+        )
+E       AssertionError: Expected exactly 1 connection named 'delay-conn-zr-gfoztkx', got 0: []
+E       assert 0 == 1
+E        +  where 0 = len([])
+
+tests/test_final_state.py:76: AssertionError
+________ ERROR at setup of test_each_event_delivered_with_correct_delay ________
+
+    @pytest.fixture(scope="module")
+    def event_ids() -> list[str]:
+>       assert os.path.isfile(LOG_FILE), f"Expected log file at {LOG_FILE}, but it does not exist."
+E       AssertionError: Expected log file at /home/user/hookdeck-task/output.log, but it does not exist.
+E       assert False
+E        +  where False = <function isfile at 0x7f677236c220>('/home/user/hookdeck-task/output.log')
+E        +    where <function isfile at 0x7f677236c220> = <module 'posixpath' (frozen)>.isfile
+E        +      where <module 'posixpath' (frozen)> = os.path
+
+tests/test_final_state.py:45: AssertionError
+=========================== short test summary info ============================
+ERROR tests/test_final_state.py::test_connection_destination_is_mock_api - As...
+ERROR tests/test_final_state.py::test_connection_has_delay_rule_with_5000 - A...
+ERROR tests/test_final_state.py::test_each_event_delivered_with_correct_delay
+============================== 3 errors in 0.42s ===============================

@@ -1,0 +1,66 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-7.4.4, pluggy-1.4.0
+rootdir: /tests
+plugins: json-ctrf-0.5.2
+collected 3 items
+
+tests/test_final_state.py FFF                                            [100%]
+
+=================================== FAILURES ===================================
+___________________ test_connection_metadata_and_rule_order ____________________
+
+    def test_connection_metadata_and_rule_order():
+        run_id = _run_id()
+>       connection_id = _read_connection_id_from_log()
+
+tests/test_final_state.py:97: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def _read_connection_id_from_log() -> str:
+>       assert os.path.isfile(LOG_FILE), f"Log file {LOG_FILE} does not exist."
+E       AssertionError: Log file /home/user/hookdeck-task/output.log does not exist.
+E       assert False
+E        +  where False = <function isfile at 0x7f359ea54220>('/home/user/hookdeck-task/output.log')
+E        +    where <function isfile at 0x7f359ea54220> = <module 'posixpath' (frozen)>.isfile
+E        +      where <module 'posixpath' (frozen)> = os.path
+
+tests/test_final_state.py:33: AssertionError
+______________ test_transformation_code_references_expected_keys _______________
+
+    def test_transformation_code_references_expected_keys():
+>       connection_id = _read_connection_id_from_log()
+
+tests/test_final_state.py:154: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def _read_connection_id_from_log() -> str:
+>       assert os.path.isfile(LOG_FILE), f"Log file {LOG_FILE} does not exist."
+E       AssertionError: Log file /home/user/hookdeck-task/output.log does not exist.
+E       assert False
+E        +  where False = <function isfile at 0x7f359ea54220>('/home/user/hookdeck-task/output.log')
+E        +    where <function isfile at 0x7f359ea54220> = <module 'posixpath' (frozen)>.isfile
+E        +      where <module 'posixpath' (frozen)> = os.path
+
+tests/test_final_state.py:33: AssertionError
+_________ test_only_order_created_events_delivered_with_transformation _________
+
+    def test_only_order_created_events_delivered_with_transformation():
+>       connection_id = _read_connection_id_from_log()
+
+tests/test_final_state.py:211: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def _read_connection_id_from_log() -> str:
+>       assert os.path.isfile(LOG_FILE), f"Log file {LOG_FILE} does not exist."
+E       AssertionError: Log file /home/user/hookdeck-task/output.log does not exist.
+E       assert False
+E        +  where False = <function isfile at 0x7f359ea54220>('/home/user/hookdeck-task/output.log')
+E        +    where <function isfile at 0x7f359ea54220> = <module 'posixpath' (frozen)>.isfile
+E        +      where <module 'posixpath' (frozen)> = os.path
+
+tests/test_final_state.py:33: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_final_state.py::test_connection_metadata_and_rule_order - A...
+FAILED tests/test_final_state.py::test_transformation_code_references_expected_keys
+FAILED tests/test_final_state.py::test_only_order_created_events_delivered_with_transformation
+============================== 3 failed in 0.29s ===============================

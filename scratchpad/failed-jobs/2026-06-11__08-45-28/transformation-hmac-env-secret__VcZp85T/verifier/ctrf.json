@@ -1,0 +1,89 @@
+{
+    "reportFormat": "CTRF",
+    "specVersion": "0.0.0",
+    "timestamp": "2026-06-11T09:05:40.914839+00:00",
+    "generatedBy": "pytest",
+    "results": {
+        "tool": {
+            "name": "pytest",
+            "version": "7.4.4"
+        },
+        "summary": {
+            "tests": 6,
+            "passed": 4,
+            "failed": 2,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1781168738766,
+            "stop": 1781168740914
+        },
+        "environment": {
+            "buildName": "Pytest JSON CTRF Report",
+            "buildNumber": "000",
+            "buildUrl": "https://ctrf.io"
+        },
+        "tests": [
+            {
+                "name": "test_final_state.py::test_log_file_contains_required_fields",
+                "status": "passed",
+                "duration": 2,
+                "start": 1781168739092,
+                "stop": 1781168739094,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_transformation_env_and_code",
+                "status": "passed",
+                "duration": 816,
+                "start": 1781168739095,
+                "stop": 1781168739911,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_connection_wiring",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 210,
+                "start": 1781168739911,
+                "stop": 1781168740121,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "env_state = {'api_key': 'REDACTED', 'log': {'connection_id': 'web_8VcD2OKa5bZV', 'destin...r-vczp85t', 'expected_secret': 's3cr3t-zr-vczp85t', 'source_name': 'hmac-src-zr-vczp85t', ...}, 'run_id': 'zr-vczp85t'}\nconnection = {'created_at': '2026-06-11T08:58:06.016Z', 'description': None, 'destination': {'config': {'auth': {}, 'auth_type': 'H....}, 'created_at': '2026-06-11T08:56:57.516Z', 'description': None, 'disabled_at': None, ...}, 'disabled_at': None, ...}\ntransformation = {'code': '\\nvar module = { exports: {} };\\n(function () {\\n  \\'use strict\\';\\n  var ERROR = \\'input is invalid type\\';..., 'created_at': '2026-06-11T08:57:51.118Z', 'env': {'MY_SECRET': 's3cr3t-zr-vczp85t'}, 'id': 'trs_PfLtYcsuZp2oir', ...}\n\n    def test_connection_wiring(env_state, connection, transformation):\n        names = env_state[\"names\"]\n        assert connection.get(\"name\") == names[\"connection_name\"], (\n            f\"Expected connection name '{names['connection_name']}', got '{connection.get('name')}'.\"\n        )\n        source = connection.get(\"source\") or {}\n        destination = connection.get(\"destination\") or {}\n        assert source.get(\"name\") == names[\"source_name\"], (\n            f\"Connection source name mismatch: expected '{names['source_name']}', got '{source.get('name')}'.\"\n        )\n        assert source.get(\"type\") == \"WEBHOOK\", (\n            f\"Connection source type must be 'WEBHOOK', got '{source.get('type')}'.\"\n        )\n        assert destination.get(\"name\") == names[\"destination_name\"], (\n            f\"Connection destination name mismatch: expected '{names['destination_name']}', got '{destination.get('name')}'.\"\n        )\n        dtype = destination.get(\"type\")\n        dcfg = destination.get(\"config\") or {}\n        durl = dcfg.get(\"url\") or \"\"\n        assert dtype == \"MOCK_API\" or (\n            dtype == \"HTTP\" and isinstance(durl, str) and durl.startswith(\"https://mock.hookdeck.com/\")\n        ), (\n            f\"Destination must be MOCK_API or HTTP pointing at https://mock.hookdeck.com/...; \"\n            f\"got type='{dtype}' url='{durl}'.\"\n        )\n        rules = connection.get(\"rules\") or []\n        trf_rule_ids = [\n            r.get(\"transformation_id\") for r in rules if r.get(\"type\") == \"transformation\"\n        ]\n>       assert transformation.get(\"id\") in trf_rule_ids, (\n            f\"Connection rules do not reference transformation_id='{transformation.get('id')}'. \"\n            f\"Found transformation rules: {trf_rule_ids}\"\n        )\nE       AssertionError: Connection rules do not reference transformation_id='trs_PfLtYcsuZp2oir'. Found transformation rules: []\nE       assert 'trs_PfLtYcsuZp2oir' in []\nE        +  where 'trs_PfLtYcsuZp2oir' = <built-in method get of dict object at 0x7f77018298c0>('id')\nE        +    where <built-in method get of dict object at 0x7f77018298c0> = {'code': '\\nvar module = { exports: {} };\\n(function () {\\n  \\'use strict\\';\\n  var ERROR = \\'input is invalid type\\';..., 'created_at': '2026-06-11T08:57:51.118Z', 'env': {'MY_SECRET': 's3cr3t-zr-vczp85t'}, 'id': 'trs_PfLtYcsuZp2oir', ...}.get\n\ntests/test_final_state.py:267: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            },
+            {
+                "name": "test_final_state.py::test_secret_not_leaked_in_non_transformation_resources",
+                "status": "passed",
+                "duration": 1,
+                "start": 1781168740122,
+                "stop": 1781168740123,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_signature_header_matches_recomputed_hmac",
+                "status": "passed",
+                "duration": 780,
+                "start": 1781168740123,
+                "stop": 1781168740903,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_signed_at_header_is_fresh_iso",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 11,
+                "start": 1781168740903,
+                "stop": 1781168740914,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "env_state = {'api_key': 'REDACTED', 'log': {'connection_id': 'web_8VcD2OKa5bZV', 'destin...r-vczp85t', 'expected_secret': 's3cr3t-zr-vczp85t', 'source_name': 'hmac-src-zr-vczp85t', ...}, 'run_id': 'zr-vczp85t'}\ndelivered_event = {'event': {'attempts': 1, 'cli_id': None, 'created_at': '2026-06-11T09:04:33.102Z', 'data': {'appended_headers': ['Acc...L', ...}, 'method': 'POST', ...}, ...}, 'payload': {'amount': 4242, 'order_id': 'ord-zr-vczp85t', 'status': 'created'}}\n\n    def test_signed_at_header_is_fresh_iso(env_state, delivered_event):\n        headers = (delivered_event[\"event\"].get(\"data\") or {}).get(\"headers\") or {}\n        raw = _ci_get(headers, \"x-hd-signed-at\")\n        assert raw, (\n            f\"Delivered event headers missing 'x-hd-signed-at'. Headers: {list(headers.keys())}\"\n        )\n        raw = raw.strip()\n        try:\n            parsed = datetime.fromisoformat(raw.replace(\"Z\", \"+00:00\"))\n        except ValueError as exc:\n            pytest.fail(f\"x-hd-signed-at '{raw}' is not ISO-8601 parseable: {exc}\")\n        if parsed.tzinfo is None:\n            parsed = parsed.replace(tzinfo=timezone.utc)\n        delta = abs((datetime.now(timezone.utc) - parsed).total_seconds())\n>       assert delta <= 60, (\n            f\"x-hd-signed-at '{raw}' is not within 60s of current time (delta={delta:.1f}s).\"\n        )\nE       AssertionError: x-hd-signed-at '2026-06-11T09:04:33.101Z' is not within 60s of current time (delta=67.8s).\nE       assert 67.803719 <= 60\n\ntests/test_final_state.py:330: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            }
+        ]
+    }
+}

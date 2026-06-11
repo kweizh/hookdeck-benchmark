@@ -1,0 +1,68 @@
+{
+    "id": "32c83e39-379c-44f5-8cb0-39c294031f69",
+    "started_at": "2026-06-11T08:14:40.043989",
+    "updated_at": "2026-06-11T08:45:26.203182",
+    "finished_at": "2026-06-11T08:45:26.203182",
+    "n_total_trials": 20,
+    "stats": {
+        "n_completed_trials": 20,
+        "n_errored_trials": 5,
+        "n_running_trials": 0,
+        "n_pending_trials": 0,
+        "n_cancelled_trials": 0,
+        "n_retries": 0,
+        "evals": {
+            "pochi__gemini-3.5-flash__pending-tasks": {
+                "n_trials": 18,
+                "n_errors": 5,
+                "metrics": [
+                    {
+                        "mean": 0.35
+                    }
+                ],
+                "pass_at_k": {},
+                "reward_stats": {
+                    "reward": {
+                        "1.0": [
+                            "filter-plus-transform-chain__EPNf8NJ",
+                            "deduplication-rule-window__BbnmF7L",
+                            "delay-rule-deferred-delivery__7GtRHsR",
+                            "destination-rate-limit-per-minut__xuFvDtQ",
+                            "cli-listen-replay-via-api__LtxqYsr",
+                            "shopify-source-hmac-verification__S6mHDSk",
+                            "poll-event-delivery-status__Ri3ANGp"
+                        ],
+                        "0.0": [
+                            "fanout-two-destinations-rate-lim__AgyNUEG",
+                            "retry-strategy-5xx-only__3xyrw7m",
+                            "query-operators-time-window__xo9KEqY",
+                            "transformation-flatten-rename-he__prAn9eK",
+                            "source-basic-auth-custom-respons__vfc8FqL",
+                            "transformation-drop-invalid__HwbbzV2",
+                            "source-custom-response-xml__8vxo8Pt",
+                            "transformation-hmac-env-secret__2bsRjF8",
+                            "stripe-filter-charge-succeeded__LPWPv6J",
+                            "bulk-retry-failed-events__42msxdz",
+                            "publish-api-bulk-100__VupydDK"
+                        ]
+                    }
+                },
+                "exception_stats": {
+                    "AgentTimeoutError": [
+                        "fanout-two-destinations-rate-lim__AgyNUEG",
+                        "retry-strategy-5xx-only__3xyrw7m",
+                        "bulk-retry-failed-events__42msxdz"
+                    ],
+                    "InitialStateError": [
+                        "metrics-api-report__sPYrxYR",
+                        "pagination-cursor-iterator__b8N2YF7"
+                    ]
+                }
+            }
+        },
+        "n_input_tokens": 0,
+        "n_cache_tokens": 0,
+        "n_output_tokens": 1251666,
+        "cost_usd": null
+    }
+}

@@ -1,0 +1,89 @@
+{
+    "reportFormat": "CTRF",
+    "specVersion": "0.0.0",
+    "timestamp": "2026-06-11T10:32:36.689235+00:00",
+    "generatedBy": "pytest",
+    "results": {
+        "tool": {
+            "name": "pytest",
+            "version": "7.4.4"
+        },
+        "summary": {
+            "tests": 6,
+            "passed": 0,
+            "failed": 6,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1781173956356,
+            "stop": 1781173956688
+        },
+        "environment": {
+            "buildName": "Pytest JSON CTRF Report",
+            "buildNumber": "000",
+            "buildUrl": "https://ctrf.io"
+        },
+        "tests": [
+            {
+                "name": "test_final_state.py::test_log_file_contains_required_fields",
+                "status": "failed",
+                "duration": 46,
+                "start": 1781173956568,
+                "stop": 1781173956614,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "@pytest.fixture(scope=\"session\")\n    def env_state():\n        api_key, run_id = _read_env_or_skip()\n>       log_fields = _parse_log_file()\n\ntests/test_final_state.py:74: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\n    def _parse_log_file() -> dict:\n>       assert os.path.isfile(LOG_FILE), f\"Expected log file {LOG_FILE} to exist.\"\nE       AssertionError: Expected log file /home/user/myproject/output.log to exist.\nE       assert False\nE        +  where False = <function isfile at 0x7fd28f0f8220>('/home/user/myproject/output.log')\nE        +    where <function isfile at 0x7fd28f0f8220> = <module 'posixpath' (frozen)>.isfile\nE        +      where <module 'posixpath' (frozen)> = os.path\n\ntests/test_final_state.py:36: AssertionError"
+            },
+            {
+                "name": "test_final_state.py::test_transformation_env_and_code",
+                "status": "failed",
+                "duration": 13,
+                "start": 1781173956615,
+                "stop": 1781173956628,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "@pytest.fixture(scope=\"session\")\n    def env_state():\n        api_key, run_id = _read_env_or_skip()\n>       log_fields = _parse_log_file()\n\ntests/test_final_state.py:74: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\n    def _parse_log_file() -> dict:\n>       assert os.path.isfile(LOG_FILE), f\"Expected log file {LOG_FILE} to exist.\"\nE       AssertionError: Expected log file /home/user/myproject/output.log to exist.\nE       assert False\nE        +  where False = <function isfile at 0x7fd28f0f8220>('/home/user/myproject/output.log')\nE        +    where <function isfile at 0x7fd28f0f8220> = <module 'posixpath' (frozen)>.isfile\nE        +      where <module 'posixpath' (frozen)> = os.path\n\ntests/test_final_state.py:36: AssertionError"
+            },
+            {
+                "name": "test_final_state.py::test_connection_wiring",
+                "status": "failed",
+                "duration": 13,
+                "start": 1781173956628,
+                "stop": 1781173956641,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "@pytest.fixture(scope=\"session\")\n    def env_state():\n        api_key, run_id = _read_env_or_skip()\n>       log_fields = _parse_log_file()\n\ntests/test_final_state.py:74: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\n    def _parse_log_file() -> dict:\n>       assert os.path.isfile(LOG_FILE), f\"Expected log file {LOG_FILE} to exist.\"\nE       AssertionError: Expected log file /home/user/myproject/output.log to exist.\nE       assert False\nE        +  where False = <function isfile at 0x7fd28f0f8220>('/home/user/myproject/output.log')\nE        +    where <function isfile at 0x7fd28f0f8220> = <module 'posixpath' (frozen)>.isfile\nE        +      where <module 'posixpath' (frozen)> = os.path\n\ntests/test_final_state.py:36: AssertionError"
+            },
+            {
+                "name": "test_final_state.py::test_secret_not_leaked_in_non_transformation_resources",
+                "status": "failed",
+                "duration": 14,
+                "start": 1781173956642,
+                "stop": 1781173956656,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "@pytest.fixture(scope=\"session\")\n    def env_state():\n        api_key, run_id = _read_env_or_skip()\n>       log_fields = _parse_log_file()\n\ntests/test_final_state.py:74: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\n    def _parse_log_file() -> dict:\n>       assert os.path.isfile(LOG_FILE), f\"Expected log file {LOG_FILE} to exist.\"\nE       AssertionError: Expected log file /home/user/myproject/output.log to exist.\nE       assert False\nE        +  where False = <function isfile at 0x7fd28f0f8220>('/home/user/myproject/output.log')\nE        +    where <function isfile at 0x7fd28f0f8220> = <module 'posixpath' (frozen)>.isfile\nE        +      where <module 'posixpath' (frozen)> = os.path\n\ntests/test_final_state.py:36: AssertionError"
+            },
+            {
+                "name": "test_final_state.py::test_signature_header_matches_recomputed_hmac",
+                "status": "failed",
+                "duration": 15,
+                "start": 1781173956657,
+                "stop": 1781173956672,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "@pytest.fixture(scope=\"session\")\n    def env_state():\n        api_key, run_id = _read_env_or_skip()\n>       log_fields = _parse_log_file()\n\ntests/test_final_state.py:74: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\n    def _parse_log_file() -> dict:\n>       assert os.path.isfile(LOG_FILE), f\"Expected log file {LOG_FILE} to exist.\"\nE       AssertionError: Expected log file /home/user/myproject/output.log to exist.\nE       assert False\nE        +  where False = <function isfile at 0x7fd28f0f8220>('/home/user/myproject/output.log')\nE        +    where <function isfile at 0x7fd28f0f8220> = <module 'posixpath' (frozen)>.isfile\nE        +      where <module 'posixpath' (frozen)> = os.path\n\ntests/test_final_state.py:36: AssertionError"
+            },
+            {
+                "name": "test_final_state.py::test_signed_at_header_is_fresh_iso",
+                "status": "failed",
+                "duration": 15,
+                "start": 1781173956673,
+                "stop": 1781173956688,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "@pytest.fixture(scope=\"session\")\n    def env_state():\n        api_key, run_id = _read_env_or_skip()\n>       log_fields = _parse_log_file()\n\ntests/test_final_state.py:74: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\n    def _parse_log_file() -> dict:\n>       assert os.path.isfile(LOG_FILE), f\"Expected log file {LOG_FILE} to exist.\"\nE       AssertionError: Expected log file /home/user/myproject/output.log to exist.\nE       assert False\nE        +  where False = <function isfile at 0x7fd28f0f8220>('/home/user/myproject/output.log')\nE        +    where <function isfile at 0x7fd28f0f8220> = <module 'posixpath' (frozen)>.isfile\nE        +      where <module 'posixpath' (frozen)> = os.path\n\ntests/test_final_state.py:36: AssertionError"
+            }
+        ]
+    }
+}

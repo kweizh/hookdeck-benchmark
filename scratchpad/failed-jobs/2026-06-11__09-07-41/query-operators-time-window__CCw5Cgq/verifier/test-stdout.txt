@@ -1,0 +1,40 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-7.4.4, pluggy-1.4.0
+rootdir: /tests
+plugins: json-ctrf-0.5.2
+collected 6 items
+
+tests/test_final_state.py ...F..                                         [100%]
+
+=================================== FAILURES ===================================
+__________________ test_seed_expectation_matches_live_server ___________________
+
+seed = {'all_event_ids': ['evt_FvwMjvNbcRdv8ll3zt', 'evt_AOQiRDPdnZ7Nn9zoMT', 'evt_jjtKdXFriX5ncgN9Mc', 'evt_W7qv20kKnH5OWEuU...goEoCOcAS8gkEvw1', 'evt_IsgUbIXMwEMzCax9fi'], 'source_id': 'src_tlzxa2oj7ziq8u', 'source_name': 'qwin-zr-ccw5cgq', ...}
+
+    def test_seed_expectation_matches_live_server(seed: dict):
+        """Independently issue the same server-side query and confirm the seed expectation is still authoritative."""
+        server_events = _list_events(seed["source_id"], seed["window_start"], seed["window_end"])
+        server_ids = sorted(e["id"] for e in server_events)
+        expected_ids = sorted(seed["expected_ids"])
+>       assert server_ids == expected_ids, (
+            "Server-side query returned a different set of event IDs than the seed recorded.\n"
+            f"Server: {server_ids}\nSeed:   {expected_ids}"
+        )
+E       AssertionError: Server-side query returned a different set of event IDs than the seed recorded.
+E         Server: ['evt_6GgoEoCOcAS8gkEvw1', 'evt_OsnMkM7CvxjlcrpPDn', 'evt_uoz21kQxqQQHojTESG', 'evt_wLNPnEa4A6PF3IbUMT']
+E         Seed:   ['evt_6GgoEoCOcAS8gkEvw1', 'evt_IsgUbIXMwEMzCax9fi', 'evt_OsnMkM7CvxjlcrpPDn', 'evt_uoz21kQxqQQHojTESG', 'evt_wLNPnEa4A6PF3IbUMT']
+E       assert ['evt_6GgoEoC...a4A6PF3IbUMT'] == ['evt_6GgoEoC...a4A6PF3IbUMT']
+E         At index 1 diff: 'evt_OsnMkM7CvxjlcrpPDn' != 'evt_IsgUbIXMwEMzCax9fi'
+E         Right contains one more item: 'evt_wLNPnEa4A6PF3IbUMT'
+E         Use -v to get more diff
+
+tests/test_final_state.py:121: AssertionError
+==================================== PASSES ====================================
+=========================== short test summary info ============================
+PASSED tests/test_final_state.py::test_query_script_exists
+PASSED tests/test_final_state.py::test_query_script_uses_server_side_operators
+PASSED tests/test_final_state.py::test_window_output_schema
+PASSED tests/test_final_state.py::test_window_output_matches_server_side_query
+PASSED tests/test_final_state.py::test_no_events_outside_window
+FAILED tests/test_final_state.py::test_seed_expectation_matches_live_server
+========================= 1 failed, 5 passed in 1.33s ==========================

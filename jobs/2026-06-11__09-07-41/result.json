@@ -1,0 +1,69 @@
+{
+    "id": "b4f0c86f-7d11-45eb-9933-4a4270ff6fec",
+    "started_at": "2026-06-11T09:07:43.580986",
+    "updated_at": "2026-06-11T09:29:18.172456",
+    "finished_at": "2026-06-11T09:29:18.172456",
+    "n_total_trials": 20,
+    "stats": {
+        "n_completed_trials": 20,
+        "n_errored_trials": 4,
+        "n_running_trials": 0,
+        "n_pending_trials": 0,
+        "n_cancelled_trials": 0,
+        "n_retries": 0,
+        "evals": {
+            "pochi__gemini-3.1-pro__pending-tasks": {
+                "n_trials": 18,
+                "n_errors": 4,
+                "metrics": [
+                    {
+                        "mean": 0.45
+                    }
+                ],
+                "pass_at_k": {},
+                "reward_stats": {
+                    "reward": {
+                        "1.0": [
+                            "filter-plus-transform-chain__UvUmvGd",
+                            "fanout-two-destinations-rate-lim__bxXM2qb",
+                            "retry-strategy-5xx-only__7LvxswR",
+                            "deduplication-rule-window__keAA6S8",
+                            "delay-rule-deferred-delivery__UfNy6Tr",
+                            "destination-rate-limit-per-minut__cecRBbG",
+                            "shopify-source-hmac-verification__f6Vn4sj",
+                            "stripe-filter-charge-succeeded__RhPf9Cv",
+                            "bulk-retry-failed-events__NRmTo35"
+                        ],
+                        "0.0": [
+                            "query-operators-time-window__CCw5Cgq",
+                            "transformation-flatten-rename-he__8Vzz5ho",
+                            "source-basic-auth-custom-respons__4wdE2pr",
+                            "cli-listen-replay-via-api__NKh39aR",
+                            "transformation-drop-invalid__3JfJHys",
+                            "source-custom-response-xml__UiMtd7Y",
+                            "transformation-hmac-env-secret__Xx85X9p",
+                            "poll-event-delivery-status__fqiVYGP",
+                            "publish-api-bulk-100__Q7C4NxJ"
+                        ]
+                    }
+                },
+                "exception_stats": {
+                    "InitialStateError": [
+                        "metrics-api-report__PP8DcoT",
+                        "pagination-cursor-iterator__TSnmke4"
+                    ],
+                    "NonZeroAgentExitCodeError": [
+                        "cli-listen-replay-via-api__NKh39aR"
+                    ],
+                    "AgentTimeoutError": [
+                        "transformation-hmac-env-secret__Xx85X9p"
+                    ]
+                }
+            }
+        },
+        "n_input_tokens": 0,
+        "n_cache_tokens": 0,
+        "n_output_tokens": 569205,
+        "cost_usd": null
+    }
+}

@@ -1,0 +1,91 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-7.4.4, pluggy-1.4.0
+rootdir: /tests
+plugins: json-ctrf-0.5.2
+collected 5 items
+
+tests/test_final_state.py EEEEE                                          [100%]
+
+==================================== ERRORS ====================================
+_____________ ERROR at setup of test_log_file_has_required_fields ______________
+
+    @pytest.fixture(scope="session")
+    def parsed_log() -> dict:
+>       assert os.path.isfile(LOG_PATH), (
+            f"Output log not found at {LOG_PATH}; the executor must record the "
+            "Source URL and Connection ID there."
+        )
+E       AssertionError: Output log not found at /home/user/hookdeck-task/output.log; the executor must record the Source URL and Connection ID there.
+E       assert False
+E        +  where False = <function isfile at 0x7f1f2fb00220>('/home/user/hookdeck-task/output.log')
+E        +    where <function isfile at 0x7f1f2fb00220> = <module 'posixpath' (frozen)>.isfile
+E        +      where <module 'posixpath' (frozen)> = os.path
+
+tests/test_final_state.py:36: AssertionError
+______________ ERROR at setup of test_connection_name_and_active _______________
+
+    @pytest.fixture(scope="session")
+    def parsed_log() -> dict:
+>       assert os.path.isfile(LOG_PATH), (
+            f"Output log not found at {LOG_PATH}; the executor must record the "
+            "Source URL and Connection ID there."
+        )
+E       AssertionError: Output log not found at /home/user/hookdeck-task/output.log; the executor must record the Source URL and Connection ID there.
+E       assert False
+E        +  where False = <function isfile at 0x7f1f2fb00220>('/home/user/hookdeck-task/output.log')
+E        +    where <function isfile at 0x7f1f2fb00220> = <module 'posixpath' (frozen)>.isfile
+E        +      where <module 'posixpath' (frozen)> = os.path
+
+tests/test_final_state.py:36: AssertionError
+___________ ERROR at setup of test_source_custom_response_configured ___________
+
+    @pytest.fixture(scope="session")
+    def parsed_log() -> dict:
+>       assert os.path.isfile(LOG_PATH), (
+            f"Output log not found at {LOG_PATH}; the executor must record the "
+            "Source URL and Connection ID there."
+        )
+E       AssertionError: Output log not found at /home/user/hookdeck-task/output.log; the executor must record the Source URL and Connection ID there.
+E       assert False
+E        +  where False = <function isfile at 0x7f1f2fb00220>('/home/user/hookdeck-task/output.log')
+E        +    where <function isfile at 0x7f1f2fb00220> = <module 'posixpath' (frozen)>.isfile
+E        +      where <module 'posixpath' (frozen)> = os.path
+
+tests/test_final_state.py:36: AssertionError
+________________ ERROR at setup of test_destination_is_mock_api ________________
+
+    @pytest.fixture(scope="session")
+    def parsed_log() -> dict:
+>       assert os.path.isfile(LOG_PATH), (
+            f"Output log not found at {LOG_PATH}; the executor must record the "
+            "Source URL and Connection ID there."
+        )
+E       AssertionError: Output log not found at /home/user/hookdeck-task/output.log; the executor must record the Source URL and Connection ID there.
+E       assert False
+E        +  where False = <function isfile at 0x7f1f2fb00220>('/home/user/hookdeck-task/output.log')
+E        +    where <function isfile at 0x7f1f2fb00220> = <module 'posixpath' (frozen)>.isfile
+E        +      where <module 'posixpath' (frozen)> = os.path
+
+tests/test_final_state.py:36: AssertionError
+_ ERROR at setup of test_source_returns_configured_xml_response_and_delivers_event _
+
+    @pytest.fixture(scope="session")
+    def parsed_log() -> dict:
+>       assert os.path.isfile(LOG_PATH), (
+            f"Output log not found at {LOG_PATH}; the executor must record the "
+            "Source URL and Connection ID there."
+        )
+E       AssertionError: Output log not found at /home/user/hookdeck-task/output.log; the executor must record the Source URL and Connection ID there.
+E       assert False
+E        +  where False = <function isfile at 0x7f1f2fb00220>('/home/user/hookdeck-task/output.log')
+E        +    where <function isfile at 0x7f1f2fb00220> = <module 'posixpath' (frozen)>.isfile
+E        +      where <module 'posixpath' (frozen)> = os.path
+
+tests/test_final_state.py:36: AssertionError
+=========================== short test summary info ============================
+ERROR tests/test_final_state.py::test_log_file_has_required_fields - Assertio...
+ERROR tests/test_final_state.py::test_connection_name_and_active - AssertionE...
+ERROR tests/test_final_state.py::test_source_custom_response_configured - Ass...
+ERROR tests/test_final_state.py::test_destination_is_mock_api - AssertionErro...
+ERROR tests/test_final_state.py::test_source_returns_configured_xml_response_and_delivers_event
+============================== 5 errors in 0.26s ===============================

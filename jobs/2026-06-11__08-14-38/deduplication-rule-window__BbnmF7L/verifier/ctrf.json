@@ -1,0 +1,74 @@
+{
+    "reportFormat": "CTRF",
+    "specVersion": "0.0.0",
+    "timestamp": "2026-06-11T08:23:12.188654+00:00",
+    "generatedBy": "pytest",
+    "results": {
+        "tool": {
+            "name": "pytest",
+            "version": "7.4.4"
+        },
+        "summary": {
+            "tests": 5,
+            "passed": 5,
+            "failed": 0,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1781166191075,
+            "stop": 1781166192188
+        },
+        "environment": {
+            "buildName": "Pytest JSON CTRF Report",
+            "buildNumber": "000",
+            "buildUrl": "https://ctrf.io"
+        },
+        "tests": [
+            {
+                "name": "test_final_state.py::test_log_file_records_resource_ids",
+                "status": "passed",
+                "duration": 2,
+                "start": 1781166191248,
+                "stop": 1781166191250,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_connection_uses_run_id_named_resources_and_mock_destination",
+                "status": "passed",
+                "duration": 176,
+                "start": 1781166191250,
+                "stop": 1781166191426,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_connection_has_single_deduplicate_rule_with_300s_window_on_id_and_type",
+                "status": "passed",
+                "duration": 180,
+                "start": 1781166191427,
+                "stop": 1781166191607,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_exactly_three_successful_events_delivered_through_connection",
+                "status": "passed",
+                "duration": 269,
+                "start": 1781166191607,
+                "stop": 1781166191876,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_duplicate_requests_were_ignored_by_deduplication",
+                "status": "passed",
+                "duration": 312,
+                "start": 1781166191876,
+                "stop": 1781166192188,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            }
+        ]
+    }
+}

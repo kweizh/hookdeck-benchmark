@@ -1,0 +1,107 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-7.4.4, pluggy-1.4.0
+rootdir: /tests
+plugins: json-ctrf-0.5.2
+collected 7 items
+
+tests/test_final_state.py ..F..F.                                        [100%]
+
+=================================== FAILURES ===================================
+__________________ test_connection_references_transformation ___________________
+
+result_ids = {'connection_id': 'web_Rgc7v4yAXxGy', 'destination_id': 'des_Rk4Q9DiayIKS', 'source_id': 'src_9g1tukcoies053', 'transformation_id': 'trs_WZOowWBmnLvSKZ'}
+
+    def test_connection_references_transformation(result_ids):
+        rid = _run_id()
+        resp = requests.get(
+            f"{API_BASE}/connections/{result_ids['connection_id']}",
+            headers=_headers(),
+            timeout=30,
+        )
+        assert resp.status_code == 200, (
+            f"GET /connections/{result_ids['connection_id']} returned"
+            f" {resp.status_code}: {resp.text}"
+        )
+        body = resp.json()
+        assert body.get("name") == f"flatten-conn-{rid}", (
+            f"Connection name mismatch: expected 'flatten-conn-{rid}',"
+            f" got {body.get('name')!r}."
+        )
+        source = body.get("source") or {}
+        destination = body.get("destination") or {}
+        assert source.get("id") == result_ids["source_id"], (
+            f"Connection source mismatch: expected {result_ids['source_id']},"
+            f" got {source.get('id')!r}."
+        )
+        assert destination.get("id") == result_ids["destination_id"], (
+            f"Connection destination mismatch: expected {result_ids['destination_id']},"
+            f" got {destination.get('id')!r}."
+        )
+        rules = body.get("rules") or []
+        matching = [
+            r for r in rules
+            if isinstance(r, dict)
+            and r.get("type") == "transformation"
+            and r.get("transformation_id") == result_ids["transformation_id"]
+        ]
+>       assert matching, (
+            "Connection.rules must contain a transformation rule referencing"
+            f" transformation_id={result_ids['transformation_id']}. Got rules={rules!r}."
+        )
+E       AssertionError: Connection.rules must contain a transformation rule referencing transformation_id=trs_WZOowWBmnLvSKZ. Got rules=[{'type': 'transform', 'transformation_id': 'trs_WZOowWBmnLvSKZ'}].
+E       assert []
+
+tests/test_final_state.py:134: AssertionError
+___________________ test_delivered_event_bodies_and_headers ____________________
+
+result_ids = {'connection_id': 'web_Rgc7v4yAXxGy', 'destination_id': 'des_Rk4Q9DiayIKS', 'source_id': 'src_9g1tukcoies053', 'transformation_id': 'trs_WZOowWBmnLvSKZ'}
+
+    def test_delivered_event_bodies_and_headers(result_ids):
+        events = _wait_for_terminal_events(result_ids["connection_id"], expected=2)
+        successful = [e for e in events if e.get("status") == "SUCCESSFUL"]
+        assert len(successful) >= 2, (
+            f"Need at least 2 successful events to check shape; got {len(successful)}."
+        )
+    
+        expected_keys = {"id", "amount", "currency", "email"}
+        forbidden_keys = {"data", "object", "customer_email"}
+    
+        for event in successful[:2]:
+            event_id = event.get("id")
+            assert event_id, f"Successful event is missing id: {event!r}"
+            detail_resp = requests.get(
+                f"{API_BASE}/events/{event_id}",
+                headers=_headers(),
+                timeout=30,
+            )
+            assert detail_resp.status_code == 200, (
+                f"GET /events/{event_id} returned {detail_resp.status_code}:"
+                f" {detail_resp.text}"
+            )
+            detail = detail_resp.json()
+            data = detail.get("data") or {}
+            # The delivered body is at data.body.body per the Inspect API schema.
+            outer_body = data.get("body")
+            assert isinstance(outer_body, dict), (
+                f"Event {event_id}: data.body is not an object: {outer_body!r}"
+            )
+            inner_body = outer_body.get("body")
+>           assert isinstance(inner_body, dict), (
+                f"Event {event_id}: data.body.body must be an object (the transformed"
+                f" payload); got {inner_body!r}"
+            )
+E           AssertionError: Event evt_fCNXaOwlBBnl0PQKvX: data.body.body must be an object (the transformed payload); got None
+E           assert False
+E            +  where False = isinstance(None, dict)
+
+tests/test_final_state.py:264: AssertionError
+==================================== PASSES ====================================
+=========================== short test summary info ============================
+PASSED tests/test_final_state.py::test_source_exists_and_is_webhook
+PASSED tests/test_final_state.py::test_destination_exists_and_is_mock_api
+PASSED tests/test_final_state.py::test_transformation_code_contract
+PASSED tests/test_final_state.py::test_exactly_two_events_delivered
+PASSED tests/test_final_state.py::test_dropped_event_recorded_as_ignored
+FAILED tests/test_final_state.py::test_connection_references_transformation
+FAILED tests/test_final_state.py::test_delivered_event_bodies_and_headers - A...
+========================= 2 failed, 5 passed in 1.93s ==========================

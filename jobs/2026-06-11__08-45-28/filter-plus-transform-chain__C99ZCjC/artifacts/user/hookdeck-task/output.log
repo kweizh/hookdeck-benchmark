@@ -1,0 +1,21 @@
+=== Hookdeck Chain Setup ===
+Run ID: zr-c99zcjc
+
+--- Resources Created ---
+Source:        chain-src-zr-c99zcjc  (type: WEBHOOK,   id: src_097uc6gfoq0ex9)
+Destination:   chain-dest-zr-c99zcjc (type: MOCK_API,  id: des_OS0DNj7ivuM0)
+Transformation: chain-trans-zr-c99zcjc (id: trs_YQWs2p6TW8gFnS)
+Connection:    chain-conn-zr-c99zcjc (id: web_PBH91Tpig7T7)
+
+--- Connection Rules (ordered) ---
+rules[0]: type=filter   body.type == "order.created"
+rules[1]: type=transform  transformation_id=trs_YQWs2p6TW8gFnS
+          (adds body.processed_at ISO8601 timestamp + header x-processed: true)
+
+--- Events Published ---
+Event 1: {"type":"order.created","order_id":"ord-001","amount":99.99}    -> MATCHING    req_vLqH5t6OFLixZCWHz3ud
+Event 2: {"type":"order.created","order_id":"ord-002","amount":149.50}   -> MATCHING    req_AGI6ZYVu2vRYrwOgnhVX
+Event 3: {"type":"order.updated","order_id":"ord-001","status":"shipped"} -> NON-MATCHING req_teq5od5MHQtVQsEjraFI
+Event 4: {"type":"customer.created","customer_id":"cust-001"}            -> NON-MATCHING req_eoomteKaBOWLDMZacVaL
+
+Connection ID: web_PBH91Tpig7T7

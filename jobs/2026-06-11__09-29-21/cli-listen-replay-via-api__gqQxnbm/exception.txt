@@ -1,0 +1,84 @@
+Traceback (most recent call last):
+  File "/home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/trial/single_step.py", line 63, in _run_agent
+    await self._run_agent_phase(
+    ...<4 lines>...
+    )
+  File "/home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/trial/trial.py", line 238, in _run_agent_phase
+    await asyncio.wait_for(
+    ...<6 lines>...
+    )
+  File "/usr/lib/python3.13/asyncio/tasks.py", line 507, in wait_for
+    return await fut
+           ^^^^^^^^^
+  File "/home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/agents/installed/base.py", line 39, in wrapper
+    return await fn(self, instruction, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/kweizh/zealt/zealt-agent/agents/pochi.py", line 223, in run
+    await self.exec_as_agent(
+    ...<15 lines>...
+    )
+  File "/home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/agents/installed/base.py", line 354, in exec_as_agent
+    return await self._exec(
+           ^^^^^^^^^^^^^^^^^
+        environment, command, env=env, cwd=cwd, timeout_sec=timeout_sec
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/kweizh/.local/share/uv/tools/harbor/lib/python3.13/site-packages/harbor/agents/installed/base.py", line 317, in _exec
+    raise NonZeroAgentExitCodeError(
+    ...<3 lines>...
+    )
+harbor.agents.installed.base.NonZeroAgentExitCodeError: Command failed (exit 143): pochi --model zai/glm-5.1 --max-steps 200 --max-retries 10 --blobs-dir /logs/agent/pochi/blobs --experimental-stream-trajectory /logs/agent/pochi/trajectory.jsonl > >(tee /logs/agent/pochi/stdout.txt) 2> >(tee /logs/agent/pochi/stderr.txt >&2) <<'EOF'
+# Hookdeck: CLI Destination + Programmatic Replay
+
+## Background
+You are wiring a local development workflow on top of Hookdeck. A webhook producer pushes one event into a Hookdeck `WEBHOOK` source. Hookdeck must forward the event to a local HTTP server through a `CLI` destination created by `hookdeck listen`. The local server is flaky on first contact (returns `500` once, then `200`). Your job is to drive the recovery using the Hookdeck REST API: detect the failed event and replay it programmatically — not through the interactive TUI.
+
+## Requirements
+- Authenticate the Hookdeck CLI using `HOOKDECK_API_KEY` (headless, no browser).
+- Run a tiny local HTTP server on port `3000` whose `POST /hooks` handler returns HTTP `500` on the first request and HTTP `200` on every subsequent request (in-memory toggle, one process).
+- Use `hookdeck listen` to forward a `WEBHOOK` source to `http://localhost:3000/hooks`. The destination created by `hookdeck listen` must be of type `CLI` with `cli_path` equal to `/hooks`.
+- Publish exactly one event to the source via the Hookdeck Publish API (`POST https://hkdk.events/v1/publish`).
+- After the first delivery attempt FAILS, replay the event by calling the Hookdeck REST API endpoint `POST /events/{id}/retry`. Do not press the `r` key in the TUI; the retry must be triggered programmatically.
+- Persist enough information to a log file so the verifier can locate and inspect the artifacts in Hookdeck.
+
+## Implementation Hints
+- Read `ZEALT_RUN_ID` from the environment and append it to any externally visible resource name (source, destination, connection) to keep parallel runs isolated.
+- `hookdeck listen <port> <source-name> --path <path>` will create the source, the `CLI` destination, and the connection on first run. Use `--output quiet` or `--output compact` so the process runs cleanly in a headless container.
+- The CLI process is long-lived; start it in the background and wait until the connection is established before publishing.
+- The Publish API requires the `Authorization: Bearer $HOOKDECK_API_KEY` header and the `X-Hookdeck-Source-Name` header.
+- According to the Hookdeck docs, `POST /events/{id}/retry` returns the Event object directly at the root of the response (no wrapper). Treat the JSON body as the event itself.
+- Poll `GET /events/{id}` until `status` becomes `SUCCESSFUL` and `attempts == 2` before declaring success.
+
+## Acceptance Criteria
+- Project path: /home/user/project
+- Ensure the real Hookdeck actions are executed and the log artifact exists.
+- Log file: /home/user/project/output.log
+- The log file MUST contain the following lines, each on its own line, with these exact prefixes:
+  - `Source Name: <source_name>`
+  - `Connection ID: <web_...>`
+  - `Event ID: <evt_...>`
+  - `Retry Response Event ID: <evt_...>`
+  - `Final Status: SUCCESSFUL`
+  - `Final Attempts: 2`
+- The resource name suffix rule:
+  - The Hookdeck source name MUST be `cli-replay-${ZEALT_RUN_ID}` (lowercased).
+- Connection shape (verified via the Hookdeck REST API):
+  - `source.type == "WEBHOOK"`
+  - `destination.type == "CLI"`
+  - `destination.config.cli_path == "/hooks"`
+- Event shape (verified via the Hookdeck REST API):
+  - Exactly one event is created for that source during this run.
+  - `attempts == 2`
+  - `status == "SUCCESSFUL"`
+  - The retry response logged as `Retry Response Event ID:` MUST equal the `Event ID:` (i.e. the retry endpoint returns the Event object at the root, not wrapped under a `data` or `event` key).
+
+
+EOF
+stdout: [37m2026-06-11 09:40:23.103[39m[0m[0m	[32m[1mDEBUG[22m[39m[0m[0m	[37m[39m[0m[0m[1m[37m	Pochi[39m[22m[0m[0m	pochi v0.6.14
+[37m2026-06-11 09:40:23.527[39m[0m[0m	[32m[1mDEBUG[22m[39m[0m[0m	[37mnative:7[39m[0m[0m[1m[37m	BuiltInBundle[39m[22m[0m[0m	Materializing 16 built-in files to /tmp/pochi-builtin-5f7c1b2d4157fa59
+[37m2026-06-11 09:40:23.820[39m[0m[0m	[32m[1mDEBUG[22m[39m[0m[0m	[37m$bunfs/root/pochi:517730[39m[0m[0m[1m[37m	loadAgents[39m[22m[0m[0m	Loaded 6 custom agents (6 valid, 0 invalid)
+[37m2026-06-11 09:40:23.924[39m[0m[0m	[32m[1mDEBUG[22m[39m[0m[0m	[37m$bunfs/root/pochi:517731[39m[0m[0m[1m[37m	loadSkills[39m[22m[0m[0m	Loaded 3 skills (3 valid, 0 invalid)
+[37m2026-06-11 09:40:23.993[39m[0m[0m	[32m[1mDEBUG[22m[39m[0m[0m	[37m$bunfs/root/pochi:442311[39m[0m[0m[1m[37m	PochiVendor[39m[22m[0m[0m	JWT is expiring or missing, fetching a new one
+[37m2026-06-11 09:40:25.188[39m[0m[0m	[32m ... [truncated]
+stderr: None

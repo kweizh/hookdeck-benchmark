@@ -1,0 +1,107 @@
+{
+    "reportFormat": "CTRF",
+    "specVersion": "0.0.0",
+    "timestamp": "2026-06-11T08:49:11.103466+00:00",
+    "generatedBy": "pytest",
+    "results": {
+        "tool": {
+            "name": "pytest",
+            "version": "7.4.4"
+        },
+        "summary": {
+            "tests": 8,
+            "passed": 6,
+            "failed": 2,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1781167748223,
+            "stop": 1781167751102
+        },
+        "environment": {
+            "buildName": "Pytest JSON CTRF Report",
+            "buildNumber": "000",
+            "buildUrl": "https://ctrf.io"
+        },
+        "tests": [
+            {
+                "name": "test_final_state.py::test_source_exists_with_expected_name_and_type",
+                "status": "passed",
+                "duration": 220,
+                "start": 1781167748580,
+                "stop": 1781167748800,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_fast_destination_is_mock_api_with_no_rate_limit",
+                "status": "passed",
+                "duration": 193,
+                "start": 1781167748802,
+                "stop": 1781167748995,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_slow_destination_is_mock_api_with_2_per_second",
+                "status": "passed",
+                "duration": 282,
+                "start": 1781167748997,
+                "stop": 1781167749279,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_fast_connection_links_source_to_fast_destination",
+                "status": "passed",
+                "duration": 191,
+                "start": 1781167749279,
+                "stop": 1781167749470,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_slow_connection_links_source_to_slow_destination",
+                "status": "passed",
+                "duration": 188,
+                "start": 1781167749471,
+                "stop": 1781167749659,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_fast_destination_received_all_12_events_without_pacing",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 381,
+                "start": 1781167749660,
+                "stop": 1781167750041,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "logged_ids = {'fast_connection_id': 'web_4dhGPuGW5NzY', 'fast_destination_id': 'des_ovJhTTwoSyKW', 'published_events': '12', 'slow_connection_id': 'web_pessqXhAzrue', ...}\n\n    def test_fast_destination_received_all_12_events_without_pacing(logged_ids: dict):\n        events = _successful_events_for_destination(logged_ids[\"fast_destination_id\"])\n        assert len(events) == 12, (\n            f\"Expected 12 SUCCESSFUL events on the fast destination, \"\n            f\"got {len(events)}.\"\n        )\n    \n        timestamps = [_parse_ts(e[\"successful_at\"]) for e in events]\n        spread = (max(timestamps) - min(timestamps)).total_seconds()\n>       assert spread < 2.0, (\n            \"Fast (uncapped) destination should deliver in a tight burst \"\n            f\"(< 2s spread). Observed spread = {spread:.3f}s.\"\n        )\nE       AssertionError: Fast (uncapped) destination should deliver in a tight burst (< 2s spread). Observed spread = 2.011s.\nE       assert 2.011 < 2.0\n\ntests/test_final_state.py:253: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            },
+            {
+                "name": "test_final_state.py::test_slow_destination_received_all_12_events_with_rate_limit_pacing",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 304,
+                "start": 1781167750041,
+                "stop": 1781167750345,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "logged_ids = {'fast_connection_id': 'web_4dhGPuGW5NzY', 'fast_destination_id': 'des_ovJhTTwoSyKW', 'published_events': '12', 'slow_connection_id': 'web_pessqXhAzrue', ...}\n\n    def test_slow_destination_received_all_12_events_with_rate_limit_pacing(\n        logged_ids: dict,\n    ):\n        events = _successful_events_for_destination(logged_ids[\"slow_destination_id\"])\n        assert len(events) == 12, (\n            f\"Expected 12 SUCCESSFUL events on the slow destination, \"\n            f\"got {len(events)}.\"\n        )\n    \n        timestamps = [_parse_ts(e[\"successful_at\"]) for e in events]\n        spread = (max(timestamps) - min(timestamps)).total_seconds()\n>       assert spread >= 5.0, (\n            \"Slow destination (rate_limit=2/second) must show pacing across \"\n            f\"12 events: expected spread >= 5.0s, observed {spread:.3f}s.\"\n        )\nE       AssertionError: Slow destination (rate_limit=2/second) must show pacing across 12 events: expected spread >= 5.0s, observed 4.995s.\nE       assert 4.995 >= 5.0\n\ntests/test_final_state.py:270: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            },
+            {
+                "name": "test_final_state.py::test_events_are_owned_by_the_two_expected_connections",
+                "status": "passed",
+                "duration": 757,
+                "start": 1781167750345,
+                "stop": 1781167751102,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            }
+        ]
+    }
+}

@@ -1,0 +1,106 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-7.4.4, pluggy-1.4.0
+rootdir: /tests
+plugins: json-ctrf-0.5.2
+collected 5 items
+
+tests/test_final_state.py EEEEE                                          [100%]
+
+==================================== ERRORS ====================================
+__________________ ERROR at setup of test_destination_config ___________________
+
+    @pytest.fixture(scope="module")
+    def log_text() -> str:
+>       return _read_log_text()
+
+tests/test_final_state.py:43: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def _read_log_text() -> str:
+>       assert os.path.isfile(LOG_FILE), f"Log file not found at {LOG_FILE}"
+E       AssertionError: Log file not found at /home/user/hookdeck-task/output.log
+E       assert False
+E        +  where False = <function isfile at 0x7f2a4acc8220>('/home/user/hookdeck-task/output.log')
+E        +    where <function isfile at 0x7f2a4acc8220> = <module 'posixpath' (frozen)>.isfile
+E        +      where <module 'posixpath' (frozen)> = os.path
+
+tests/test_final_state.py:13: AssertionError
+_____________________ ERROR at setup of test_source_config _____________________
+
+    @pytest.fixture(scope="module")
+    def log_text() -> str:
+>       return _read_log_text()
+
+tests/test_final_state.py:43: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def _read_log_text() -> str:
+>       assert os.path.isfile(LOG_FILE), f"Log file not found at {LOG_FILE}"
+E       AssertionError: Log file not found at /home/user/hookdeck-task/output.log
+E       assert False
+E        +  where False = <function isfile at 0x7f2a4acc8220>('/home/user/hookdeck-task/output.log')
+E        +    where <function isfile at 0x7f2a4acc8220> = <module 'posixpath' (frozen)>.isfile
+E        +      where <module 'posixpath' (frozen)> = os.path
+
+tests/test_final_state.py:13: AssertionError
+________ ERROR at setup of test_connection_links_source_and_destination ________
+
+    @pytest.fixture(scope="module")
+    def log_text() -> str:
+>       return _read_log_text()
+
+tests/test_final_state.py:43: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def _read_log_text() -> str:
+>       assert os.path.isfile(LOG_FILE), f"Log file not found at {LOG_FILE}"
+E       AssertionError: Log file not found at /home/user/hookdeck-task/output.log
+E       assert False
+E        +  where False = <function isfile at 0x7f2a4acc8220>('/home/user/hookdeck-task/output.log')
+E        +    where <function isfile at 0x7f2a4acc8220> = <module 'posixpath' (frozen)>.isfile
+E        +      where <module 'posixpath' (frozen)> = os.path
+
+tests/test_final_state.py:13: AssertionError
+______________ ERROR at setup of test_all_five_events_successful _______________
+
+    @pytest.fixture(scope="module")
+    def log_text() -> str:
+>       return _read_log_text()
+
+tests/test_final_state.py:43: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def _read_log_text() -> str:
+>       assert os.path.isfile(LOG_FILE), f"Log file not found at {LOG_FILE}"
+E       AssertionError: Log file not found at /home/user/hookdeck-task/output.log
+E       assert False
+E        +  where False = <function isfile at 0x7f2a4acc8220>('/home/user/hookdeck-task/output.log')
+E        +    where <function isfile at 0x7f2a4acc8220> = <module 'posixpath' (frozen)>.isfile
+E        +      where <module 'posixpath' (frozen)> = os.path
+
+tests/test_final_state.py:13: AssertionError
+__________ ERROR at setup of test_delivery_pacing_matches_rate_limit ___________
+
+    @pytest.fixture(scope="module")
+    def log_text() -> str:
+>       return _read_log_text()
+
+tests/test_final_state.py:43: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def _read_log_text() -> str:
+>       assert os.path.isfile(LOG_FILE), f"Log file not found at {LOG_FILE}"
+E       AssertionError: Log file not found at /home/user/hookdeck-task/output.log
+E       assert False
+E        +  where False = <function isfile at 0x7f2a4acc8220>('/home/user/hookdeck-task/output.log')
+E        +    where <function isfile at 0x7f2a4acc8220> = <module 'posixpath' (frozen)>.isfile
+E        +      where <module 'posixpath' (frozen)> = os.path
+
+tests/test_final_state.py:13: AssertionError
+=========================== short test summary info ============================
+ERROR tests/test_final_state.py::test_destination_config - AssertionError: Lo...
+ERROR tests/test_final_state.py::test_source_config - AssertionError: Log fil...
+ERROR tests/test_final_state.py::test_connection_links_source_and_destination
+ERROR tests/test_final_state.py::test_all_five_events_successful - AssertionE...
+ERROR tests/test_final_state.py::test_delivery_pacing_matches_rate_limit - As...
+============================== 5 errors in 0.30s ===============================

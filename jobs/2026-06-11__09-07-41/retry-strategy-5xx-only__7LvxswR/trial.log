@@ -1,0 +1,109 @@
+Skipping image OS validation for hb__retry-strategy-5xx-only: docker inspect returned 1
+Running command: apt-get update && apt-get install -y curl ripgrep
+Command outputs captured
+Running command: set -euo pipefail; curl -fsSL https://getpochi.com/install.sh | bash -x -s -- pochi-v0.6.14 && mkdir -p /logs/agent/pochi && ~/.pochi/bin/pochi --version
+Command outputs captured
+Running command: ln -sf ~/.pochi/bin/pochi /usr/local/bin/pochi
+Command outputs captured
+Running command: echo zr-7lvxswr > /logs/artifacts/run-id && echo retry-strategy-5xx-only__7LvxswR > /logs/artifacts/trial_id
+Command outputs captured
+Running command: mkdir -p ~/.pochi && cat << 'EOF' | sed -e "s/OPENAI_API_KEY/${OPENAI_API_KEY}/g" -e "s/DEEPINFRA_API_KEY/${DEEPINFRA_API_KEY}/g" > ~/.pochi/config.jsonc
+{
+  "providers": {
+    "deepinfra": {
+      "kind": "openai",
+      "baseURL": "https://api.deepinfra.com/v1/openai",
+      "apiKey": "DEEPINFRA_API_KEY",
+      "models": {
+        "zai-org/GLM-4.7-Flash": {
+          "name": "glm-4.7-flash"
+        },
+        "moonshotai/Kimi-K2.6": {
+          "name": "kimi-K2.6"
+        },
+        "deepseek-ai/DeepSeek-V4-Pro": {
+          "name": "DeepSeek-V4-Pro"
+        }
+      }
+    },
+    "openai": {
+      "kind": "openai",
+      "baseURL": "https://api.openai.com/v1",
+      "apiKey": "OPENAI_API_KEY",
+      "models": {
+        "gpt-5.4": {
+          "name": "gpt-5.4"
+        }
+      }
+    }
+  }
+}
+EOF
+Command outputs captured
+Running command: if [ -f /bootstrap/test_initial_state.py ]; then pytest -s --log-cli-level=DEBUG /bootstrap/test_initial_state.py > >(tee /logs/agent/pochi/initial-test-stdout.txt) 2> >(tee /logs/agent/pochi/initial-test-stderr.txt >&2); fi
+Command outputs captured
+Running command: pochi --model google/gemini-3.1-pro --max-steps 200 --max-retries 10 --blobs-dir /logs/agent/pochi/blobs --experimental-stream-trajectory /logs/agent/pochi/trajectory.jsonl > >(tee /logs/agent/pochi/stdout.txt) 2> >(tee /logs/agent/pochi/stderr.txt >&2) <<'EOF'
+# Selective Retry Policy: 5xx Retries, 4xx Pass-Through
+
+## Background
+Hookdeck Connections support a `retry` rule that controls how Hookdeck retries failed deliveries to a destination. A correctly scoped retry policy is critical: server errors (5xx) deserve automatic retries, while client errors (4xx) typically must NOT be retried because they will keep failing.
+
+You will configure two Connections that prove this contract end to end, then drive traffic through them and inspect the resulting events and attempts via the Hookdeck Inspect API.
+
+## State Contract
+For `run-id` read from `ZEALT_RUN_ID`:
+
+- **Connection A** (`conn-a-${run-id}`): destination is initially wired so the first three delivery attempts return a 5xx response. After Connection A's event has accumulated at least 3 attempts, you must repoint Connection A's destination to an endpoint that returns 200 OK, then drive one more attempt so the event ends as `SUCCESSFUL`.
+- **Connection B** (`conn-b-${run-id}`): destination always returns 422 (an unretried client error). The Connection B event must end as `FAILED` after exactly 1 attempt.
+- Both connections MUST share the same retry policy: `strategy=linear`, `interval=30000` ms, `count=5`, `response_status_codes=["500", "502", "503", "504"]` (note: 422 is intentionally NOT in this set).
+
+You choose how to exercise traffic (Publish API, direct source POST, etc.) and how to drive subsequent attempts (waiting for automatic retries, or using the Inspect API's `POST /events/{id}/retry` endpoint).
+
+## Requirements
+- Read `run-id` from `ZEALT_RUN_ID`.
+- Create source `src-a-${run-id}` (type `WEBHOOK`) and destination `dest-a-${run-id}` (type `HTTP`) linked by connection `conn-a-${run-id}` with the retry rule defined above.
+- Create source `src-b-${run-id}` (type `WEBHOOK`) and destination `dest-b-${run-id}` (type `HTTP`, URL returning 422) linked by connection `conn-b-${run-id}` with the same retry rule.
+- Drive exactly one event through each connection so that:
+  - The Connection A event has `attempts >= 3` and final `status == "SUCCESSFUL"`.
+  - The Connection B event has `attempts == 1` and final `status == "FAILED"`.
+- Write the resulting Connection IDs and Event IDs to `/home/user/hookdeck-task/output.log` in the exact format described in Acceptance Criteria.
+
+## Implementation Hints
+- You may use the Hookdeck CLI (`hookdeck ci --api-key $HOOKDECK_API_KEY` first), the REST API at `https://api.hookdeck.com/2025-07-01/`, or the Publish API at `https://hkdk.events/v1/publish`.
+- For the controllable destinations, public stateless endpoints such as `https://httpstat.us/500`, `https://httpstat.us/200`, and `https://httpstat.us/422` are reachable from the container and behave deterministically.
+- The retry policy's `interval` is in **milliseconds**.
+- The `/attempts` endpoint only surfaces attempts with `status` of `SUCCESSFUL` or `FAILED` (in-flight attempts are not returned).
+- 5xx automatic retries follow the linear schedule, so leveraging `POST /events/{id}/retry` for manual retries lets you advance the attempt counter without long waits.
+- Always re-read the API spec at https://hookdeck.com/docs/api before guessing payload shapes.
+
+## Acceptance Criteria
+- Project path: /home/user/hookdeck-task
+- Ensure the real Hookdeck resources are created and the log artifact exists.
+- Log file: /home/user/hookdeck-task/output.log must contain (each on its own line, exact prefixes):
+  - `Connection A ID: <web_...>`
+  - `Connection B ID: <web_...>`
+  - `Event A ID: <evt_...>`
+  - `Event B ID: <evt_...>`
+- Connection A (`conn-a-${run-id}`):
+  - `source.name == src-a-${run-id}` and `source.type == WEBHOOK`.
+  - `destination.name == dest-a-${run-id}` and `destination.type == HTTP`.
+  - `rules` contains exactly one rule of `type == retry` with `strategy == linear`, `interval == 30000`, `count == 5`, and `response_status_codes` equal (as a set) to `["500", "502", "503", "504"]`.
+- Connection B (`conn-b-${run-id}`):
+  - `source.name == src-b-${run-id}` and `source.type == WEBHOOK`.
+  - `destination.name == dest-b-${run-id}` and `destination.type == HTTP`.
+  - `rules` contains exactly one rule of `type == retry` whose `response_status_codes` includes 5xx codes and does NOT include `422`.
+- Event A (`Event A ID`):
+  - Belongs to Connection A (`webhook_id == <Connection A ID>`).
+  - `attempts >= 3` and `status == SUCCESSFUL`.
+  - `GET /attempts?event_id=<Event A ID>` returns at least 3 attempts; every returned attempt's `status` is either `SUCCESSFUL` or `FAILED`; the most recent attempt (highest `attempt_number`) has `status == SUCCESSFUL`; at least one earlier attempt has `status == FAILED` with a 5xx `response_status`.
+- Event B (`Event B ID`):
+  - Belongs to Connection B (`webhook_id == <Connection B ID>`).
+  - `attempts == 1` and `status == FAILED`.
+  - `GET /attempts?event_id=<Event B ID>` returns exactly 1 attempt with `status == FAILED` and `response_status == 422`.
+
+
+EOF
+Command outputs captured
+Running command: rm -f ~/.pochi/config.jsonc
+Command outputs captured
+The verifier.env contains an API key (often the case for LLM-based verifiers). You will incur costs associated with the API calls.

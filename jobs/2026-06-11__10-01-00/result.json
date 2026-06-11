@@ -1,0 +1,83 @@
+{
+    "id": "ff79142a-4d1b-47e1-b959-ae92188eb280",
+    "started_at": "2026-06-11T10:01:02.798240",
+    "updated_at": "2026-06-11T10:43:08.551222",
+    "finished_at": "2026-06-11T10:43:08.551222",
+    "n_total_trials": 20,
+    "stats": {
+        "n_completed_trials": 20,
+        "n_errored_trials": 18,
+        "n_running_trials": 0,
+        "n_pending_trials": 0,
+        "n_cancelled_trials": 0,
+        "n_retries": 0,
+        "evals": {
+            "pochi__deepseek-4-pro__pending-tasks": {
+                "n_trials": 18,
+                "n_errors": 18,
+                "metrics": [
+                    {
+                        "mean": 0.05
+                    }
+                ],
+                "pass_at_k": {},
+                "reward_stats": {
+                    "reward": {
+                        "0.0": [
+                            "filter-plus-transform-chain__orS4kJ9",
+                            "fanout-two-destinations-rate-lim__yTAvz35",
+                            "retry-strategy-5xx-only__N3f4bme",
+                            "query-operators-time-window__zseR9V9",
+                            "transformation-flatten-rename-he__W2Hrcek",
+                            "deduplication-rule-window__GMRwoHK",
+                            "delay-rule-deferred-delivery__GfoztKX",
+                            "source-basic-auth-custom-respons__KqbJprc",
+                            "destination-rate-limit-per-minut__mTuX4tv",
+                            "cli-listen-replay-via-api__5BMdSqX",
+                            "transformation-drop-invalid__QWfjL7q",
+                            "shopify-source-hmac-verification__pKBj5XV",
+                            "source-custom-response-xml__3K7wf2S",
+                            "transformation-hmac-env-secret__Y6VJEw4",
+                            "poll-event-delivery-status__M3GqLgd",
+                            "bulk-retry-failed-events__9LD8Gk5",
+                            "publish-api-bulk-100__Y5jDLgi"
+                        ],
+                        "1.0": [
+                            "stripe-filter-charge-succeeded__TjS4XYz"
+                        ]
+                    }
+                },
+                "exception_stats": {
+                    "AgentTimeoutError": [
+                        "filter-plus-transform-chain__orS4kJ9",
+                        "fanout-two-destinations-rate-lim__yTAvz35",
+                        "retry-strategy-5xx-only__N3f4bme",
+                        "transformation-flatten-rename-he__W2Hrcek",
+                        "deduplication-rule-window__GMRwoHK",
+                        "delay-rule-deferred-delivery__GfoztKX",
+                        "source-basic-auth-custom-respons__KqbJprc",
+                        "destination-rate-limit-per-minut__mTuX4tv",
+                        "transformation-drop-invalid__QWfjL7q",
+                        "shopify-source-hmac-verification__pKBj5XV",
+                        "source-custom-response-xml__3K7wf2S",
+                        "transformation-hmac-env-secret__Y6VJEw4",
+                        "bulk-retry-failed-events__9LD8Gk5",
+                        "publish-api-bulk-100__Y5jDLgi"
+                    ],
+                    "InitialStateError": [
+                        "metrics-api-report__nc26DVf",
+                        "pagination-cursor-iterator__9qwqj4Q"
+                    ],
+                    "NonZeroAgentExitCodeError": [
+                        "cli-listen-replay-via-api__5BMdSqX",
+                        "poll-event-delivery-status__M3GqLgd"
+                    ]
+                }
+            }
+        },
+        "n_input_tokens": 0,
+        "n_cache_tokens": 0,
+        "n_output_tokens": 93125,
+        "cost_usd": null
+    }
+}

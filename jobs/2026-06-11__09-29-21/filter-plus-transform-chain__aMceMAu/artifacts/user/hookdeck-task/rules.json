@@ -1,0 +1,10 @@
+[
+  {
+    "type": "filter",
+    "body": { "type": "order.created" }
+  },
+  {
+    "type": "transformation",
+    "transformation_id": "trs_TCxOXHaGi6TUDs"
+  }
+]

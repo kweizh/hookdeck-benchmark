@@ -1,0 +1,95 @@
+{
+    "reportFormat": "CTRF",
+    "specVersion": "0.0.0",
+    "timestamp": "2026-06-11T09:07:27.485743+00:00",
+    "generatedBy": "pytest",
+    "results": {
+        "tool": {
+            "name": "pytest",
+            "version": "7.4.4"
+        },
+        "summary": {
+            "tests": 7,
+            "passed": 6,
+            "failed": 1,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1781168844388,
+            "stop": 1781168847485
+        },
+        "environment": {
+            "buildName": "Pytest JSON CTRF Report",
+            "buildNumber": "000",
+            "buildUrl": "https://ctrf.io"
+        },
+        "tests": [
+            {
+                "name": "test_final_state.py::test_output_log_contents",
+                "status": "passed",
+                "duration": 1,
+                "start": 1781168844545,
+                "stop": 1781168844546,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_source_exists",
+                "status": "passed",
+                "duration": 170,
+                "start": 1781168844547,
+                "stop": 1781168844717,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_destination_is_mock_api",
+                "status": "passed",
+                "duration": 164,
+                "start": 1781168844718,
+                "stop": 1781168844882,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_connection_links_source_and_destination",
+                "status": "passed",
+                "duration": 163,
+                "start": 1781168844882,
+                "stop": 1781168845045,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_exactly_100_requests_with_batch_header",
+                "status": "passed",
+                "duration": 886,
+                "start": 1781168845045,
+                "stop": 1781168845931,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_request_bodies_cover_0_to_99",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 1148,
+                "start": 1781168845932,
+                "stop": 1781168847080,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "api_headers = {'Authorization': 'Bearer REDACTED'}\nsource = {'authenticated': False, 'config': {'allowed_http_methods': ['POST', 'PUT', 'PATCH', 'DELETE'], 'custom_response': None}, 'created_at': '2026-06-11T09:06:27.393Z', 'description': None, ...}\n\n    def test_request_bodies_cover_0_to_99(api_headers, source):\n        requests_list = _list_batch_requests(api_headers, source[\"id\"])\n        assert len(requests_list) == EXPECTED_COUNT, (\n            f\"Expected {EXPECTED_COUNT} requests for body inspection, \"\n            f\"found {len(requests_list)}.\"\n        )\n    \n        values = []\n        for req in requests_list:\n            i_val = _extract_i_value(req, api_headers)\n>           assert i_val is not None, (\n                f\"Could not extract 'i' field from request id={req.get('id')}.\"\n            )\nE           AssertionError: Could not extract 'i' field from request id=req_uYo0djmlzHVoNoe6nk6W.\nE           assert None is not None\n\ntests/test_final_state.py:253: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            },
+            {
+                "name": "test_final_state.py::test_exactly_100_successful_events_on_connection",
+                "status": "passed",
+                "duration": 405,
+                "start": 1781168847080,
+                "stop": 1781168847485,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            }
+        ]
+    }
+}

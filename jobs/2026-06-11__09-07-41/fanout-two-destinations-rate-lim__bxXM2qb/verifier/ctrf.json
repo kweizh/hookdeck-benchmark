@@ -1,0 +1,101 @@
+{
+    "reportFormat": "CTRF",
+    "specVersion": "0.0.0",
+    "timestamp": "2026-06-11T09:12:03.107792+00:00",
+    "generatedBy": "pytest",
+    "results": {
+        "tool": {
+            "name": "pytest",
+            "version": "7.4.4"
+        },
+        "summary": {
+            "tests": 8,
+            "passed": 8,
+            "failed": 0,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1781169117321,
+            "stop": 1781169123107
+        },
+        "environment": {
+            "buildName": "Pytest JSON CTRF Report",
+            "buildNumber": "000",
+            "buildUrl": "https://ctrf.io"
+        },
+        "tests": [
+            {
+                "name": "test_final_state.py::test_source_exists_with_expected_name_and_type",
+                "status": "passed",
+                "duration": 186,
+                "start": 1781169117504,
+                "stop": 1781169117690,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_fast_destination_is_mock_api_with_no_rate_limit",
+                "status": "passed",
+                "duration": 175,
+                "start": 1781169117691,
+                "stop": 1781169117866,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_slow_destination_is_mock_api_with_2_per_second",
+                "status": "passed",
+                "duration": 3529,
+                "start": 1781169117867,
+                "stop": 1781169121396,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_fast_connection_links_source_to_fast_destination",
+                "status": "passed",
+                "duration": 173,
+                "start": 1781169121397,
+                "stop": 1781169121570,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_slow_connection_links_source_to_slow_destination",
+                "status": "passed",
+                "duration": 179,
+                "start": 1781169121570,
+                "stop": 1781169121749,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_fast_destination_received_all_12_events_without_pacing",
+                "status": "passed",
+                "duration": 417,
+                "start": 1781169121749,
+                "stop": 1781169122166,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_slow_destination_received_all_12_events_with_rate_limit_pacing",
+                "status": "passed",
+                "duration": 287,
+                "start": 1781169122166,
+                "stop": 1781169122453,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_events_are_owned_by_the_two_expected_connections",
+                "status": "passed",
+                "duration": 653,
+                "start": 1781169122454,
+                "stop": 1781169123107,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            }
+        ]
+    }
+}

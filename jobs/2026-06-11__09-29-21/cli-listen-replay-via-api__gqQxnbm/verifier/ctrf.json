@@ -1,0 +1,109 @@
+{
+    "reportFormat": "CTRF",
+    "specVersion": "0.0.0",
+    "timestamp": "2026-06-11T09:45:00.242409+00:00",
+    "generatedBy": "pytest",
+    "results": {
+        "tool": {
+            "name": "pytest",
+            "version": "7.4.4"
+        },
+        "summary": {
+            "tests": 8,
+            "passed": 0,
+            "failed": 8,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1781171099988,
+            "stop": 1781171100242
+        },
+        "environment": {
+            "buildName": "Pytest JSON CTRF Report",
+            "buildNumber": "000",
+            "buildUrl": "https://ctrf.io"
+        },
+        "tests": [
+            {
+                "name": "test_final_state.py::test_log_file_has_required_lines",
+                "status": "failed",
+                "duration": 35,
+                "start": 1781171100148,
+                "stop": 1781171100183,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "@pytest.fixture(scope=\"session\")\n    def parsed_log() -> dict:\n>       assert os.path.isfile(LOG_PATH), f\"Log file not found at {LOG_PATH}\"\nE       AssertionError: Log file not found at /home/user/project/output.log\nE       assert False\nE        +  where False = <function isfile at 0x7f94f87f4220>('/home/user/project/output.log')\nE        +    where <function isfile at 0x7f94f87f4220> = <module 'posixpath' (frozen)>.isfile\nE        +      where <module 'posixpath' (frozen)> = os.path\n\ntests/test_final_state.py:31: AssertionError"
+            },
+            {
+                "name": "test_final_state.py::test_log_source_name_matches_run_id_convention",
+                "status": "failed",
+                "duration": 9,
+                "start": 1781171100183,
+                "stop": 1781171100192,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "@pytest.fixture(scope=\"session\")\n    def parsed_log() -> dict:\n>       assert os.path.isfile(LOG_PATH), f\"Log file not found at {LOG_PATH}\"\nE       AssertionError: Log file not found at /home/user/project/output.log\nE       assert False\nE        +  where False = <function isfile at 0x7f94f87f4220>('/home/user/project/output.log')\nE        +    where <function isfile at 0x7f94f87f4220> = <module 'posixpath' (frozen)>.isfile\nE        +      where <module 'posixpath' (frozen)> = os.path\n\ntests/test_final_state.py:31: AssertionError"
+            },
+            {
+                "name": "test_final_state.py::test_retry_response_returns_event_at_root",
+                "status": "failed",
+                "duration": 9,
+                "start": 1781171100192,
+                "stop": 1781171100201,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "@pytest.fixture(scope=\"session\")\n    def parsed_log() -> dict:\n>       assert os.path.isfile(LOG_PATH), f\"Log file not found at {LOG_PATH}\"\nE       AssertionError: Log file not found at /home/user/project/output.log\nE       assert False\nE        +  where False = <function isfile at 0x7f94f87f4220>('/home/user/project/output.log')\nE        +    where <function isfile at 0x7f94f87f4220> = <module 'posixpath' (frozen)>.isfile\nE        +      where <module 'posixpath' (frozen)> = os.path\n\ntests/test_final_state.py:31: AssertionError"
+            },
+            {
+                "name": "test_final_state.py::test_source_is_webhook_type",
+                "status": "failed",
+                "duration": 8,
+                "start": 1781171100201,
+                "stop": 1781171100209,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "@pytest.fixture(scope=\"session\")\n    def parsed_log() -> dict:\n>       assert os.path.isfile(LOG_PATH), f\"Log file not found at {LOG_PATH}\"\nE       AssertionError: Log file not found at /home/user/project/output.log\nE       assert False\nE        +  where False = <function isfile at 0x7f94f87f4220>('/home/user/project/output.log')\nE        +    where <function isfile at 0x7f94f87f4220> = <module 'posixpath' (frozen)>.isfile\nE        +      where <module 'posixpath' (frozen)> = os.path\n\ntests/test_final_state.py:31: AssertionError"
+            },
+            {
+                "name": "test_final_state.py::test_destination_is_cli_with_correct_path",
+                "status": "failed",
+                "duration": 9,
+                "start": 1781171100209,
+                "stop": 1781171100218,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "@pytest.fixture(scope=\"session\")\n    def parsed_log() -> dict:\n>       assert os.path.isfile(LOG_PATH), f\"Log file not found at {LOG_PATH}\"\nE       AssertionError: Log file not found at /home/user/project/output.log\nE       assert False\nE        +  where False = <function isfile at 0x7f94f87f4220>('/home/user/project/output.log')\nE        +    where <function isfile at 0x7f94f87f4220> = <module 'posixpath' (frozen)>.isfile\nE        +      where <module 'posixpath' (frozen)> = os.path\n\ntests/test_final_state.py:31: AssertionError"
+            },
+            {
+                "name": "test_final_state.py::test_event_state_via_api",
+                "status": "failed",
+                "duration": 7,
+                "start": 1781171100219,
+                "stop": 1781171100226,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "@pytest.fixture(scope=\"session\")\n    def parsed_log() -> dict:\n>       assert os.path.isfile(LOG_PATH), f\"Log file not found at {LOG_PATH}\"\nE       AssertionError: Log file not found at /home/user/project/output.log\nE       assert False\nE        +  where False = <function isfile at 0x7f94f87f4220>('/home/user/project/output.log')\nE        +    where <function isfile at 0x7f94f87f4220> = <module 'posixpath' (frozen)>.isfile\nE        +      where <module 'posixpath' (frozen)> = os.path\n\ntests/test_final_state.py:31: AssertionError"
+            },
+            {
+                "name": "test_final_state.py::test_only_one_event_for_source",
+                "status": "failed",
+                "duration": 7,
+                "start": 1781171100227,
+                "stop": 1781171100234,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "@pytest.fixture(scope=\"session\")\n    def parsed_log() -> dict:\n>       assert os.path.isfile(LOG_PATH), f\"Log file not found at {LOG_PATH}\"\nE       AssertionError: Log file not found at /home/user/project/output.log\nE       assert False\nE        +  where False = <function isfile at 0x7f94f87f4220>('/home/user/project/output.log')\nE        +    where <function isfile at 0x7f94f87f4220> = <module 'posixpath' (frozen)>.isfile\nE        +      where <module 'posixpath' (frozen)> = os.path\n\ntests/test_final_state.py:31: AssertionError"
+            },
+            {
+                "name": "test_final_state.py::test_attempt_history_shows_initial_failure_then_success",
+                "status": "failed",
+                "duration": 7,
+                "start": 1781171100234,
+                "stop": 1781171100241,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "@pytest.fixture(scope=\"session\")\n    def parsed_log() -> dict:\n>       assert os.path.isfile(LOG_PATH), f\"Log file not found at {LOG_PATH}\"\nE       AssertionError: Log file not found at /home/user/project/output.log\nE       assert False\nE        +  where False = <function isfile at 0x7f94f87f4220>('/home/user/project/output.log')\nE        +    where <function isfile at 0x7f94f87f4220> = <module 'posixpath' (frozen)>.isfile\nE        +      where <module 'posixpath' (frozen)> = os.path\n\ntests/test_final_state.py:31: AssertionError"
+            }
+        ]
+    }
+}

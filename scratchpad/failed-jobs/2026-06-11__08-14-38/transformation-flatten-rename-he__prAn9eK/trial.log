@@ -1,0 +1,115 @@
+Skipping image OS validation for hb__transformation-flatten-rename-headers: docker inspect returned 1
+Running command: apt-get update && apt-get install -y curl ripgrep
+Command outputs captured
+Running command: set -euo pipefail; curl -fsSL https://getpochi.com/install.sh | bash -x -s -- pochi-v0.6.14 && mkdir -p /logs/agent/pochi && ~/.pochi/bin/pochi --version
+Command outputs captured
+Running command: ln -sf ~/.pochi/bin/pochi /usr/local/bin/pochi
+Command outputs captured
+Running command: echo zr-pran9ek > /logs/artifacts/run-id && echo transformation-flatten-rename-he__prAn9eK > /logs/artifacts/trial_id
+Command outputs captured
+Running command: mkdir -p ~/.pochi && cat << 'EOF' | sed -e "s/OPENAI_API_KEY/${OPENAI_API_KEY}/g" -e "s/DEEPINFRA_API_KEY/${DEEPINFRA_API_KEY}/g" > ~/.pochi/config.jsonc
+{
+  "providers": {
+    "deepinfra": {
+      "kind": "openai",
+      "baseURL": "https://api.deepinfra.com/v1/openai",
+      "apiKey": "DEEPINFRA_API_KEY",
+      "models": {
+        "zai-org/GLM-4.7-Flash": {
+          "name": "glm-4.7-flash"
+        },
+        "moonshotai/Kimi-K2.6": {
+          "name": "kimi-K2.6"
+        },
+        "deepseek-ai/DeepSeek-V4-Pro": {
+          "name": "DeepSeek-V4-Pro"
+        }
+      }
+    },
+    "openai": {
+      "kind": "openai",
+      "baseURL": "https://api.openai.com/v1",
+      "apiKey": "OPENAI_API_KEY",
+      "models": {
+        "gpt-5.4": {
+          "name": "gpt-5.4"
+        }
+      }
+    }
+  }
+}
+EOF
+Command outputs captured
+Running command: if [ -f /bootstrap/test_initial_state.py ]; then pytest -s --log-cli-level=DEBUG /bootstrap/test_initial_state.py > >(tee /logs/agent/pochi/initial-test-stdout.txt) 2> >(tee /logs/agent/pochi/initial-test-stderr.txt >&2); fi
+Command outputs captured
+Running command: pochi --model google/gemini-3.5-flash --max-steps 200 --max-retries 10 --blobs-dir /logs/agent/pochi/blobs --experimental-stream-trajectory /logs/agent/pochi/trajectory.jsonl > >(tee /logs/agent/pochi/stdout.txt) 2> >(tee /logs/agent/pochi/stderr.txt >&2) <<'EOF'
+# Hookdeck Transformation: Flatten Body, Rename Field, Inject Header, Drop Low-Amount Events
+
+## Background
+You are building an event pipeline on Hookdeck. Upstream producers send Stripe-shaped webhooks where the meaningful payload is nested under `body.data.object`. The downstream service expects a flattened payload, a renamed `email` field, a hint header, and only events whose `amount` is at or above a configured threshold. You must implement this end-to-end on Hookdeck using a JavaScript Transformation rule.
+
+## Requirements
+- Create a Hookdeck **Source** of type `WEBHOOK`.
+- Create a Hookdeck **Destination** of type `MOCK_API` (so events are accepted and recorded by Hookdeck without needing a public inbound URL).
+- Create a Hookdeck **Transformation** (its JavaScript code lives in Hookdeck and is referenced from the Connection by its `transformation_id`). The transformation contract is:
+  - **Input shape** (what the source receives):
+    ```json
+    {
+      "data": {
+        "object": {
+          "id": "<string>",
+          "amount": <number>,
+          "currency": "<string>",
+          "customer_email": "<string>"
+        }
+      }
+    }
+    ```
+  - **Output body shape** (after transformation, when delivered):
+    ```json
+    {
+      "id": "<string>",
+      "amount": <number>,
+      "currency": "<string>",
+      "email": "<string>"
+    }
+    ```
+  - **Output headers** must include `x-hookdeck-transformed: true` (in addition to whatever headers Hookdeck normally appends).
+  - **Drop rule**: if the input `body.data.object.amount` is strictly less than `100`, the event MUST NOT be delivered. (Returning `null` from the handler tells Hookdeck to drop the event.)
+- Create a Hookdeck **Connection** that links the Source to the Destination and applies the Transformation as a rule referenced by its `transformation_id`.
+- Publish exactly **three** test events to the Source. They must have these `data.object.amount` values, in this order: `50`, `200`, `200`. Use distinct `id` and `customer_email` values so they can be distinguished in the inspector.
+- Record the IDs and a small JSON summary in a log file so the verifier can find them.
+
+## Implementation Hints
+- Authenticate the CLI in headless mode with `hookdeck ci --api-key $HOOKDECK_API_KEY` before any CLI calls, OR drive everything through the REST API at `https://api.hookdeck.com/2025-07-01` using `Authorization: Bearer $HOOKDECK_API_KEY`.
+- The Transformations sandbox is a V8 isolate. It does **not** support `fetch`, `async/await`, file I/O, or any external network access. Only `JSON.parse` and `JSON.stringify` are guaranteed beyond standard ES6 language features.
+- The transformation handler must be registered with `addHandler("transform", (request, context) => { ... })`. Mutating `request.body` and `request.headers` and returning the modified `request` is the supported pattern. Returning `null` drops the event.
+- The Transformation is created via `POST /transformations` and then referenced from a Connection via a rule of `{ "type": "transformation", "transformation_id": "trs_..." }`.
+- For a `MOCK_API` destination, set `destination.type` to `MOCK_API`; Hookdeck will accept the delivery and you can read it back through the Inspect API (`GET /events`, `GET /events/:id`).
+- To publish test events, you may either POST directly to the Source's ingest `url` (returned when the source is created) or use the Publish API at `https://hkdk.events/v1/publish` with the `X-Hookdeck-Source-Name` header. Either way is fine — the verifier only inspects the resulting events.
+- Delivery is asynchronous. Poll the Inspect API until the expected number of events transition out of pending before logging the summary.
+
+## Acceptance Criteria
+- Project path: /home/user/hookdeck-task
+- Ensure the real Hookdeck resources are created and the test events are actually published; the verifier will read them back from the live Hookdeck API.
+- Log file: /home/user/hookdeck-task/output.log
+- Read `run-id` from the `ZEALT_RUN_ID` environment variable and use it to suffix every named resource so concurrent runs do not collide:
+  - Source name: `flatten-src-${run-id}`
+  - Destination name: `flatten-dest-${run-id}`
+  - Connection name: `flatten-conn-${run-id}`
+  - Transformation name: `flatten-rename-${run-id}`
+- The Transformation must be created via the Hookdeck API (so the verifier can fetch its code by `transformation_id`).
+- The Connection must reference the Transformation by `transformation_id` in its `rules` array.
+- The Source must be of type `WEBHOOK`; the Destination must be of type `MOCK_API`.
+- Exactly three test events must be published to the Source with `data.object.amount` values `50`, `200`, `200`. The two `200` events must be delivered with the transformed body and the injected header; the `50` event must be filtered out (no successful delivery for it).
+- The log file `/home/user/hookdeck-task/output.log` must include a single JSON line in exactly this format (one object, no extra prose around it):
+  ```
+  RESULT: {"transformation_id":"trs_...","source_id":"src_...","destination_id":"des_...","connection_id":"web_..."}
+  ```
+
+
+EOF
+Command outputs captured
+Running command: rm -f ~/.pochi/config.jsonc
+Command outputs captured
+The verifier.env contains an API key (often the case for LLM-based verifiers). You will incur costs associated with the API calls.

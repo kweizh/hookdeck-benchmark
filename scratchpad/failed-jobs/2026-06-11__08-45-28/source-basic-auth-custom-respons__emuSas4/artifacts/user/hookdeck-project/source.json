@@ -1,0 +1,10 @@
+{
+  "source_id": "src_4zxfz7vr1ntgli",
+  "source_url": "https://hkdk.events/4zxfz7vr1ntgli",
+  "source_name": "source-zr-emusas4",
+  "auth_type": "BASIC_AUTH",
+  "custom_response": {
+    "body": "{\"ok\": true, \"id\": \"abc\"}",
+    "content_type": "json"
+  }
+}

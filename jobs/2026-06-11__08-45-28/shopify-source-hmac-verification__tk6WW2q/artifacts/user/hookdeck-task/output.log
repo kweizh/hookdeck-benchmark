@@ -1,0 +1,105 @@
+=== Hookdeck Shopify HMAC Verification Task ===
+Run ID  : zr-tk6ww2q
+Source  : shopify-verify-zr-tk6ww2q
+Time    : Thu Jun 11 09:01:30 UTC 2026
+
+Authenticating Hookdeck CLI...
+time="Thu, 11 Jun 2026 09:01:30 UTC" level=info msg="The Hookdeck CLI is configured on project Event Gateway Starter in organization zealt
+"
+
+Checking if source 'shopify-verify-zr-tk6ww2q' already exists...
+Found existing source src_k2ikx5xh2yl3fr — deleting it...
+{"id":"src_k2ikx5xh2yl3fr"}
+
+Creating Hookdeck Source 'shopify-verify-zr-tk6ww2q' with Shopify HMAC verification...
+{
+  "id": "src_ifdkohf4jzt5vr",
+  "name": "shopify-verify-zr-tk6ww2q",
+  "description": null,
+  "url": "https://hkdk.events/ifdkohf4jzt5vr",
+  "type": "SHOPIFY",
+  "config": {
+    "allowed_http_methods": [
+      "POST"
+    ],
+    "auth": {
+      "webhook_secret_key": "REDACTED"
+    },
+    "custom_response": null
+  },
+  "disabled_at": null,
+  "updated_at": "2026-06-11T09:01:31.548Z",
+  "created_at": "2026-06-11T09:01:31.547Z"
+}
+
+Source ID     : src_ifdkohf4jzt5vr
+Source URL    : https://hkdk.events/ifdkohf4jzt5vr
+Authenticated : True
+
+Creating MOCK_API destination...
+Destination ID: des_vk03PZEsjC6i
+
+Creating connection source→destination...
+Connection ID : web_JBnJ3FcBhSd9
+
+Request body: {"event":"order/created","run_id":"zr-tk6ww2q","test":true}
+HMAC-SHA256 (base64): 6zPIlOHU0UK0hcSRKSowFVsvSdZWAXstmHIrlKq9ZA8=
+
+Sending CORRECTLY signed request...
+  HTTP 200: {"status":"SUCCESS","message":"Request handled by Hookdeck. Check your dashboard to inspect the request: https://dashboard.hookdeck.com/requests/req_xSWDV6AIAa2DJUfkctLs","request_id":"req_xSWDV6AIAa2DJUfkctLs"}
+  Request ID (signed)  : req_xSWDV6AIAa2DJUfkctLs
+
+Sending TAMPERED (wrong signature) request...
+  HTTP 401: 
+  Request ID (tampered): (rejected at ingress)
+
+Source ID: src_ifdkohf4jzt5vr
+
+Waiting 10 seconds for Hookdeck to ingest requests...
+
+Checking Inspect API for source_id=src_ifdkohf4jzt5vr...
+Inspect API response:
+{
+    "models": [
+        {
+            "team_id": "tm_y0vMXx2IWjqZ",
+            "created_at": "2026-06-11T09:01:33.145867Z",
+            "id": "req_jqNBE6Xob399F5QNkjZ8",
+            "source_id": "src_ifdkohf4jzt5vr",
+            "original_event_data_id": "edt_DNAu0h7dLhwmcbBbTXhH",
+            "ingested_at": "2026-06-11T09:01:33.057000Z",
+            "verified": false,
+            "rejection_cause": "VERIFICATION_FAILED",
+            "events_count": 0,
+            "ignored_count": 0,
+            "cli_events_count": 0,
+            "updated_at": "2026-06-11T09:01:33.145867Z"
+        },
+        {
+            "team_id": "tm_y0vMXx2IWjqZ",
+            "created_at": "2026-06-11T09:01:32.999228Z",
+            "id": "req_xSWDV6AIAa2DJUfkctLs",
+            "source_id": "src_ifdkohf4jzt5vr",
+            "original_event_data_id": "edt_UWVDHOUcNUlZhO8bjG3m",
+            "ingested_at": "2026-06-11T09:01:32.829000Z",
+            "verified": true,
+            "rejection_cause": null,
+            "events_count": 1,
+            "ignored_count": 0,
+            "cli_events_count": 0,
+            "updated_at": "2026-06-11T09:01:32.999228Z"
+        }
+    ],
+    "pagination": {
+        "order_by": "created_at",
+        "dir": "desc",
+        "limit": 50
+    },
+    "count": 2
+}
+
+=== Summary ===
+Requests with verified=true                    : 1
+Requests with verified=false+VERIFICATION_FAILED: 1
+SUCCESS: Acceptance criteria met.
+

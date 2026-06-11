@@ -1,0 +1,124 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-7.4.4, pluggy-1.4.0
+rootdir: /tests
+plugins: json-ctrf-0.5.2
+collected 7 items
+
+tests/test_final_state.py FFFF.FF                                        [100%]
+
+=================================== FAILURES ===================================
+______________________ test_await_delivery_script_exists _______________________
+
+    def test_await_delivery_script_exists():
+>       assert os.path.isfile(SCRIPT_PATH), (
+            f"Expected the await delivery script at {SCRIPT_PATH}, but it was not found."
+        )
+E       AssertionError: Expected the await delivery script at /workspace/await_delivery.py, but it was not found.
+E       assert False
+E        +  where False = <function isfile at 0x7f78f89c8220>('/workspace/await_delivery.py')
+E        +    where <function isfile at 0x7f78f89c8220> = <module 'posixpath' (frozen)>.isfile
+E        +      where <module 'posixpath' (frozen)> = os.path
+
+tests/test_final_state.py:64: AssertionError
+_______________________ test_successful_event_exits_zero _______________________
+
+seeded_env = {'FAILED_EVENT_ID': 'evt_pfEnIfVSsJ2Ww9iIlL', 'SUCCESSFUL_EVENT_ID': 'evt_MKRnXaGkekluvO0u4M'}
+
+    def test_successful_event_exits_zero(seeded_env: dict[str, str]):
+        event_id = seeded_env["SUCCESSFUL_EVENT_ID"]
+        returncode, stdout, stderr, _ = _run_script(event_id)
+        with open(SUCCESS_LOG, "w") as f:
+            f.write(stdout)
+            if stderr:
+                f.write("\n--- STDERR ---\n")
+                f.write(stderr)
+>       assert returncode == 0, (
+            f"Expected exit code 0 for SUCCESSFUL event {event_id}, "
+            f"got {returncode}. stdout={stdout!r} stderr={stderr!r}"
+        )
+E       AssertionError: Expected exit code 0 for SUCCESSFUL event evt_MKRnXaGkekluvO0u4M, got 2. stdout='' stderr="python3: can't open file '/workspace/await_delivery.py': [Errno 2] No such file or directory\n"
+E       assert 2 == 0
+
+tests/test_final_state.py:77: AssertionError
+__________________ test_successful_event_prints_attempt_count __________________
+
+seeded_env = {'FAILED_EVENT_ID': 'evt_pfEnIfVSsJ2Ww9iIlL', 'SUCCESSFUL_EVENT_ID': 'evt_MKRnXaGkekluvO0u4M'}
+
+    def test_successful_event_prints_attempt_count(seeded_env: dict[str, str]):
+        event_id = seeded_env["SUCCESSFUL_EVENT_ID"]
+        returncode, stdout, stderr, _ = _run_script(event_id)
+>       assert returncode == 0, (
+            f"Expected exit code 0 for SUCCESSFUL event {event_id}, got {returncode}. "
+            f"stdout={stdout!r} stderr={stderr!r}"
+        )
+E       AssertionError: Expected exit code 0 for SUCCESSFUL event evt_MKRnXaGkekluvO0u4M, got 2. stdout='' stderr="python3: can't open file '/workspace/await_delivery.py': [Errno 2] No such file or directory\n"
+E       assert 2 == 0
+
+tests/test_final_state.py:86: AssertionError
+_______________ test_successful_event_prints_response_status_200 _______________
+
+seeded_env = {'FAILED_EVENT_ID': 'evt_pfEnIfVSsJ2Ww9iIlL', 'SUCCESSFUL_EVENT_ID': 'evt_MKRnXaGkekluvO0u4M'}
+
+    def test_successful_event_prints_response_status_200(seeded_env: dict[str, str]):
+        event_id = seeded_env["SUCCESSFUL_EVENT_ID"]
+        returncode, stdout, stderr, _ = _run_script(event_id)
+>       assert returncode == 0, (
+            f"Expected exit code 0 for SUCCESSFUL event {event_id}, got {returncode}. "
+            f"stdout={stdout!r} stderr={stderr!r}"
+        )
+E       AssertionError: Expected exit code 0 for SUCCESSFUL event evt_MKRnXaGkekluvO0u4M, got 2. stdout='' stderr="python3: can't open file '/workspace/await_delivery.py': [Errno 2] No such file or directory\n"
+E       assert 2 == 0
+
+tests/test_final_state.py:100: AssertionError
+____________________ test_failed_event_prints_attempt_count ____________________
+
+seeded_env = {'FAILED_EVENT_ID': 'evt_pfEnIfVSsJ2Ww9iIlL', 'SUCCESSFUL_EVENT_ID': 'evt_MKRnXaGkekluvO0u4M'}
+
+    def test_failed_event_prints_attempt_count(seeded_env: dict[str, str]):
+        event_id = seeded_env["FAILED_EVENT_ID"]
+        returncode, stdout, stderr, _ = _run_script(event_id)
+        assert returncode != 0, (
+            f"Expected non-zero exit code for FAILED event {event_id}, got 0. "
+            f"stdout={stdout!r} stderr={stderr!r}"
+        )
+        matches = re.findall(r"^attempt_count=([1-9][0-9]*)$", stdout, flags=re.MULTILINE)
+>       assert matches, (
+            f"Expected stdout to contain a line like 'attempt_count=<positive int>' for the FAILED event. "
+            f"Got stdout={stdout!r}"
+        )
+E       AssertionError: Expected stdout to contain a line like 'attempt_count=<positive int>' for the FAILED event. Got stdout=''
+E       assert []
+
+tests/test_final_state.py:137: AssertionError
+______________ test_failed_event_prints_upstream_response_status _______________
+
+seeded_env = {'FAILED_EVENT_ID': 'evt_pfEnIfVSsJ2Ww9iIlL', 'SUCCESSFUL_EVENT_ID': 'evt_MKRnXaGkekluvO0u4M'}
+
+    def test_failed_event_prints_upstream_response_status(seeded_env: dict[str, str]):
+        event_id = seeded_env["FAILED_EVENT_ID"]
+        returncode, stdout, stderr, _ = _run_script(event_id)
+        assert returncode != 0, (
+            f"Expected non-zero exit code for FAILED event {event_id}, got 0. "
+            f"stdout={stdout!r} stderr={stderr!r}"
+        )
+>       assert re.search(r"^response_status=(4[0-9]{2}|5[0-9]{2})$", stdout, flags=re.MULTILINE), (
+            f"Expected stdout to contain 'response_status=<4xx or 5xx>' on its own line "
+            f"reflecting the upstream failure. Got stdout={stdout!r}"
+        )
+E       AssertionError: Expected stdout to contain 'response_status=<4xx or 5xx>' on its own line reflecting the upstream failure. Got stdout=''
+E       assert None
+E        +  where None = <function search at 0x7f78f8a53ba0>('^response_status=(4[0-9]{2}|5[0-9]{2})$', '', flags=re.MULTILINE)
+E        +    where <function search at 0x7f78f8a53ba0> = re.search
+E        +    and   re.MULTILINE = re.MULTILINE
+
+tests/test_final_state.py:150: AssertionError
+==================================== PASSES ====================================
+=========================== short test summary info ============================
+PASSED tests/test_final_state.py::test_failed_event_exits_nonzero
+FAILED tests/test_final_state.py::test_await_delivery_script_exists - Asserti...
+FAILED tests/test_final_state.py::test_successful_event_exits_zero - Assertio...
+FAILED tests/test_final_state.py::test_successful_event_prints_attempt_count
+FAILED tests/test_final_state.py::test_successful_event_prints_response_status_200
+FAILED tests/test_final_state.py::test_failed_event_prints_attempt_count - As...
+FAILED tests/test_final_state.py::test_failed_event_prints_upstream_response_status
+========================= 6 failed, 1 passed in 0.21s ==========================

@@ -1,0 +1,117 @@
+{
+    "id": "9d067b7e-dee5-41e0-9b2a-ebf89cfb46ad",
+    "task_name": "fanout-two-destinations-rate-limits",
+    "trial_name": "fanout-two-destinations-rate-lim__WWa9KqX",
+    "trial_uri": "file:///home/kweizh/zealt/zealt-agent/jobs/2026-06-11__08-45-28/fanout-two-destinations-rate-lim__WWa9KqX",
+    "task_id": {
+        "path": "/home/kweizh/zealt/hookdeck-benchmark/scratchpad/pending-tasks/fanout-two-destinations-rate-limits"
+    },
+    "source": "pending-tasks",
+    "task_checksum": "e116ff1cbd1c49bb216ca5b820979dc5958302940173269e98dc8b17941d0c73",
+    "config": {
+        "task": {
+            "path": "/home/kweizh/zealt/hookdeck-benchmark/scratchpad/pending-tasks/fanout-two-destinations-rate-limits",
+            "git_url": null,
+            "git_commit_id": null,
+            "name": null,
+            "ref": null,
+            "overwrite": false,
+            "download_dir": null,
+            "source": "pending-tasks"
+        },
+        "trial_name": "fanout-two-destinations-rate-lim__WWa9KqX",
+        "trials_dir": "jobs/2026-06-11__08-45-28",
+        "timeout_multiplier": 1.0,
+        "agent_timeout_multiplier": null,
+        "verifier_timeout_multiplier": null,
+        "agent_setup_timeout_multiplier": null,
+        "environment_build_timeout_multiplier": null,
+        "agent": {
+            "name": null,
+            "import_path": "agents.pochi:Pochi",
+            "model_name": "anthropic/claude-4-6-sonnet",
+            "skills": [],
+            "override_timeout_sec": null,
+            "override_setup_timeout_sec": null,
+            "max_timeout_sec": null,
+            "kwargs": {},
+            "env": {},
+            "mcp_servers": []
+        },
+        "environment": {
+            "type": "docker",
+            "import_path": null,
+            "force_build": false,
+            "delete": true,
+            "cpu_enforcement_policy": "auto",
+            "memory_enforcement_policy": "auto",
+            "override_cpus": null,
+            "override_memory_mb": null,
+            "override_storage_mb": null,
+            "override_gpus": null,
+            "suppress_override_warnings": false,
+            "mounts": [
+                {
+                    "type": "bind",
+                    "source": "test_initial_state.py",
+                    "target": "/bootstrap/test_initial_state.py"
+                }
+            ],
+            "extra_docker_compose": [],
+            "env": {},
+            "kwargs": {}
+        },
+        "verifier": {
+            "override_timeout_sec": null,
+            "max_timeout_sec": null,
+            "env": {},
+            "disable": false
+        },
+        "artifacts": [
+            "/home/user"
+        ],
+        "extra_instruction_paths": [],
+        "job_id": "24c51515-4b76-47e8-b594-7e42b777b963"
+    },
+    "agent_info": {
+        "name": "pochi",
+        "version": "0.6.14",
+        "model_info": {
+            "name": "claude-4-6-sonnet",
+            "provider": "anthropic"
+        }
+    },
+    "agent_result": {
+        "n_input_tokens": 0,
+        "n_cache_tokens": 0,
+        "n_output_tokens": 27015,
+        "cost_usd": null,
+        "rollout_details": null,
+        "metadata": null
+    },
+    "verifier_result": {
+        "rewards": {
+            "reward": 0.0
+        }
+    },
+    "exception_info": null,
+    "started_at": "2026-06-11T08:45:34.902525Z",
+    "finished_at": "2026-06-11T08:49:23.845494Z",
+    "environment_setup": {
+        "started_at": "2026-06-11T08:45:35.043058Z",
+        "finished_at": "2026-06-11T08:45:38.646966Z"
+    },
+    "agent_setup": {
+        "started_at": "2026-06-11T08:45:38.647015Z",
+        "finished_at": "2026-06-11T08:45:55.629370Z"
+    },
+    "agent_execution": {
+        "started_at": "2026-06-11T08:45:55.629598Z",
+        "finished_at": "2026-06-11T08:49:04.255679Z"
+    },
+    "verifier": {
+        "started_at": "2026-06-11T08:49:06.702712Z",
+        "finished_at": "2026-06-11T08:49:11.258370Z"
+    },
+    "step_results": null
+}

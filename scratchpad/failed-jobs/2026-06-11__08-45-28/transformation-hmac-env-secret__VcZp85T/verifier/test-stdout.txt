@@ -1,0 +1,89 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-7.4.4, pluggy-1.4.0
+rootdir: /tests
+plugins: json-ctrf-0.5.2
+collected 6 items
+
+tests/test_final_state.py ..F..F                                         [100%]
+
+=================================== FAILURES ===================================
+____________________________ test_connection_wiring ____________________________
+
+env_state = {'api_key': 'REDACTED', 'log': {'connection_id': 'web_8VcD2OKa5bZV', 'destin...r-vczp85t', 'expected_secret': 's3cr3t-zr-vczp85t', 'source_name': 'hmac-src-zr-vczp85t', ...}, 'run_id': 'zr-vczp85t'}
+connection = {'created_at': '2026-06-11T08:58:06.016Z', 'description': None, 'destination': {'config': {'auth': {}, 'auth_type': 'H....}, 'created_at': '2026-06-11T08:56:57.516Z', 'description': None, 'disabled_at': None, ...}, 'disabled_at': None, ...}
+transformation = {'code': '\nvar module = { exports: {} };\n(function () {\n  \'use strict\';\n  var ERROR = \'input is invalid type\';..., 'created_at': '2026-06-11T08:57:51.118Z', 'env': {'MY_SECRET': 's3cr3t-zr-vczp85t'}, 'id': 'trs_PfLtYcsuZp2oir', ...}
+
+    def test_connection_wiring(env_state, connection, transformation):
+        names = env_state["names"]
+        assert connection.get("name") == names["connection_name"], (
+            f"Expected connection name '{names['connection_name']}', got '{connection.get('name')}'."
+        )
+        source = connection.get("source") or {}
+        destination = connection.get("destination") or {}
+        assert source.get("name") == names["source_name"], (
+            f"Connection source name mismatch: expected '{names['source_name']}', got '{source.get('name')}'."
+        )
+        assert source.get("type") == "WEBHOOK", (
+            f"Connection source type must be 'WEBHOOK', got '{source.get('type')}'."
+        )
+        assert destination.get("name") == names["destination_name"], (
+            f"Connection destination name mismatch: expected '{names['destination_name']}', got '{destination.get('name')}'."
+        )
+        dtype = destination.get("type")
+        dcfg = destination.get("config") or {}
+        durl = dcfg.get("url") or ""
+        assert dtype == "MOCK_API" or (
+            dtype == "HTTP" and isinstance(durl, str) and durl.startswith("https://mock.hookdeck.com/")
+        ), (
+            f"Destination must be MOCK_API or HTTP pointing at https://mock.hookdeck.com/...; "
+            f"got type='{dtype}' url='{durl}'."
+        )
+        rules = connection.get("rules") or []
+        trf_rule_ids = [
+            r.get("transformation_id") for r in rules if r.get("type") == "transformation"
+        ]
+>       assert transformation.get("id") in trf_rule_ids, (
+            f"Connection rules do not reference transformation_id='{transformation.get('id')}'. "
+            f"Found transformation rules: {trf_rule_ids}"
+        )
+E       AssertionError: Connection rules do not reference transformation_id='trs_PfLtYcsuZp2oir'. Found transformation rules: []
+E       assert 'trs_PfLtYcsuZp2oir' in []
+E        +  where 'trs_PfLtYcsuZp2oir' = <built-in method get of dict object at 0x7f77018298c0>('id')
+E        +    where <built-in method get of dict object at 0x7f77018298c0> = {'code': '\nvar module = { exports: {} };\n(function () {\n  \'use strict\';\n  var ERROR = \'input is invalid type\';..., 'created_at': '2026-06-11T08:57:51.118Z', 'env': {'MY_SECRET': 's3cr3t-zr-vczp85t'}, 'id': 'trs_PfLtYcsuZp2oir', ...}.get
+
+tests/test_final_state.py:267: AssertionError
+______________________ test_signed_at_header_is_fresh_iso ______________________
+
+env_state = {'api_key': 'REDACTED', 'log': {'connection_id': 'web_8VcD2OKa5bZV', 'destin...r-vczp85t', 'expected_secret': 's3cr3t-zr-vczp85t', 'source_name': 'hmac-src-zr-vczp85t', ...}, 'run_id': 'zr-vczp85t'}
+delivered_event = {'event': {'attempts': 1, 'cli_id': None, 'created_at': '2026-06-11T09:04:33.102Z', 'data': {'appended_headers': ['Acc...L', ...}, 'method': 'POST', ...}, ...}, 'payload': {'amount': 4242, 'order_id': 'ord-zr-vczp85t', 'status': 'created'}}
+
+    def test_signed_at_header_is_fresh_iso(env_state, delivered_event):
+        headers = (delivered_event["event"].get("data") or {}).get("headers") or {}
+        raw = _ci_get(headers, "x-hd-signed-at")
+        assert raw, (
+            f"Delivered event headers missing 'x-hd-signed-at'. Headers: {list(headers.keys())}"
+        )
+        raw = raw.strip()
+        try:
+            parsed = datetime.fromisoformat(raw.replace("Z", "+00:00"))
+        except ValueError as exc:
+            pytest.fail(f"x-hd-signed-at '{raw}' is not ISO-8601 parseable: {exc}")
+        if parsed.tzinfo is None:
+            parsed = parsed.replace(tzinfo=timezone.utc)
+        delta = abs((datetime.now(timezone.utc) - parsed).total_seconds())
+>       assert delta <= 60, (
+            f"x-hd-signed-at '{raw}' is not within 60s of current time (delta={delta:.1f}s)."
+        )
+E       AssertionError: x-hd-signed-at '2026-06-11T09:04:33.101Z' is not within 60s of current time (delta=67.8s).
+E       assert 67.803719 <= 60
+
+tests/test_final_state.py:330: AssertionError
+==================================== PASSES ====================================
+=========================== short test summary info ============================
+PASSED tests/test_final_state.py::test_log_file_contains_required_fields
+PASSED tests/test_final_state.py::test_transformation_env_and_code
+PASSED tests/test_final_state.py::test_secret_not_leaked_in_non_transformation_resources
+PASSED tests/test_final_state.py::test_signature_header_matches_recomputed_hmac
+FAILED tests/test_final_state.py::test_connection_wiring - AssertionError: Co...
+FAILED tests/test_final_state.py::test_signed_at_header_is_fresh_iso - Assert...
+========================= 2 failed, 4 passed in 2.14s ==========================

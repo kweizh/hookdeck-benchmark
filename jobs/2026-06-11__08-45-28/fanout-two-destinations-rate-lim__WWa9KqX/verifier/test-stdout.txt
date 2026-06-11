@@ -1,0 +1,64 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-7.4.4, pluggy-1.4.0
+rootdir: /tests
+plugins: json-ctrf-0.5.2
+collected 8 items
+
+tests/test_final_state.py .....FF.                                       [100%]
+
+=================================== FAILURES ===================================
+_________ test_fast_destination_received_all_12_events_without_pacing __________
+
+logged_ids = {'fast_connection_id': 'web_4dhGPuGW5NzY', 'fast_destination_id': 'des_ovJhTTwoSyKW', 'published_events': '12', 'slow_connection_id': 'web_pessqXhAzrue', ...}
+
+    def test_fast_destination_received_all_12_events_without_pacing(logged_ids: dict):
+        events = _successful_events_for_destination(logged_ids["fast_destination_id"])
+        assert len(events) == 12, (
+            f"Expected 12 SUCCESSFUL events on the fast destination, "
+            f"got {len(events)}."
+        )
+    
+        timestamps = [_parse_ts(e["successful_at"]) for e in events]
+        spread = (max(timestamps) - min(timestamps)).total_seconds()
+>       assert spread < 2.0, (
+            "Fast (uncapped) destination should deliver in a tight burst "
+            f"(< 2s spread). Observed spread = {spread:.3f}s."
+        )
+E       AssertionError: Fast (uncapped) destination should deliver in a tight burst (< 2s spread). Observed spread = 2.011s.
+E       assert 2.011 < 2.0
+
+tests/test_final_state.py:253: AssertionError
+_____ test_slow_destination_received_all_12_events_with_rate_limit_pacing ______
+
+logged_ids = {'fast_connection_id': 'web_4dhGPuGW5NzY', 'fast_destination_id': 'des_ovJhTTwoSyKW', 'published_events': '12', 'slow_connection_id': 'web_pessqXhAzrue', ...}
+
+    def test_slow_destination_received_all_12_events_with_rate_limit_pacing(
+        logged_ids: dict,
+    ):
+        events = _successful_events_for_destination(logged_ids["slow_destination_id"])
+        assert len(events) == 12, (
+            f"Expected 12 SUCCESSFUL events on the slow destination, "
+            f"got {len(events)}."
+        )
+    
+        timestamps = [_parse_ts(e["successful_at"]) for e in events]
+        spread = (max(timestamps) - min(timestamps)).total_seconds()
+>       assert spread >= 5.0, (
+            "Slow destination (rate_limit=2/second) must show pacing across "
+            f"12 events: expected spread >= 5.0s, observed {spread:.3f}s."
+        )
+E       AssertionError: Slow destination (rate_limit=2/second) must show pacing across 12 events: expected spread >= 5.0s, observed 4.995s.
+E       assert 4.995 >= 5.0
+
+tests/test_final_state.py:270: AssertionError
+==================================== PASSES ====================================
+=========================== short test summary info ============================
+PASSED tests/test_final_state.py::test_source_exists_with_expected_name_and_type
+PASSED tests/test_final_state.py::test_fast_destination_is_mock_api_with_no_rate_limit
+PASSED tests/test_final_state.py::test_slow_destination_is_mock_api_with_2_per_second
+PASSED tests/test_final_state.py::test_fast_connection_links_source_to_fast_destination
+PASSED tests/test_final_state.py::test_slow_connection_links_source_to_slow_destination
+PASSED tests/test_final_state.py::test_events_are_owned_by_the_two_expected_connections
+FAILED tests/test_final_state.py::test_fast_destination_received_all_12_events_without_pacing
+FAILED tests/test_final_state.py::test_slow_destination_received_all_12_events_with_rate_limit_pacing
+========================= 2 failed, 6 passed in 2.87s ==========================

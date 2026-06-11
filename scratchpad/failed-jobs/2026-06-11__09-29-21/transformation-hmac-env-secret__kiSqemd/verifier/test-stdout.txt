@@ -1,0 +1,131 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-7.4.4, pluggy-1.4.0
+rootdir: /tests
+plugins: json-ctrf-0.5.2
+collected 6 items
+
+tests/test_final_state.py EEEEEE                                         [100%]
+
+==================================== ERRORS ====================================
+___________ ERROR at setup of test_log_file_contains_required_fields ___________
+
+    @pytest.fixture(scope="session")
+    def env_state():
+        api_key, run_id = _read_env_or_skip()
+>       log_fields = _parse_log_file()
+
+tests/test_final_state.py:74: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def _parse_log_file() -> dict:
+>       assert os.path.isfile(LOG_FILE), f"Expected log file {LOG_FILE} to exist."
+E       AssertionError: Expected log file /home/user/myproject/output.log to exist.
+E       assert False
+E        +  where False = <function isfile at 0x7f03b4460220>('/home/user/myproject/output.log')
+E        +    where <function isfile at 0x7f03b4460220> = <module 'posixpath' (frozen)>.isfile
+E        +      where <module 'posixpath' (frozen)> = os.path
+
+tests/test_final_state.py:36: AssertionError
+______________ ERROR at setup of test_transformation_env_and_code ______________
+
+    @pytest.fixture(scope="session")
+    def env_state():
+        api_key, run_id = _read_env_or_skip()
+>       log_fields = _parse_log_file()
+
+tests/test_final_state.py:74: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def _parse_log_file() -> dict:
+>       assert os.path.isfile(LOG_FILE), f"Expected log file {LOG_FILE} to exist."
+E       AssertionError: Expected log file /home/user/myproject/output.log to exist.
+E       assert False
+E        +  where False = <function isfile at 0x7f03b4460220>('/home/user/myproject/output.log')
+E        +    where <function isfile at 0x7f03b4460220> = <module 'posixpath' (frozen)>.isfile
+E        +      where <module 'posixpath' (frozen)> = os.path
+
+tests/test_final_state.py:36: AssertionError
+___________________ ERROR at setup of test_connection_wiring ___________________
+
+    @pytest.fixture(scope="session")
+    def env_state():
+        api_key, run_id = _read_env_or_skip()
+>       log_fields = _parse_log_file()
+
+tests/test_final_state.py:74: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def _parse_log_file() -> dict:
+>       assert os.path.isfile(LOG_FILE), f"Expected log file {LOG_FILE} to exist."
+E       AssertionError: Expected log file /home/user/myproject/output.log to exist.
+E       assert False
+E        +  where False = <function isfile at 0x7f03b4460220>('/home/user/myproject/output.log')
+E        +    where <function isfile at 0x7f03b4460220> = <module 'posixpath' (frozen)>.isfile
+E        +      where <module 'posixpath' (frozen)> = os.path
+
+tests/test_final_state.py:36: AssertionError
+___ ERROR at setup of test_secret_not_leaked_in_non_transformation_resources ___
+
+    @pytest.fixture(scope="session")
+    def env_state():
+        api_key, run_id = _read_env_or_skip()
+>       log_fields = _parse_log_file()
+
+tests/test_final_state.py:74: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def _parse_log_file() -> dict:
+>       assert os.path.isfile(LOG_FILE), f"Expected log file {LOG_FILE} to exist."
+E       AssertionError: Expected log file /home/user/myproject/output.log to exist.
+E       assert False
+E        +  where False = <function isfile at 0x7f03b4460220>('/home/user/myproject/output.log')
+E        +    where <function isfile at 0x7f03b4460220> = <module 'posixpath' (frozen)>.isfile
+E        +      where <module 'posixpath' (frozen)> = os.path
+
+tests/test_final_state.py:36: AssertionError
+_______ ERROR at setup of test_signature_header_matches_recomputed_hmac ________
+
+    @pytest.fixture(scope="session")
+    def env_state():
+        api_key, run_id = _read_env_or_skip()
+>       log_fields = _parse_log_file()
+
+tests/test_final_state.py:74: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def _parse_log_file() -> dict:
+>       assert os.path.isfile(LOG_FILE), f"Expected log file {LOG_FILE} to exist."
+E       AssertionError: Expected log file /home/user/myproject/output.log to exist.
+E       assert False
+E        +  where False = <function isfile at 0x7f03b4460220>('/home/user/myproject/output.log')
+E        +    where <function isfile at 0x7f03b4460220> = <module 'posixpath' (frozen)>.isfile
+E        +      where <module 'posixpath' (frozen)> = os.path
+
+tests/test_final_state.py:36: AssertionError
+_____________ ERROR at setup of test_signed_at_header_is_fresh_iso _____________
+
+    @pytest.fixture(scope="session")
+    def env_state():
+        api_key, run_id = _read_env_or_skip()
+>       log_fields = _parse_log_file()
+
+tests/test_final_state.py:74: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def _parse_log_file() -> dict:
+>       assert os.path.isfile(LOG_FILE), f"Expected log file {LOG_FILE} to exist."
+E       AssertionError: Expected log file /home/user/myproject/output.log to exist.
+E       assert False
+E        +  where False = <function isfile at 0x7f03b4460220>('/home/user/myproject/output.log')
+E        +    where <function isfile at 0x7f03b4460220> = <module 'posixpath' (frozen)>.isfile
+E        +      where <module 'posixpath' (frozen)> = os.path
+
+tests/test_final_state.py:36: AssertionError
+=========================== short test summary info ============================
+ERROR tests/test_final_state.py::test_log_file_contains_required_fields - Ass...
+ERROR tests/test_final_state.py::test_transformation_env_and_code - Assertion...
+ERROR tests/test_final_state.py::test_connection_wiring - AssertionError: Exp...
+ERROR tests/test_final_state.py::test_secret_not_leaked_in_non_transformation_resources
+ERROR tests/test_final_state.py::test_signature_header_matches_recomputed_hmac
+ERROR tests/test_final_state.py::test_signed_at_header_is_fresh_iso - Asserti...
+============================== 6 errors in 0.29s ===============================

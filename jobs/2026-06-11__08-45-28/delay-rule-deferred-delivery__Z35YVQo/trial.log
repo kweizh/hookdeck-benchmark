@@ -1,0 +1,82 @@
+Skipping image OS validation for hb__delay-rule-deferred-delivery: docker inspect returned 1
+Running command: apt-get update && apt-get install -y curl ripgrep
+Command outputs captured
+Running command: set -euo pipefail; curl -fsSL https://getpochi.com/install.sh | bash -x -s -- pochi-v0.6.14 && mkdir -p /logs/agent/pochi && ~/.pochi/bin/pochi --version
+Command outputs captured
+Running command: ln -sf ~/.pochi/bin/pochi /usr/local/bin/pochi
+Command outputs captured
+Running command: echo zr-z35yvqo > /logs/artifacts/run-id && echo delay-rule-deferred-delivery__Z35YVQo > /logs/artifacts/trial_id
+Command outputs captured
+Running command: mkdir -p ~/.pochi && cat << 'EOF' | sed -e "s/OPENAI_API_KEY/${OPENAI_API_KEY}/g" -e "s/DEEPINFRA_API_KEY/${DEEPINFRA_API_KEY}/g" > ~/.pochi/config.jsonc
+{
+  "providers": {
+    "deepinfra": {
+      "kind": "openai",
+      "baseURL": "https://api.deepinfra.com/v1/openai",
+      "apiKey": "DEEPINFRA_API_KEY",
+      "models": {
+        "zai-org/GLM-4.7-Flash": {
+          "name": "glm-4.7-flash"
+        },
+        "moonshotai/Kimi-K2.6": {
+          "name": "kimi-K2.6"
+        },
+        "deepseek-ai/DeepSeek-V4-Pro": {
+          "name": "DeepSeek-V4-Pro"
+        }
+      }
+    },
+    "openai": {
+      "kind": "openai",
+      "baseURL": "https://api.openai.com/v1",
+      "apiKey": "OPENAI_API_KEY",
+      "models": {
+        "gpt-5.4": {
+          "name": "gpt-5.4"
+        }
+      }
+    }
+  }
+}
+EOF
+Command outputs captured
+Running command: if [ -f /bootstrap/test_initial_state.py ]; then pytest -s --log-cli-level=DEBUG /bootstrap/test_initial_state.py > >(tee /logs/agent/pochi/initial-test-stdout.txt) 2> >(tee /logs/agent/pochi/initial-test-stderr.txt >&2); fi
+Command outputs captured
+Running command: pochi --model anthropic/claude-4-6-sonnet --max-steps 200 --max-retries 10 --blobs-dir /logs/agent/pochi/blobs --experimental-stream-trajectory /logs/agent/pochi/trajectory.jsonl > >(tee /logs/agent/pochi/stdout.txt) 2> >(tee /logs/agent/pochi/stderr.txt >&2) <<'EOF'
+# Hookdeck Delay Rule: Deferred Delivery
+
+## Background
+You must configure a Hookdeck Connection that defers every inbound event by exactly 5 seconds before forwarding it to a Mock API destination, then prove the delay is actually being applied to real events.
+
+## Requirements
+- Configure a Hookdeck workspace such that events ingested by your Source are held for 5000ms by a delay rule and then delivered to a Mock API destination.
+- Publish exactly 3 events through that Source.
+- Each event's delivery must occur no sooner than 5 seconds after Hookdeck received it.
+
+## Implementation Hints
+- Authenticate the Hookdeck CLI in a headless way before doing anything else.
+- A delay rule is one of the supported connection rule types; consult the Hookdeck connection rules reference to confirm its exact JSON schema and time unit.
+- A `MOCK_API` destination accepts events without requiring inbound network access.
+- Publish events via the Hookdeck Publish API or by POSTing directly to your Source URL.
+- Hookdeck event objects expose both an ingestion timestamp (`created_at`) and a delivery timestamp (`successful_at`); the gap between them is the observable delay.
+
+## Acceptance Criteria
+- Project path: /home/user/hookdeck-task
+- Ensure the connection is really created in Hookdeck and the 3 events are actually published and delivered.
+- Log file: /home/user/hookdeck-task/output.log
+- Read `run-id` from the `ZEALT_RUN_ID` environment variable. Use these exact names:
+  - Source name: `delay-src-${run-id}`
+  - Destination name: `delay-dst-${run-id}`
+  - Connection name: `delay-conn-${run-id}`
+- The connection must include a rule of type `delay` with delay value `5000` (in the unit expected by the Hookdeck API).
+- The destination type must be `MOCK_API`.
+- The log file must contain exactly 3 lines, one per published event, each in the format:
+  `Event ID: <event_id>`
+- All 3 events must reach status `SUCCESSFUL` in Hookdeck, and for each event `successful_at - created_at` must be at least 5000ms and less than 10000ms.
+
+
+EOF
+Command outputs captured
+Running command: rm -f ~/.pochi/config.jsonc
+Command outputs captured
+The verifier.env contains an API key (often the case for LLM-based verifiers). You will incur costs associated with the API calls.

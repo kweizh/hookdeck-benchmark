@@ -1,0 +1,144 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-7.4.4, pluggy-1.4.0
+rootdir: /tests
+plugins: json-ctrf-0.5.2
+collected 7 items
+
+tests/test_final_state.py EEEEEEE                                        [100%]
+
+==================================== ERRORS ====================================
+_________________ ERROR at setup of test_log_file_has_all_ids __________________
+
+    @pytest.fixture(scope="module")
+    def log_ids() -> dict:
+>       text = _read_log_text()
+
+tests/test_final_state.py:44: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def _read_log_text() -> str:
+>       assert os.path.isfile(LOG_PATH), f"Log file {LOG_PATH} does not exist."
+E       AssertionError: Log file /home/user/hookdeck-task/output.log does not exist.
+E       assert False
+E        +  where False = <function isfile at 0x7f9a4397c220>('/home/user/hookdeck-task/output.log')
+E        +    where <function isfile at 0x7f9a4397c220> = <module 'posixpath' (frozen)>.isfile
+E        +      where <module 'posixpath' (frozen)> = os.path
+
+tests/test_final_state.py:13: AssertionError
+______________ ERROR at setup of test_connection_a_configuration _______________
+
+    @pytest.fixture(scope="module")
+    def log_ids() -> dict:
+>       text = _read_log_text()
+
+tests/test_final_state.py:44: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def _read_log_text() -> str:
+>       assert os.path.isfile(LOG_PATH), f"Log file {LOG_PATH} does not exist."
+E       AssertionError: Log file /home/user/hookdeck-task/output.log does not exist.
+E       assert False
+E        +  where False = <function isfile at 0x7f9a4397c220>('/home/user/hookdeck-task/output.log')
+E        +    where <function isfile at 0x7f9a4397c220> = <module 'posixpath' (frozen)>.isfile
+E        +      where <module 'posixpath' (frozen)> = os.path
+
+tests/test_final_state.py:13: AssertionError
+______________ ERROR at setup of test_connection_b_configuration _______________
+
+    @pytest.fixture(scope="module")
+    def log_ids() -> dict:
+>       text = _read_log_text()
+
+tests/test_final_state.py:44: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def _read_log_text() -> str:
+>       assert os.path.isfile(LOG_PATH), f"Log file {LOG_PATH} does not exist."
+E       AssertionError: Log file /home/user/hookdeck-task/output.log does not exist.
+E       assert False
+E        +  where False = <function isfile at 0x7f9a4397c220>('/home/user/hookdeck-task/output.log')
+E        +    where <function isfile at 0x7f9a4397c220> = <module 'posixpath' (frozen)>.isfile
+E        +      where <module 'posixpath' (frozen)> = os.path
+
+tests/test_final_state.py:13: AssertionError
+_____________________ ERROR at setup of test_event_a_state _____________________
+
+    @pytest.fixture(scope="module")
+    def log_ids() -> dict:
+>       text = _read_log_text()
+
+tests/test_final_state.py:44: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def _read_log_text() -> str:
+>       assert os.path.isfile(LOG_PATH), f"Log file {LOG_PATH} does not exist."
+E       AssertionError: Log file /home/user/hookdeck-task/output.log does not exist.
+E       assert False
+E        +  where False = <function isfile at 0x7f9a4397c220>('/home/user/hookdeck-task/output.log')
+E        +    where <function isfile at 0x7f9a4397c220> = <module 'posixpath' (frozen)>.isfile
+E        +      where <module 'posixpath' (frozen)> = os.path
+
+tests/test_final_state.py:13: AssertionError
+_______________ ERROR at setup of test_event_a_attempts_history ________________
+
+    @pytest.fixture(scope="module")
+    def log_ids() -> dict:
+>       text = _read_log_text()
+
+tests/test_final_state.py:44: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def _read_log_text() -> str:
+>       assert os.path.isfile(LOG_PATH), f"Log file {LOG_PATH} does not exist."
+E       AssertionError: Log file /home/user/hookdeck-task/output.log does not exist.
+E       assert False
+E        +  where False = <function isfile at 0x7f9a4397c220>('/home/user/hookdeck-task/output.log')
+E        +    where <function isfile at 0x7f9a4397c220> = <module 'posixpath' (frozen)>.isfile
+E        +      where <module 'posixpath' (frozen)> = os.path
+
+tests/test_final_state.py:13: AssertionError
+_____________________ ERROR at setup of test_event_b_state _____________________
+
+    @pytest.fixture(scope="module")
+    def log_ids() -> dict:
+>       text = _read_log_text()
+
+tests/test_final_state.py:44: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def _read_log_text() -> str:
+>       assert os.path.isfile(LOG_PATH), f"Log file {LOG_PATH} does not exist."
+E       AssertionError: Log file /home/user/hookdeck-task/output.log does not exist.
+E       assert False
+E        +  where False = <function isfile at 0x7f9a4397c220>('/home/user/hookdeck-task/output.log')
+E        +    where <function isfile at 0x7f9a4397c220> = <module 'posixpath' (frozen)>.isfile
+E        +      where <module 'posixpath' (frozen)> = os.path
+
+tests/test_final_state.py:13: AssertionError
+_______________ ERROR at setup of test_event_b_attempts_history ________________
+
+    @pytest.fixture(scope="module")
+    def log_ids() -> dict:
+>       text = _read_log_text()
+
+tests/test_final_state.py:44: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def _read_log_text() -> str:
+>       assert os.path.isfile(LOG_PATH), f"Log file {LOG_PATH} does not exist."
+E       AssertionError: Log file /home/user/hookdeck-task/output.log does not exist.
+E       assert False
+E        +  where False = <function isfile at 0x7f9a4397c220>('/home/user/hookdeck-task/output.log')
+E        +    where <function isfile at 0x7f9a4397c220> = <module 'posixpath' (frozen)>.isfile
+E        +      where <module 'posixpath' (frozen)> = os.path
+
+tests/test_final_state.py:13: AssertionError
+=========================== short test summary info ============================
+ERROR tests/test_final_state.py::test_log_file_has_all_ids - AssertionError: ...
+ERROR tests/test_final_state.py::test_connection_a_configuration - AssertionE...
+ERROR tests/test_final_state.py::test_connection_b_configuration - AssertionE...
+ERROR tests/test_final_state.py::test_event_a_state - AssertionError: Log fil...
+ERROR tests/test_final_state.py::test_event_a_attempts_history - AssertionErr...
+ERROR tests/test_final_state.py::test_event_b_state - AssertionError: Log fil...
+ERROR tests/test_final_state.py::test_event_b_attempts_history - AssertionErr...
+============================== 7 errors in 0.29s ===============================

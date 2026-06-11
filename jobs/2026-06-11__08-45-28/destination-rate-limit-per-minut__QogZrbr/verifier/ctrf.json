@@ -1,0 +1,74 @@
+{
+    "reportFormat": "CTRF",
+    "specVersion": "0.0.0",
+    "timestamp": "2026-06-11T08:57:07.185615+00:00",
+    "generatedBy": "pytest",
+    "results": {
+        "tool": {
+            "name": "pytest",
+            "version": "7.4.4"
+        },
+        "summary": {
+            "tests": 5,
+            "passed": 5,
+            "failed": 0,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1781168224150,
+            "stop": 1781168227185
+        },
+        "environment": {
+            "buildName": "Pytest JSON CTRF Report",
+            "buildNumber": "000",
+            "buildUrl": "https://ctrf.io"
+        },
+        "tests": [
+            {
+                "name": "test_final_state.py::test_destination_config",
+                "status": "passed",
+                "duration": 320,
+                "start": 1781168224478,
+                "stop": 1781168224798,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_source_config",
+                "status": "passed",
+                "duration": 174,
+                "start": 1781168224798,
+                "stop": 1781168224972,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_connection_links_source_and_destination",
+                "status": "passed",
+                "duration": 174,
+                "start": 1781168224972,
+                "stop": 1781168225146,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_all_five_events_successful",
+                "status": "passed",
+                "duration": 1003,
+                "start": 1781168225147,
+                "stop": 1781168226150,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_delivery_pacing_matches_rate_limit",
+                "status": "passed",
+                "duration": 1034,
+                "start": 1781168226151,
+                "stop": 1781168227185,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            }
+        ]
+    }
+}

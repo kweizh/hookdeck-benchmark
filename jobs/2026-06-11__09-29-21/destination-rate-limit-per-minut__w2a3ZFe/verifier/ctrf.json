@@ -1,0 +1,79 @@
+{
+    "reportFormat": "CTRF",
+    "specVersion": "0.0.0",
+    "timestamp": "2026-06-11T09:49:26.094722+00:00",
+    "generatedBy": "pytest",
+    "results": {
+        "tool": {
+            "name": "pytest",
+            "version": "7.4.4"
+        },
+        "summary": {
+            "tests": 5,
+            "passed": 0,
+            "failed": 5,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1781171365793,
+            "stop": 1781171366094
+        },
+        "environment": {
+            "buildName": "Pytest JSON CTRF Report",
+            "buildNumber": "000",
+            "buildUrl": "https://ctrf.io"
+        },
+        "tests": [
+            {
+                "name": "test_final_state.py::test_destination_config",
+                "status": "failed",
+                "duration": 49,
+                "start": 1781171366004,
+                "stop": 1781171366053,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "@pytest.fixture(scope=\"module\")\n    def log_text() -> str:\n>       return _read_log_text()\n\ntests/test_final_state.py:43: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\n    def _read_log_text() -> str:\n>       assert os.path.isfile(LOG_FILE), f\"Log file not found at {LOG_FILE}\"\nE       AssertionError: Log file not found at /home/user/hookdeck-task/output.log\nE       assert False\nE        +  where False = <function isfile at 0x7fa1c3c4c220>('/home/user/hookdeck-task/output.log')\nE        +    where <function isfile at 0x7fa1c3c4c220> = <module 'posixpath' (frozen)>.isfile\nE        +      where <module 'posixpath' (frozen)> = os.path\n\ntests/test_final_state.py:13: AssertionError"
+            },
+            {
+                "name": "test_final_state.py::test_source_config",
+                "status": "failed",
+                "duration": 10,
+                "start": 1781171366053,
+                "stop": 1781171366063,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "@pytest.fixture(scope=\"module\")\n    def log_text() -> str:\n>       return _read_log_text()\n\ntests/test_final_state.py:43: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\n    def _read_log_text() -> str:\n>       assert os.path.isfile(LOG_FILE), f\"Log file not found at {LOG_FILE}\"\nE       AssertionError: Log file not found at /home/user/hookdeck-task/output.log\nE       assert False\nE        +  where False = <function isfile at 0x7fa1c3c4c220>('/home/user/hookdeck-task/output.log')\nE        +    where <function isfile at 0x7fa1c3c4c220> = <module 'posixpath' (frozen)>.isfile\nE        +      where <module 'posixpath' (frozen)> = os.path\n\ntests/test_final_state.py:13: AssertionError"
+            },
+            {
+                "name": "test_final_state.py::test_connection_links_source_and_destination",
+                "status": "failed",
+                "duration": 11,
+                "start": 1781171366063,
+                "stop": 1781171366074,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "@pytest.fixture(scope=\"module\")\n    def log_text() -> str:\n>       return _read_log_text()\n\ntests/test_final_state.py:43: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\n    def _read_log_text() -> str:\n>       assert os.path.isfile(LOG_FILE), f\"Log file not found at {LOG_FILE}\"\nE       AssertionError: Log file not found at /home/user/hookdeck-task/output.log\nE       assert False\nE        +  where False = <function isfile at 0x7fa1c3c4c220>('/home/user/hookdeck-task/output.log')\nE        +    where <function isfile at 0x7fa1c3c4c220> = <module 'posixpath' (frozen)>.isfile\nE        +      where <module 'posixpath' (frozen)> = os.path\n\ntests/test_final_state.py:13: AssertionError"
+            },
+            {
+                "name": "test_final_state.py::test_all_five_events_successful",
+                "status": "failed",
+                "duration": 8,
+                "start": 1781171366075,
+                "stop": 1781171366083,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "@pytest.fixture(scope=\"module\")\n    def log_text() -> str:\n>       return _read_log_text()\n\ntests/test_final_state.py:43: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\n    def _read_log_text() -> str:\n>       assert os.path.isfile(LOG_FILE), f\"Log file not found at {LOG_FILE}\"\nE       AssertionError: Log file not found at /home/user/hookdeck-task/output.log\nE       assert False\nE        +  where False = <function isfile at 0x7fa1c3c4c220>('/home/user/hookdeck-task/output.log')\nE        +    where <function isfile at 0x7fa1c3c4c220> = <module 'posixpath' (frozen)>.isfile\nE        +      where <module 'posixpath' (frozen)> = os.path\n\ntests/test_final_state.py:13: AssertionError"
+            },
+            {
+                "name": "test_final_state.py::test_delivery_pacing_matches_rate_limit",
+                "status": "failed",
+                "duration": 10,
+                "start": 1781171366084,
+                "stop": 1781171366094,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "@pytest.fixture(scope=\"module\")\n    def log_text() -> str:\n>       return _read_log_text()\n\ntests/test_final_state.py:43: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\n    def _read_log_text() -> str:\n>       assert os.path.isfile(LOG_FILE), f\"Log file not found at {LOG_FILE}\"\nE       AssertionError: Log file not found at /home/user/hookdeck-task/output.log\nE       assert False\nE        +  where False = <function isfile at 0x7fa1c3c4c220>('/home/user/hookdeck-task/output.log')\nE        +    where <function isfile at 0x7fa1c3c4c220> = <module 'posixpath' (frozen)>.isfile\nE        +      where <module 'posixpath' (frozen)> = os.path\n\ntests/test_final_state.py:13: AssertionError"
+            }
+        ]
+    }
+}

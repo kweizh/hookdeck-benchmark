@@ -1,0 +1,78 @@
+Skipping image OS validation for hb__bulk-retry-failed-events: docker inspect returned 1
+Running command: apt-get update && apt-get install -y curl ripgrep
+Command outputs captured
+Running command: set -euo pipefail; curl -fsSL https://getpochi.com/install.sh | bash -x -s -- pochi-v0.6.14 && mkdir -p /logs/agent/pochi && ~/.pochi/bin/pochi --version
+Command outputs captured
+Running command: ln -sf ~/.pochi/bin/pochi /usr/local/bin/pochi
+Command outputs captured
+Running command: echo zr-9ld8gk5 > /logs/artifacts/run-id && echo bulk-retry-failed-events__9LD8Gk5 > /logs/artifacts/trial_id
+Command outputs captured
+Running command: mkdir -p ~/.pochi && cat << 'EOF' | sed -e "s/OPENAI_API_KEY/${OPENAI_API_KEY}/g" -e "s/DEEPINFRA_API_KEY/${DEEPINFRA_API_KEY}/g" > ~/.pochi/config.jsonc
+{
+  "providers": {
+    "deepinfra": {
+      "kind": "openai",
+      "baseURL": "https://api.deepinfra.com/v1/openai",
+      "apiKey": "DEEPINFRA_API_KEY",
+      "models": {
+        "zai-org/GLM-4.7-Flash": {
+          "name": "glm-4.7-flash"
+        },
+        "moonshotai/Kimi-K2.6": {
+          "name": "kimi-K2.6"
+        },
+        "deepseek-ai/DeepSeek-V4-Pro": {
+          "name": "DeepSeek-V4-Pro"
+        }
+      }
+    },
+    "openai": {
+      "kind": "openai",
+      "baseURL": "https://api.openai.com/v1",
+      "apiKey": "OPENAI_API_KEY",
+      "models": {
+        "gpt-5.4": {
+          "name": "gpt-5.4"
+        }
+      }
+    }
+  }
+}
+EOF
+Command outputs captured
+Running command: if [ -f /bootstrap/test_initial_state.py ]; then pytest -s --log-cli-level=DEBUG /bootstrap/test_initial_state.py > >(tee /logs/agent/pochi/initial-test-stdout.txt) 2> >(tee /logs/agent/pochi/initial-test-stderr.txt >&2); fi
+Command outputs captured
+Running command: pochi --model deepseek/deepseek-4-pro --max-steps 200 --max-retries 10 --blobs-dir /logs/agent/pochi/blobs --experimental-stream-trajectory /logs/agent/pochi/trajectory.jsonl > >(tee /logs/agent/pochi/stdout.txt) 2> >(tee /logs/agent/pochi/stderr.txt >&2) <<'EOF'
+# Bulk-Retry Failed Events on a Hookdeck Connection
+
+## Background
+Hookdeck stores every webhook event it processes and supports replaying failed deliveries via single-event retries or bulk-retry operations. In this task a connection has already been seeded with several events that failed delivery because the destination was unhealthy. The destination has since been repaired. Your job is to recover the events by bulk-retrying every FAILED event on that connection until all of them transition to SUCCESSFUL.
+
+## Requirements
+- Use the Hookdeck REST API to find every event with `status=FAILED` on the seeded connection.
+- Trigger a bulk retry that covers all of those FAILED events.
+- Wait until every previously-FAILED event on the seeded connection has reached `status=SUCCESSFUL`.
+- Write the seeded Connection ID to a log file when you are done.
+
+## Implementation Hints
+- Read the current `run-id` from the `ZEALT_RUN_ID` environment variable and use it to discover the seeded connection (its name follows the `bulk-conn-${run-id}` pattern).
+- The API key is available in the `HOOKDECK_API_KEY` environment variable. Authenticate with `Authorization: Bearer $HOOKDECK_API_KEY`.
+- Read the official API docs at https://hookdeck.com/docs/api and https://hookdeck.com/docs/api/inspect.md to find the exact list-events endpoint, the bulk-retry endpoint, and the supported query filters.
+- After triggering the bulk retry the operation is asynchronous; you will need to poll the Events API until every previously-FAILED event has converged to `SUCCESSFUL`.
+- The bulk-retry endpoint accepts a `query` object that should restrict the operation to the seeded connection only — do not retry events from other connections.
+
+## Acceptance Criteria
+- Project path: /home/user/hookdeck-task
+- Ensure the real bulk-retry action is executed and the log artifact exists.
+- Log file: /home/user/hookdeck-task/output.log
+- The seeded connection name follows the pattern `bulk-conn-${run-id}` where `run-id` is read from the `ZEALT_RUN_ID` environment variable.
+- The log file must contain the seeded Connection ID in the format: `Connection ID: <connection_id>`.
+- After the task finishes, the Hookdeck Events API must report 0 events with `status=FAILED` on the seeded connection.
+- After the task finishes, the seeded connection must have at least one event whose final `status` is `SUCCESSFUL` and whose `attempts` count is `>= 2` (i.e., the event was redelivered at least once on top of its original failed attempt).
+- After the task finishes, the latest delivery attempt for every previously-FAILED event must have a `trigger` value of `BULK_RETRY` or `MANUAL` (i.e., it was triggered by the bulk-retry operation rather than the initial delivery).
+
+
+EOF
+Running command: rm -f ~/.pochi/config.jsonc
+Command outputs captured
+The verifier.env contains an API key (often the case for LLM-based verifiers). You will incur costs associated with the API calls.

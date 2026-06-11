@@ -1,0 +1,56 @@
+{
+    "reportFormat": "CTRF",
+    "specVersion": "0.0.0",
+    "timestamp": "2026-06-11T09:16:27.835707+00:00",
+    "generatedBy": "pytest",
+    "results": {
+        "tool": {
+            "name": "pytest",
+            "version": "7.4.4"
+        },
+        "summary": {
+            "tests": 3,
+            "passed": 3,
+            "failed": 0,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1781169386403,
+            "stop": 1781169387835
+        },
+        "environment": {
+            "buildName": "Pytest JSON CTRF Report",
+            "buildNumber": "000",
+            "buildUrl": "https://ctrf.io"
+        },
+        "tests": [
+            {
+                "name": "test_final_state.py::test_connection_metadata_and_rule_order",
+                "status": "passed",
+                "duration": 195,
+                "start": 1781169386578,
+                "stop": 1781169386773,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_transformation_code_references_expected_keys",
+                "status": "passed",
+                "duration": 335,
+                "start": 1781169386774,
+                "stop": 1781169387109,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_only_order_created_events_delivered_with_transformation",
+                "status": "passed",
+                "duration": 726,
+                "start": 1781169387109,
+                "stop": 1781169387835,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            }
+        ]
+    }
+}

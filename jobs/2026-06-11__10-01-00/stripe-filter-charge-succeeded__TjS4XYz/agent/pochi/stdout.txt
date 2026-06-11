@@ -1,0 +1,85 @@
+- Initializing MCP connections...
+You
+# Filter Stripe Events with Hookdeck ## Background A Hookdeck CLI (`hookdeck`) is preinstalled and `HOOKDECK_API_KEY` is exported in your environment. Hookdeck is an Event Gateway that routes webhooks from a Source to a Destination through a Connection, and can apply Rules (e.g. filters) on the connection. Your job: build a Hookdeck pipeline that only forwards Stripe `charge.succeeded` events to a Mock API destination, drive it with synthetic traffic, and prove that the filter works by inspecting the resulting events through the Hookdeck REST API. ## Requirements * Authenticate the Hookdeck CLI in headless mode using `$HOOKDECK_API_KEY`. * Read `run-id` from the `ZEALT_RUN_ID` environment variable and append it to every Hookdeck resource name you create so the task is safe to run in parallel. * Create a Hookdeck Connection whose: * Source has type `STRIPE` and is named `stripe-src-${run-id}`. * Destination has type `MOCK_API` and is named `mock-dest-${run-id}`. * Connection itself is named `stripe-charge-succeeded-${run-id}`. * Rules contain exactly one `filter` rule that only allows events whose request body `type` equals `charge.succeeded`. All other Stripe event types must be filtered out (ignored). * Use the Hookdeck Publish API (`https://hkdk.events/v1/publish`) to send 4 distinct events into the Stripe source you created, one for each of the following Stripe event types (use these exact string values in the JSON body field `type`): * `charge.succeeded` * `charge.failed` * `charge.refunded` * `charge.captured` * Wait for Hookdeck to finish processing, then confirm via the Hookdeck Inspect API that exactly **one** event has been routed to your connection's destination and that this single event has status `SUCCESSFUL`. * Record the resulting resource IDs in a log file so the verifier can independently re-query Hookdeck. ## Implementation Hints * Use `hookdeck ci --api-key $HOOKDECK_API_KEY` to perform a non-interactive login before invoking any other CLI command. The environment is headless. * You can manage Sources, Destinations, Connections, and Rules via either the Hookdeck CLI (`hookdeck connection ...`) or the Hookdeck REST API at `https://api.hookdeck.com/2025-07-01`. Pick whichever you find most reliable — they target the same backend. * A filter rule on the body uses the shape `{ "type": "filter", "body": { "type": "charge.succeeded" } }` inside the connection's `rules` array. The Stripe source type is `STRIPE` and the Mock API destination type is `MOCK_API` (Mock API accepts every delivery with HTTP 200, so no inbound network is needed). * The Publish API requires `Authorization: Bearer $HOOKDECK_API_KEY`, `Content-Type: application/json`, and either `X-Hookdeck-Source-Name` or `X-Hookdeck-Source-Id` to identify the target source. The JSON body is forwarded as-is. * Hookdeck processes events asynchronously. After publishing, poll the Inspect API (`GET /events?webhook_id=<connection_id>`) until the expected delivered count stabilizes before writing the log. * Always cross-check API behaviour against the official docs (https://hookdeck.com/docs/api , https://hookdeck.com/docs/connections.md , https://hookdeck.com/docs/api/publish.md , https://hookdeck.com/docs/api/inspect.md) — do not guess endpoints, payload shapes, or status enum values. ## Acceptance Criteria * Project path: /home/user/hookdeck-task * Ensure the real Hookdeck side effects are performed (the verifier will re-query Hookdeck) and the log artifact exists. * Log file: /home/user/hookdeck-task/output.log * The log file must contain at least the following lines (one per line, in any order): * `Connection ID: <connection_id>` where `<connection_id>` starts with `web_`. * `Source ID: <source_id>` where `<source_id>` starts with `src_`. * `Destination ID: <destination_id>` where `<destination_id>` starts with `des_`. * `Delivered Event ID: <event_id>` where `<event_id>` starts with `evt_` and corresponds to the single event delivered to the destination. * The Hookdeck Connection identified by `Connection ID` must: * Have `name == "stripe-charge-succeeded-${run-id}"`. * Reference a Source with `type == "STRIPE"` and `name == "stripe-src-${run-id}"`. * Reference a Destination with `type == "MOCK_API"` and `name == "mock-dest-${run-id}"`. * Contain a filter rule equivalent to `{"type": "filter", "body": {"type": "charge.succeeded"}}`. * After all 4 events are published, querying `GET /events?webhook_id=<connection_id>` against the Hookdeck REST API must return exactly **one** event, and that event must have `status == "SUCCESSFUL"`. * The single delivered event's body MUST be the `charge.succeeded` payload (i.e. the event retrieved via `GET /events/<event_id>` has a `data.body.body.type` equal to `charge.succeeded`).   
+
+Pochi
+I'll start by understanding the task and setting up the environment, then work through each step systematically.   
+📋 Updating todo list (8 items) ✔ 
+💫 Executing echo "HOOKDECK_API_KEY=${HOOKDECK_API_KEY:0:10}..." && echo "ZEALT_RUN_ID=$ZEALT_RUN_ID" ✔ 
+💫 Executing mkdir -p /home/user/hookdeck-task ✔ 
+Good, environment variables are set. Now let me authenticate the Hookdeck CLI and check the available commands.   
+📋 Updating todo list (8 items) ✔ 
+💫 Executing hookdeck ci --api-key "$HOOKDECK_API_KEY" 2>&1 ✔ 
+CLI is authenticated. Now let me check the available CLI commands for managing sources, destinations, and connections.   
+💫 Executing hookdeck --help 2>&1 ✔ 
+💫 Executing hookdeck connection --help 2>&1 ✔ 
+💫 Executing hookdeck gateway --help 2>&1 ✔ 
+Let me check the specific commands for creating sources, destinations, and connections.   
+💫 Executing hookdeck gateway source create --help 2>&1 ✔ 
+💫 Executing hookdeck gateway destination create --help 2>&1 ✔ 
+💫 Executing hookdeck gateway connection create --help 2>&1 ✔ 
+I can see the CLI supports creating inline source and destination with the connection, and has a `--rule-filter-body` flag. Let me create the connection with inline source and destination, including the filter rule. Let me also check the `--rules` flag format.   
+📋 Updating todo list (8 items) ✔ 
+I'll create the connection with inline source (STRIPE) and destination (MOCK_API), plus the filter rule — all in one command:   
+💫 Executing hookdeck gateway connection create \
+  --name "stripe-charge-succeeded-zr-tjs4xyz" \
+  --source-type STRIPE --source-name "stripe-src-zr-tjs4xyz" \
+  --destination-type MOCK_API --destination-name "mock-dest-zr-tjs4xyz" \
+  --rule-filter-body '{"type":"charge.succeeded"}' \
+  --output json 2>&1 ✔ 
+All three resources created successfully. Let me capture the IDs: - Connection ID: `web_PhK2BpiMhDv7` - Source ID: `src_741n8felh9lkey` - Destination ID: `des_kS6Zp9o8VECD` - Source URL: `https://hkdk.events/741n8felh9lkey` - Filter rule is correctly set: `{"type": "filter", "body": {"type": "charge.succeeded"}}` Now let me publish the 4 synthetic Stripe events via the Publish API.   
+📋 Updating todo list (8 items) ✔ 
+💫 Executing for event_type in "charge.succeeded" "charge.failed" "charge.refunded" "charge.captured"; do
+  echo "Publishing $event_type..."
+  curl -s -X POST "https://hkdk.events/v1/publish" \
+    -H "Authorization: Bearer $HOOKDECK_API_KEY" \
+    -H "Content-Type: application/json" \
+    -H "X-Hookdeck-Source-Name: stripe-src-zr-tjs4xyz" \
+    -d "{\"type\":\"$event_type\",\"data\":{\"object\":{\"id\":\"ch_test123\"}}}" \
+    -w "\nHTTP %{http_code}\n"
+  echo "---"
+done ✔ 
+All 4 events published successfully. Now let me poll the Inspect API to check the events for this connection.   
+📋 Updating todo list (8 items) ✔ 
+💫 Executing curl -s "https://api.hookdeck.com/2025-07-01/events?webhook_id=web_PhK2BpiMhDv7" \
+  -H "Authorization: Bearer $HOOKDECK_API_KEY" \
+  -H "Content-Type: application/json" | python3 -m json.tool 2>&1 ✔ 
+Exactly 1 event returned with status `SUCCESSFUL`. The event ID is `evt_pdYLA8jexZFcB44QyH`. Let me now verify the event body to confirm it's the `charge.succeeded` one.   
+💫 Executing curl -s "https://api.hookdeck.com/2025-07-01/events/evt_pdYLA8jexZFcB44QyH" \
+  -H "Authorization: Bearer $HOOKDECK_API_KEY" \
+  -H "Content-Type: application/json" | python3 -m json.tool 2>&1 ✔ 
+The event body confirms `data.body.body.type` is `charge.succeeded`. Everything checks out. Now let me write the output log.   
+📋 Updating todo list (8 items) ✔ 
+✏️  Writing /home/user/hookdeck-task/output.log ✔ 
+📋 Updating todo list (8 items) ✔ 
+🎉 Task Completed
+## Hookdeck Stripe Filter Pipeline — Complete
+
+All resources have been created, tested, and verified. Here's a summary:
+
+### Resources Created
+
+| Resource | ID | Name |
+|---|---|---|
+| **Connection** | `web_PhK2BpiMhDv7` | `stripe-charge-succeeded-zr-tjs4xyz` |
+| **Source** | `src_741n8felh9lkey` | `stripe-src-zr-tjs4xyz` (type: `STRIPE`) |
+| **Destination** | `des_kS6Zp9o8VECD` | `mock-dest-zr-tjs4xyz` (type: `MOCK_API`) |
+
+### Filter Rule
+```json
+{"type": "filter", "body": {"type": "charge.succeeded"}}
+```
+
+### Test Results
+
+4 synthetic Stripe events were published via `https://hkdk.events/v1/publish`:
+- `charge.succeeded` → **routed** (event `evt_pdYLA8jexZFcB44QyH`, status: `SUCCESSFUL`)
+- `charge.failed` → **filtered out**
+- `charge.refunded` → **filtered out**
+- `charge.captured` → **filtered out**
+
+The Inspect API (`GET /events?webhook_id=web_PhK2BpiMhDv7`) confirmed exactly **1 event** with `status == "SUCCESSFUL"`, and its body type is `charge.succeeded`.
+
+### Log File
+Written to `/home/user/hookdeck-task/output.log` with all required IDs.   
+  

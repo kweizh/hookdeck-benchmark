@@ -1,0 +1,109 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-7.4.4, pluggy-1.4.0
+rootdir: /tests
+plugins: json-ctrf-0.5.2
+collected 4 items
+
+tests/test_final_state.py FFF.                                           [100%]
+
+=================================== FAILURES ===================================
+___________________ test_connection_and_transformation_wired ___________________
+
+run_id = 'zr-hwbbzv2'
+auth_headers = {'Authorization': 'Bearer REDACTED'}
+transformation_id = 'trs_o4AcxC3WyDh6ie'
+
+    def test_connection_and_transformation_wired(run_id, auth_headers, transformation_id):
+        """The Connection conn-${run-id} must reference the Transformation in its rules."""
+        resp = requests.get(
+            f"{API_BASE}/connections",
+            headers=auth_headers,
+            params={"name": f"conn-{run_id}"},
+        )
+        assert resp.status_code == 200, (
+            f"Failed to retrieve connections: {resp.status_code} {resp.text}"
+        )
+        models = resp.json().get("models", [])
+        assert len(models) >= 1, f"No connection named 'conn-{run_id}' found"
+    
+        conn = models[0]
+        rules = conn.get("rules", []) or []
+        transformation_rules = [r for r in rules if r.get("type") == "transformation"]
+>       assert transformation_rules, (
+            f"Connection 'conn-{run_id}' has no transformation rule. Rules: {rules}"
+        )
+E       AssertionError: Connection 'conn-zr-hwbbzv2' has no transformation rule. Rules: [{'type': 'transform', 'transformation_id': 'trs_o4AcxC3WyDh6ie'}]
+E       assert []
+
+tests/test_final_state.py:126: AssertionError
+______________ test_valid_payloads_delivered_and_invalid_dropped _______________
+
+publish_and_wait = True
+auth_headers = {'Authorization': 'Bearer REDACTED'}
+source_id = 'src_5jpzwj03rwff7b'
+
+    def test_valid_payloads_delivered_and_invalid_dropped(
+        publish_and_wait, auth_headers, source_id
+    ):
+        """Each valid payload yields events_count>=1 and ignored_count==0;
+        each invalid payload yields events_count==0 and ignored_count>=1."""
+        requests_list = _fetch_all_requests(auth_headers, source_id)
+    
+        # Valid payloads must have been turned into events.
+        for vp in VALID_PAYLOADS:
+            match = _find_request_matching(
+                requests_list,
+                lambda body, vp=vp: body.get("user_id") == vp["user_id"]
+                and body.get("amount") == vp["amount"],
+            )
+>           assert match is not None, (
+                f"Could not find request for valid payload {vp!r} in Hookdeck"
+            )
+E           AssertionError: Could not find request for valid payload {'user_id': 'u-valid-1', 'amount': 12.5} in Hookdeck
+E           assert None is not None
+
+tests/test_final_state.py:150: AssertionError
+_______________ test_only_valid_events_delivered_to_destination ________________
+
+publish_and_wait = True
+auth_headers = {'Authorization': 'Bearer REDACTED'}
+source_id = 'src_5jpzwj03rwff7b'
+
+    def test_only_valid_events_delivered_to_destination(
+        publish_and_wait, auth_headers, source_id
+    ):
+        """Inspect API: only the 2 valid payloads should appear as SUCCESSFUL events."""
+        resp = requests.get(
+            f"{API_BASE}/events",
+            headers=auth_headers,
+            params={"source_id": source_id, "status": "SUCCESSFUL", "limit": 50},
+        )
+        assert resp.status_code == 200, (
+            f"Failed to retrieve events: {resp.status_code} {resp.text}"
+        )
+        events = resp.json().get("models", [])
+        bodies = [
+            ev.get("data", {}).get("body", {}).get("body", {}) for ev in events
+        ]
+    
+        # Each valid payload must be represented by at least one delivered event.
+        for vp in VALID_PAYLOADS:
+>           assert any(
+                b.get("user_id") == vp["user_id"] and b.get("amount") == vp["amount"]
+                for b in bodies
+            ), (
+                f"Valid payload {vp!r} not found among successful events. "
+                f"Delivered bodies: {bodies}"
+            )
+E           AssertionError: Valid payload {'user_id': 'u-valid-1', 'amount': 12.5} not found among successful events. Delivered bodies: [{}, {}, {}]
+E           assert False
+E            +  where False = any(<generator object test_only_valid_events_delivered_to_destination.<locals>.<genexpr> at 0x7fa2997d6340>)
+
+tests/test_final_state.py:205: AssertionError
+==================================== PASSES ====================================
+=========================== short test summary info ============================
+PASSED tests/test_final_state.py::test_transformation_logs_structured_validation_failure
+FAILED tests/test_final_state.py::test_connection_and_transformation_wired - ...
+FAILED tests/test_final_state.py::test_valid_payloads_delivered_and_invalid_dropped
+FAILED tests/test_final_state.py::test_only_valid_events_delivered_to_destination
+========================= 3 failed, 1 passed in 14.31s =========================

@@ -1,0 +1,57 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-7.4.4, pluggy-1.4.0
+rootdir: /tests
+plugins: json-ctrf-0.5.2
+collected 6 items
+
+tests/test_final_state.py ...FF.                                         [100%]
+
+=================================== FAILURES ===================================
+__________________ test_seed_expectation_matches_live_server ___________________
+
+seed = {'all_event_ids': ['evt_52u01XHnalbvx5to55', 'evt_cMra5wMsS50csv2hQp', 'evt_onJknNfWd9pGlEWnVT', 'evt_ezkEzXuGGln5D54i...Lnrwf03k7sYjRTlU', 'evt_lG2l7bYO7kt5GbTvLF'], 'source_id': 'src_7f1pwt64n40n1a', 'source_name': 'qwin-zr-zser9v9', ...}
+
+    def test_seed_expectation_matches_live_server(seed: dict):
+        """Independently issue the same server-side query and confirm the seed expectation is still authoritative."""
+        server_events = _list_events(seed["source_id"], seed["window_start"], seed["window_end"])
+        server_ids = sorted(e["id"] for e in server_events)
+        expected_ids = sorted(seed["expected_ids"])
+>       assert server_ids == expected_ids, (
+            "Server-side query returned a different set of event IDs than the seed recorded.\n"
+            f"Server: {server_ids}\nSeed:   {expected_ids}"
+        )
+E       AssertionError: Server-side query returned a different set of event IDs than the seed recorded.
+E         Server: ['evt_PchEnZfV7dRTEaeBNR', 'evt_SzWLp5YQ00rgvnsKtr', 'evt_XjtAuumts83Xwz66wf', 'evt_cuLnrwf03k7sYjRTlU']
+E         Seed:   ['evt_PchEnZfV7dRTEaeBNR', 'evt_SzWLp5YQ00rgvnsKtr', 'evt_XjtAuumts83Xwz66wf', 'evt_cuLnrwf03k7sYjRTlU', 'evt_lG2l7bYO7kt5GbTvLF']
+E       assert ['evt_PchEnZf...f03k7sYjRTlU'] == ['evt_PchEnZf...YO7kt5GbTvLF']
+E         Right contains one more item: 'evt_lG2l7bYO7kt5GbTvLF'
+E         Use -v to get more diff
+
+tests/test_final_state.py:121: AssertionError
+_________________ test_window_output_matches_server_side_query _________________
+
+window_output = {'count': 5, 'ids': ['evt_lG2l7bYO7kt5GbTvLF', 'evt_cuLnrwf03k7sYjRTlU', 'evt_PchEnZfV7dRTEaeBNR', 'evt_SzWLp5YQ00rgvnsKtr', 'evt_XjtAuumts83Xwz66wf']}
+seed = {'all_event_ids': ['evt_52u01XHnalbvx5to55', 'evt_cMra5wMsS50csv2hQp', 'evt_onJknNfWd9pGlEWnVT', 'evt_ezkEzXuGGln5D54i...Lnrwf03k7sYjRTlU', 'evt_lG2l7bYO7kt5GbTvLF'], 'source_id': 'src_7f1pwt64n40n1a', 'source_name': 'qwin-zr-zser9v9', ...}
+
+    def test_window_output_matches_server_side_query(window_output: dict, seed: dict):
+        server_events = _list_events(seed["source_id"], seed["window_start"], seed["window_end"])
+        server_ids = {e["id"] for e in server_events}
+        candidate_ids = set(window_output["ids"])
+        extra = candidate_ids - server_ids
+        missing = server_ids - candidate_ids
+>       assert not extra, (
+            f"window.json contains {len(extra)} event id(s) not returned by the authoritative server-side query: {sorted(extra)}"
+        )
+E       AssertionError: window.json contains 1 event id(s) not returned by the authoritative server-side query: ['evt_lG2l7bYO7kt5GbTvLF']
+E       assert not {'evt_lG2l7bYO7kt5GbTvLF'}
+
+tests/test_final_state.py:133: AssertionError
+==================================== PASSES ====================================
+=========================== short test summary info ============================
+PASSED tests/test_final_state.py::test_query_script_exists
+PASSED tests/test_final_state.py::test_query_script_uses_server_side_operators
+PASSED tests/test_final_state.py::test_window_output_schema
+PASSED tests/test_final_state.py::test_no_events_outside_window
+FAILED tests/test_final_state.py::test_seed_expectation_matches_live_server
+FAILED tests/test_final_state.py::test_window_output_matches_server_side_query
+========================= 2 failed, 4 passed in 1.99s ==========================

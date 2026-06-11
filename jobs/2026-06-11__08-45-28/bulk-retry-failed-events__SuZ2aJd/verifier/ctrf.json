@@ -1,0 +1,74 @@
+{
+    "reportFormat": "CTRF",
+    "specVersion": "0.0.0",
+    "timestamp": "2026-06-11T09:07:24.845557+00:00",
+    "generatedBy": "pytest",
+    "results": {
+        "tool": {
+            "name": "pytest",
+            "version": "7.4.4"
+        },
+        "summary": {
+            "tests": 5,
+            "passed": 5,
+            "failed": 0,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1781168842733,
+            "stop": 1781168844845
+        },
+        "environment": {
+            "buildName": "Pytest JSON CTRF Report",
+            "buildNumber": "000",
+            "buildUrl": "https://ctrf.io"
+        },
+        "tests": [
+            {
+                "name": "test_final_state.py::test_output_log_contains_connection_id",
+                "status": "passed",
+                "duration": 1,
+                "start": 1781168842896,
+                "stop": 1781168842897,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_logged_connection_matches_seed_name",
+                "status": "passed",
+                "duration": 259,
+                "start": 1781168842897,
+                "stop": 1781168843156,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_no_failed_events_remain",
+                "status": "passed",
+                "duration": 340,
+                "start": 1781168843157,
+                "stop": 1781168843497,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_at_least_one_event_succeeded_after_retry",
+                "status": "passed",
+                "duration": 322,
+                "start": 1781168843498,
+                "stop": 1781168843820,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_latest_attempt_was_triggered_by_bulk_or_manual_retry",
+                "status": "passed",
+                "duration": 1025,
+                "start": 1781168843820,
+                "stop": 1781168844845,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            }
+        ]
+    }
+}

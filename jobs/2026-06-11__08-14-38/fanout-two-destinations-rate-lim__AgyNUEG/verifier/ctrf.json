@@ -1,0 +1,109 @@
+{
+    "reportFormat": "CTRF",
+    "specVersion": "0.0.0",
+    "timestamp": "2026-06-11T08:25:07.181488+00:00",
+    "generatedBy": "pytest",
+    "results": {
+        "tool": {
+            "name": "pytest",
+            "version": "7.4.4"
+        },
+        "summary": {
+            "tests": 8,
+            "passed": 0,
+            "failed": 8,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1781166306899,
+            "stop": 1781166307181
+        },
+        "environment": {
+            "buildName": "Pytest JSON CTRF Report",
+            "buildNumber": "000",
+            "buildUrl": "https://ctrf.io"
+        },
+        "tests": [
+            {
+                "name": "test_final_state.py::test_source_exists_with_expected_name_and_type",
+                "status": "failed",
+                "duration": 39,
+                "start": 1781166307079,
+                "stop": 1781166307118,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "@pytest.fixture(scope=\"session\")\n    def logged_ids() -> dict:\n>       assert os.path.isfile(LOG_PATH), f\"Log file {LOG_PATH} does not exist.\"\nE       AssertionError: Log file /home/user/hookdeck-fanout/output.log does not exist.\nE       assert False\nE        +  where False = <function isfile at 0x7f2fdb378220>('/home/user/hookdeck-fanout/output.log')\nE        +    where <function isfile at 0x7f2fdb378220> = <module 'posixpath' (frozen)>.isfile\nE        +      where <module 'posixpath' (frozen)> = os.path\n\ntests/test_final_state.py:74: AssertionError"
+            },
+            {
+                "name": "test_final_state.py::test_fast_destination_is_mock_api_with_no_rate_limit",
+                "status": "failed",
+                "duration": 8,
+                "start": 1781166307119,
+                "stop": 1781166307127,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "@pytest.fixture(scope=\"session\")\n    def logged_ids() -> dict:\n>       assert os.path.isfile(LOG_PATH), f\"Log file {LOG_PATH} does not exist.\"\nE       AssertionError: Log file /home/user/hookdeck-fanout/output.log does not exist.\nE       assert False\nE        +  where False = <function isfile at 0x7f2fdb378220>('/home/user/hookdeck-fanout/output.log')\nE        +    where <function isfile at 0x7f2fdb378220> = <module 'posixpath' (frozen)>.isfile\nE        +      where <module 'posixpath' (frozen)> = os.path\n\ntests/test_final_state.py:74: AssertionError"
+            },
+            {
+                "name": "test_final_state.py::test_slow_destination_is_mock_api_with_2_per_second",
+                "status": "failed",
+                "duration": 9,
+                "start": 1781166307127,
+                "stop": 1781166307136,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "@pytest.fixture(scope=\"session\")\n    def logged_ids() -> dict:\n>       assert os.path.isfile(LOG_PATH), f\"Log file {LOG_PATH} does not exist.\"\nE       AssertionError: Log file /home/user/hookdeck-fanout/output.log does not exist.\nE       assert False\nE        +  where False = <function isfile at 0x7f2fdb378220>('/home/user/hookdeck-fanout/output.log')\nE        +    where <function isfile at 0x7f2fdb378220> = <module 'posixpath' (frozen)>.isfile\nE        +      where <module 'posixpath' (frozen)> = os.path\n\ntests/test_final_state.py:74: AssertionError"
+            },
+            {
+                "name": "test_final_state.py::test_fast_connection_links_source_to_fast_destination",
+                "status": "failed",
+                "duration": 8,
+                "start": 1781166307136,
+                "stop": 1781166307144,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "@pytest.fixture(scope=\"session\")\n    def logged_ids() -> dict:\n>       assert os.path.isfile(LOG_PATH), f\"Log file {LOG_PATH} does not exist.\"\nE       AssertionError: Log file /home/user/hookdeck-fanout/output.log does not exist.\nE       assert False\nE        +  where False = <function isfile at 0x7f2fdb378220>('/home/user/hookdeck-fanout/output.log')\nE        +    where <function isfile at 0x7f2fdb378220> = <module 'posixpath' (frozen)>.isfile\nE        +      where <module 'posixpath' (frozen)> = os.path\n\ntests/test_final_state.py:74: AssertionError"
+            },
+            {
+                "name": "test_final_state.py::test_slow_connection_links_source_to_slow_destination",
+                "status": "failed",
+                "duration": 8,
+                "start": 1781166307144,
+                "stop": 1781166307152,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "@pytest.fixture(scope=\"session\")\n    def logged_ids() -> dict:\n>       assert os.path.isfile(LOG_PATH), f\"Log file {LOG_PATH} does not exist.\"\nE       AssertionError: Log file /home/user/hookdeck-fanout/output.log does not exist.\nE       assert False\nE        +  where False = <function isfile at 0x7f2fdb378220>('/home/user/hookdeck-fanout/output.log')\nE        +    where <function isfile at 0x7f2fdb378220> = <module 'posixpath' (frozen)>.isfile\nE        +      where <module 'posixpath' (frozen)> = os.path\n\ntests/test_final_state.py:74: AssertionError"
+            },
+            {
+                "name": "test_final_state.py::test_fast_destination_received_all_12_events_without_pacing",
+                "status": "failed",
+                "duration": 8,
+                "start": 1781166307152,
+                "stop": 1781166307160,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "@pytest.fixture(scope=\"session\")\n    def logged_ids() -> dict:\n>       assert os.path.isfile(LOG_PATH), f\"Log file {LOG_PATH} does not exist.\"\nE       AssertionError: Log file /home/user/hookdeck-fanout/output.log does not exist.\nE       assert False\nE        +  where False = <function isfile at 0x7f2fdb378220>('/home/user/hookdeck-fanout/output.log')\nE        +    where <function isfile at 0x7f2fdb378220> = <module 'posixpath' (frozen)>.isfile\nE        +      where <module 'posixpath' (frozen)> = os.path\n\ntests/test_final_state.py:74: AssertionError"
+            },
+            {
+                "name": "test_final_state.py::test_slow_destination_received_all_12_events_with_rate_limit_pacing",
+                "status": "failed",
+                "duration": 7,
+                "start": 1781166307161,
+                "stop": 1781166307168,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "@pytest.fixture(scope=\"session\")\n    def logged_ids() -> dict:\n>       assert os.path.isfile(LOG_PATH), f\"Log file {LOG_PATH} does not exist.\"\nE       AssertionError: Log file /home/user/hookdeck-fanout/output.log does not exist.\nE       assert False\nE        +  where False = <function isfile at 0x7f2fdb378220>('/home/user/hookdeck-fanout/output.log')\nE        +    where <function isfile at 0x7f2fdb378220> = <module 'posixpath' (frozen)>.isfile\nE        +      where <module 'posixpath' (frozen)> = os.path\n\ntests/test_final_state.py:74: AssertionError"
+            },
+            {
+                "name": "test_final_state.py::test_events_are_owned_by_the_two_expected_connections",
+                "status": "failed",
+                "duration": 12,
+                "start": 1781166307169,
+                "stop": 1781166307181,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "@pytest.fixture(scope=\"session\")\n    def logged_ids() -> dict:\n>       assert os.path.isfile(LOG_PATH), f\"Log file {LOG_PATH} does not exist.\"\nE       AssertionError: Log file /home/user/hookdeck-fanout/output.log does not exist.\nE       assert False\nE        +  where False = <function isfile at 0x7f2fdb378220>('/home/user/hookdeck-fanout/output.log')\nE        +    where <function isfile at 0x7f2fdb378220> = <module 'posixpath' (frozen)>.isfile\nE        +      where <module 'posixpath' (frozen)> = os.path\n\ntests/test_final_state.py:74: AssertionError"
+            }
+        ]
+    }
+}

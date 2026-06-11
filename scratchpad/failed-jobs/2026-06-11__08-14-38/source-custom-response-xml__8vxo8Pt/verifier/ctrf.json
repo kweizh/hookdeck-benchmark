@@ -1,0 +1,77 @@
+{
+    "reportFormat": "CTRF",
+    "specVersion": "0.0.0",
+    "timestamp": "2026-06-11T08:39:50.097976+00:00",
+    "generatedBy": "pytest",
+    "results": {
+        "tool": {
+            "name": "pytest",
+            "version": "7.4.4"
+        },
+        "summary": {
+            "tests": 5,
+            "passed": 4,
+            "failed": 1,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1781167097350,
+            "stop": 1781167190097
+        },
+        "environment": {
+            "buildName": "Pytest JSON CTRF Report",
+            "buildNumber": "000",
+            "buildUrl": "https://ctrf.io"
+        },
+        "tests": [
+            {
+                "name": "test_final_state.py::test_log_file_has_required_fields",
+                "status": "passed",
+                "duration": 2,
+                "start": 1781167097521,
+                "stop": 1781167097523,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_connection_name_and_active",
+                "status": "passed",
+                "duration": 193,
+                "start": 1781167097523,
+                "stop": 1781167097716,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_source_custom_response_configured",
+                "status": "passed",
+                "duration": 191,
+                "start": 1781167097716,
+                "stop": 1781167097907,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_destination_is_mock_api",
+                "status": "passed",
+                "duration": 167,
+                "start": 1781167097908,
+                "stop": 1781167098075,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_source_returns_configured_xml_response_and_delivers_event",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 92022,
+                "start": 1781167098075,
+                "stop": 1781167190097,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "connection = {'created_at': '2026-06-11T08:37:01.048Z', 'description': None, 'destination': {'config': {'auth': {}, 'auth_type': 'H....}, 'created_at': '2026-06-11T08:36:46.895Z', 'description': None, 'disabled_at': None, ...}, 'disabled_at': None, ...}\nparsed_log = {'connection_id': 'web_CsZELtQkI9ZH', 'source_url': 'https://hkdk.events/z53wp4036xh7d4'}\n\n    def test_source_returns_configured_xml_response_and_delivers_event(connection, parsed_log):\n        source_url = parsed_log[\"source_url\"]\n        connection_id = parsed_log[\"connection_id\"]\n        destination_id = (connection.get(\"destination\") or {}).get(\"id\")\n        source_id = (connection.get(\"source\") or {}).get(\"id\")\n        assert destination_id and source_id, (\n            \"Connection is missing source.id or destination.id.\"\n        )\n    \n        marker = f\"probe-{_run_id()}-{uuid.uuid4().hex[:8]}\"\n        payload = {\n            \"probe\": marker,\n            \"sent_at\": datetime.now(timezone.utc).isoformat(),\n        }\n    \n        # Step 1: POST to source URL and validate the synchronous XML response.\n        resp = requests.post(\n            source_url,\n            json=payload,\n            timeout=30,\n        )\n        assert resp.status_code == 200, (\n            f\"POST {source_url} returned {resp.status_code}: {resp.text}\"\n        )\n        content_type = resp.headers.get(\"Content-Type\", \"\")\n        assert \"xml\" in content_type.lower(), (\n            \"Response Content-Type must indicate XML (contain the substring \"\n            f\"'xml'); got {content_type!r}.\"\n        )\n        assert resp.text.strip() == EXPECTED_BODY, (\n            f\"Response body must equal {EXPECTED_BODY!r}; got {resp.text!r}.\"\n        )\n    \n        # Step 2: Poll the Inspect API and confirm the event was delivered to the\n        # mock destination. We locate the request by probe payload, then find the\n        # corresponding event.\n        deadline = time.time() + 90\n        matching_request_id = None\n        while time.time() < deadline and matching_request_id is None:\n            list_resp = requests.get(\n                f\"{API_BASE}/requests\",\n                headers=_auth_headers(),\n                params={\n                    \"source_id\": source_id,\n                    \"order_by\": \"created_at\",\n                    \"dir\": \"desc\",\n                    \"limit\": 50,\n                },\n                timeout=30,\n            )\n            assert list_resp.status_code == 200, (\n                f\"GET /requests failed: {list_resp.status_code} {list_resp.text}\"\n            )\n            for req in list_resp.json().get(\"models\", []):\n                body = (((req.get(\"data\") or {}).get(\"body\") or {}).get(\"body\")) or {}\n                if isinstance(body, dict) and body.get(\"probe\") == marker:\n                    matching_request_id = req.get(\"id\")\n                    break\n            if matching_request_id is None:\n                time.sleep(3)\n    \n>       assert matching_request_id, (\n            f\"No Hookdeck request found whose body.probe matches {marker!r} on \"\n            f\"source {source_id} within the polling window.\"\n        )\nE       AssertionError: No Hookdeck request found whose body.probe matches 'probe-zr-8vxo8pt-6a037a67' on source src_z53wp4036xh7d4 within the polling window.\nE       assert None\n\ntests/test_final_state.py:225: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            }
+        ]
+    }
+}

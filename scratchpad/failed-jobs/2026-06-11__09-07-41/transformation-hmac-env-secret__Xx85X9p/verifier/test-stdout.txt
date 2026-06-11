@@ -1,0 +1,63 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-7.4.4, pluggy-1.4.0
+rootdir: /tests
+plugins: json-ctrf-0.5.2
+collected 6 items
+
+tests/test_final_state.py ..F...                                         [100%]
+
+=================================== FAILURES ===================================
+____________________________ test_connection_wiring ____________________________
+
+env_state = {'api_key': 'REDACTED', 'log': {'connection_id': 'web_UMuGdsm8JBTo', 'destin...r-xx85x9p', 'expected_secret': 's3cr3t-zr-xx85x9p', 'source_name': 'hmac-src-zr-xx85x9p', ...}, 'run_id': 'zr-xx85x9p'}
+connection = {'created_at': '2026-06-11T09:20:20.410Z', 'description': None, 'destination': {'config': {'auth': {}, 'auth_type': 'H....}, 'created_at': '2026-06-11T09:19:54.974Z', 'description': None, 'disabled_at': None, ...}, 'disabled_at': None, ...}
+transformation = {'code': "addHandler('transform', (request, context) => {\n  // SHA256 implementation\n  function sha256(ascii) {\n   ..., 'created_at': '2026-06-11T09:20:20.026Z', 'env': {'MY_SECRET': 's3cr3t-zr-xx85x9p'}, 'id': 'trs_O82dz3XOK0zDdn', ...}
+
+    def test_connection_wiring(env_state, connection, transformation):
+        names = env_state["names"]
+        assert connection.get("name") == names["connection_name"], (
+            f"Expected connection name '{names['connection_name']}', got '{connection.get('name')}'."
+        )
+        source = connection.get("source") or {}
+        destination = connection.get("destination") or {}
+        assert source.get("name") == names["source_name"], (
+            f"Connection source name mismatch: expected '{names['source_name']}', got '{source.get('name')}'."
+        )
+        assert source.get("type") == "WEBHOOK", (
+            f"Connection source type must be 'WEBHOOK', got '{source.get('type')}'."
+        )
+        assert destination.get("name") == names["destination_name"], (
+            f"Connection destination name mismatch: expected '{names['destination_name']}', got '{destination.get('name')}'."
+        )
+        dtype = destination.get("type")
+        dcfg = destination.get("config") or {}
+        durl = dcfg.get("url") or ""
+        assert dtype == "MOCK_API" or (
+            dtype == "HTTP" and isinstance(durl, str) and durl.startswith("https://mock.hookdeck.com/")
+        ), (
+            f"Destination must be MOCK_API or HTTP pointing at https://mock.hookdeck.com/...; "
+            f"got type='{dtype}' url='{durl}'."
+        )
+        rules = connection.get("rules") or []
+        trf_rule_ids = [
+            r.get("transformation_id") for r in rules if r.get("type") == "transformation"
+        ]
+>       assert transformation.get("id") in trf_rule_ids, (
+            f"Connection rules do not reference transformation_id='{transformation.get('id')}'. "
+            f"Found transformation rules: {trf_rule_ids}"
+        )
+E       AssertionError: Connection rules do not reference transformation_id='trs_O82dz3XOK0zDdn'. Found transformation rules: []
+E       assert 'trs_O82dz3XOK0zDdn' in []
+E        +  where 'trs_O82dz3XOK0zDdn' = <built-in method get of dict object at 0x7ff1246ba440>('id')
+E        +    where <built-in method get of dict object at 0x7ff1246ba440> = {'code': "addHandler('transform', (request, context) => {\n  // SHA256 implementation\n  function sha256(ascii) {\n   ..., 'created_at': '2026-06-11T09:20:20.026Z', 'env': {'MY_SECRET': 's3cr3t-zr-xx85x9p'}, 'id': 'trs_O82dz3XOK0zDdn', ...}.get
+
+tests/test_final_state.py:267: AssertionError
+==================================== PASSES ====================================
+=========================== short test summary info ============================
+PASSED tests/test_final_state.py::test_log_file_contains_required_fields
+PASSED tests/test_final_state.py::test_transformation_env_and_code
+PASSED tests/test_final_state.py::test_secret_not_leaked_in_non_transformation_resources
+PASSED tests/test_final_state.py::test_signature_header_matches_recomputed_hmac
+PASSED tests/test_final_state.py::test_signed_at_header_is_fresh_iso
+FAILED tests/test_final_state.py::test_connection_wiring - AssertionError: Co...
+========================= 1 failed, 5 passed in 1.35s ==========================

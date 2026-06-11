@@ -1,0 +1,63 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-7.4.4, pluggy-1.4.0
+rootdir: /tests
+plugins: json-ctrf-0.5.2
+collected 4 items
+
+tests/test_final_state.py EEEE                                           [100%]
+
+==================================== ERRORS ====================================
+__________ ERROR at setup of test_connection_and_transformation_wired __________
+
+    @pytest.fixture(scope="session")
+    def log_contents():
+>       assert os.path.isfile(LOG_FILE), f"Log file {LOG_FILE} does not exist"
+E       AssertionError: Log file /home/user/hookdeck-task/output.log does not exist
+E       assert False
+E        +  where False = <function isfile at 0x7ff526f40220>('/home/user/hookdeck-task/output.log')
+E        +    where <function isfile at 0x7ff526f40220> = <module 'posixpath' (frozen)>.isfile
+E        +      where <module 'posixpath' (frozen)> = os.path
+
+tests/test_final_state.py:44: AssertionError
+_____ ERROR at setup of test_valid_payloads_delivered_and_invalid_dropped ______
+
+    @pytest.fixture(scope="session")
+    def log_contents():
+>       assert os.path.isfile(LOG_FILE), f"Log file {LOG_FILE} does not exist"
+E       AssertionError: Log file /home/user/hookdeck-task/output.log does not exist
+E       assert False
+E        +  where False = <function isfile at 0x7ff526f40220>('/home/user/hookdeck-task/output.log')
+E        +    where <function isfile at 0x7ff526f40220> = <module 'posixpath' (frozen)>.isfile
+E        +      where <module 'posixpath' (frozen)> = os.path
+
+tests/test_final_state.py:44: AssertionError
+______ ERROR at setup of test_only_valid_events_delivered_to_destination _______
+
+    @pytest.fixture(scope="session")
+    def log_contents():
+>       assert os.path.isfile(LOG_FILE), f"Log file {LOG_FILE} does not exist"
+E       AssertionError: Log file /home/user/hookdeck-task/output.log does not exist
+E       assert False
+E        +  where False = <function isfile at 0x7ff526f40220>('/home/user/hookdeck-task/output.log')
+E        +    where <function isfile at 0x7ff526f40220> = <module 'posixpath' (frozen)>.isfile
+E        +      where <module 'posixpath' (frozen)> = os.path
+
+tests/test_final_state.py:44: AssertionError
+___ ERROR at setup of test_transformation_logs_structured_validation_failure ___
+
+    @pytest.fixture(scope="session")
+    def log_contents():
+>       assert os.path.isfile(LOG_FILE), f"Log file {LOG_FILE} does not exist"
+E       AssertionError: Log file /home/user/hookdeck-task/output.log does not exist
+E       assert False
+E        +  where False = <function isfile at 0x7ff526f40220>('/home/user/hookdeck-task/output.log')
+E        +    where <function isfile at 0x7ff526f40220> = <module 'posixpath' (frozen)>.isfile
+E        +      where <module 'posixpath' (frozen)> = os.path
+
+tests/test_final_state.py:44: AssertionError
+=========================== short test summary info ============================
+ERROR tests/test_final_state.py::test_connection_and_transformation_wired - A...
+ERROR tests/test_final_state.py::test_valid_payloads_delivered_and_invalid_dropped
+ERROR tests/test_final_state.py::test_only_valid_events_delivered_to_destination
+ERROR tests/test_final_state.py::test_transformation_logs_structured_validation_failure
+============================== 4 errors in 0.27s ===============================

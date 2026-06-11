@@ -1,0 +1,115 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-7.4.4, pluggy-1.4.0
+rootdir: /tests
+plugins: json-ctrf-0.5.2
+collected 8 items
+
+tests/test_final_state.py EEEEEEEE                                       [100%]
+
+==================================== ERRORS ====================================
+______________ ERROR at setup of test_log_file_has_required_lines ______________
+
+    @pytest.fixture(scope="session")
+    def parsed_log() -> dict:
+>       assert os.path.isfile(LOG_PATH), f"Log file not found at {LOG_PATH}"
+E       AssertionError: Log file not found at /home/user/project/output.log
+E       assert False
+E        +  where False = <function isfile at 0x7f4dfeaa0220>('/home/user/project/output.log')
+E        +    where <function isfile at 0x7f4dfeaa0220> = <module 'posixpath' (frozen)>.isfile
+E        +      where <module 'posixpath' (frozen)> = os.path
+
+tests/test_final_state.py:31: AssertionError
+_______ ERROR at setup of test_log_source_name_matches_run_id_convention _______
+
+    @pytest.fixture(scope="session")
+    def parsed_log() -> dict:
+>       assert os.path.isfile(LOG_PATH), f"Log file not found at {LOG_PATH}"
+E       AssertionError: Log file not found at /home/user/project/output.log
+E       assert False
+E        +  where False = <function isfile at 0x7f4dfeaa0220>('/home/user/project/output.log')
+E        +    where <function isfile at 0x7f4dfeaa0220> = <module 'posixpath' (frozen)>.isfile
+E        +      where <module 'posixpath' (frozen)> = os.path
+
+tests/test_final_state.py:31: AssertionError
+_________ ERROR at setup of test_retry_response_returns_event_at_root __________
+
+    @pytest.fixture(scope="session")
+    def parsed_log() -> dict:
+>       assert os.path.isfile(LOG_PATH), f"Log file not found at {LOG_PATH}"
+E       AssertionError: Log file not found at /home/user/project/output.log
+E       assert False
+E        +  where False = <function isfile at 0x7f4dfeaa0220>('/home/user/project/output.log')
+E        +    where <function isfile at 0x7f4dfeaa0220> = <module 'posixpath' (frozen)>.isfile
+E        +      where <module 'posixpath' (frozen)> = os.path
+
+tests/test_final_state.py:31: AssertionError
+________________ ERROR at setup of test_source_is_webhook_type _________________
+
+    @pytest.fixture(scope="session")
+    def parsed_log() -> dict:
+>       assert os.path.isfile(LOG_PATH), f"Log file not found at {LOG_PATH}"
+E       AssertionError: Log file not found at /home/user/project/output.log
+E       assert False
+E        +  where False = <function isfile at 0x7f4dfeaa0220>('/home/user/project/output.log')
+E        +    where <function isfile at 0x7f4dfeaa0220> = <module 'posixpath' (frozen)>.isfile
+E        +      where <module 'posixpath' (frozen)> = os.path
+
+tests/test_final_state.py:31: AssertionError
+_________ ERROR at setup of test_destination_is_cli_with_correct_path __________
+
+    @pytest.fixture(scope="session")
+    def parsed_log() -> dict:
+>       assert os.path.isfile(LOG_PATH), f"Log file not found at {LOG_PATH}"
+E       AssertionError: Log file not found at /home/user/project/output.log
+E       assert False
+E        +  where False = <function isfile at 0x7f4dfeaa0220>('/home/user/project/output.log')
+E        +    where <function isfile at 0x7f4dfeaa0220> = <module 'posixpath' (frozen)>.isfile
+E        +      where <module 'posixpath' (frozen)> = os.path
+
+tests/test_final_state.py:31: AssertionError
+__________________ ERROR at setup of test_event_state_via_api __________________
+
+    @pytest.fixture(scope="session")
+    def parsed_log() -> dict:
+>       assert os.path.isfile(LOG_PATH), f"Log file not found at {LOG_PATH}"
+E       AssertionError: Log file not found at /home/user/project/output.log
+E       assert False
+E        +  where False = <function isfile at 0x7f4dfeaa0220>('/home/user/project/output.log')
+E        +    where <function isfile at 0x7f4dfeaa0220> = <module 'posixpath' (frozen)>.isfile
+E        +      where <module 'posixpath' (frozen)> = os.path
+
+tests/test_final_state.py:31: AssertionError
+_______________ ERROR at setup of test_only_one_event_for_source _______________
+
+    @pytest.fixture(scope="session")
+    def parsed_log() -> dict:
+>       assert os.path.isfile(LOG_PATH), f"Log file not found at {LOG_PATH}"
+E       AssertionError: Log file not found at /home/user/project/output.log
+E       assert False
+E        +  where False = <function isfile at 0x7f4dfeaa0220>('/home/user/project/output.log')
+E        +    where <function isfile at 0x7f4dfeaa0220> = <module 'posixpath' (frozen)>.isfile
+E        +      where <module 'posixpath' (frozen)> = os.path
+
+tests/test_final_state.py:31: AssertionError
+__ ERROR at setup of test_attempt_history_shows_initial_failure_then_success ___
+
+    @pytest.fixture(scope="session")
+    def parsed_log() -> dict:
+>       assert os.path.isfile(LOG_PATH), f"Log file not found at {LOG_PATH}"
+E       AssertionError: Log file not found at /home/user/project/output.log
+E       assert False
+E        +  where False = <function isfile at 0x7f4dfeaa0220>('/home/user/project/output.log')
+E        +    where <function isfile at 0x7f4dfeaa0220> = <module 'posixpath' (frozen)>.isfile
+E        +      where <module 'posixpath' (frozen)> = os.path
+
+tests/test_final_state.py:31: AssertionError
+=========================== short test summary info ============================
+ERROR tests/test_final_state.py::test_log_file_has_required_lines - Assertion...
+ERROR tests/test_final_state.py::test_log_source_name_matches_run_id_convention
+ERROR tests/test_final_state.py::test_retry_response_returns_event_at_root - ...
+ERROR tests/test_final_state.py::test_source_is_webhook_type - AssertionError...
+ERROR tests/test_final_state.py::test_destination_is_cli_with_correct_path - ...
+ERROR tests/test_final_state.py::test_event_state_via_api - AssertionError: L...
+ERROR tests/test_final_state.py::test_only_one_event_for_source - AssertionEr...
+ERROR tests/test_final_state.py::test_attempt_history_shows_initial_failure_then_success
+============================== 8 errors in 0.25s ===============================

@@ -1,0 +1,41 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-7.4.4, pluggy-1.4.0
+rootdir: /tests
+plugins: json-ctrf-0.5.2
+collected 7 items
+
+tests/test_final_state.py .....F.                                        [100%]
+
+=================================== FAILURES ===================================
+______________________ test_request_bodies_cover_0_to_99 _______________________
+
+api_headers = {'Authorization': 'Bearer REDACTED'}
+source = {'authenticated': False, 'config': {'allowed_http_methods': ['POST', 'PUT', 'PATCH', 'DELETE'], 'custom_response': None}, 'created_at': '2026-06-11T09:56:10.909Z', 'description': None, ...}
+
+    def test_request_bodies_cover_0_to_99(api_headers, source):
+        requests_list = _list_batch_requests(api_headers, source["id"])
+        assert len(requests_list) == EXPECTED_COUNT, (
+            f"Expected {EXPECTED_COUNT} requests for body inspection, "
+            f"found {len(requests_list)}."
+        )
+    
+        values = []
+        for req in requests_list:
+            i_val = _extract_i_value(req, api_headers)
+>           assert i_val is not None, (
+                f"Could not extract 'i' field from request id={req.get('id')}."
+            )
+E           AssertionError: Could not extract 'i' field from request id=req_bSvimdOdtJJ0ZZQYyzm1.
+E           assert None is not None
+
+tests/test_final_state.py:253: AssertionError
+==================================== PASSES ====================================
+=========================== short test summary info ============================
+PASSED tests/test_final_state.py::test_output_log_contents
+PASSED tests/test_final_state.py::test_source_exists
+PASSED tests/test_final_state.py::test_destination_is_mock_api
+PASSED tests/test_final_state.py::test_connection_links_source_and_destination
+PASSED tests/test_final_state.py::test_exactly_100_requests_with_batch_header
+PASSED tests/test_final_state.py::test_exactly_100_successful_events_on_connection
+FAILED tests/test_final_state.py::test_request_bodies_cover_0_to_99 - Asserti...
+========================= 1 failed, 6 passed in 2.73s ==========================

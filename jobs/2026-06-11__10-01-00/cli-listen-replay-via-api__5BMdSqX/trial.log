@@ -1,0 +1,95 @@
+Skipping image OS validation for hb__cli-listen-replay-via-api: docker inspect returned 1
+Running command: apt-get update && apt-get install -y curl ripgrep
+Command outputs captured
+Running command: set -euo pipefail; curl -fsSL https://getpochi.com/install.sh | bash -x -s -- pochi-v0.6.14 && mkdir -p /logs/agent/pochi && ~/.pochi/bin/pochi --version
+Command outputs captured
+Running command: ln -sf ~/.pochi/bin/pochi /usr/local/bin/pochi
+Command outputs captured
+Running command: echo zr-5bmdsqx > /logs/artifacts/run-id && echo cli-listen-replay-via-api__5BMdSqX > /logs/artifacts/trial_id
+Command outputs captured
+Running command: mkdir -p ~/.pochi && cat << 'EOF' | sed -e "s/OPENAI_API_KEY/${OPENAI_API_KEY}/g" -e "s/DEEPINFRA_API_KEY/${DEEPINFRA_API_KEY}/g" > ~/.pochi/config.jsonc
+{
+  "providers": {
+    "deepinfra": {
+      "kind": "openai",
+      "baseURL": "https://api.deepinfra.com/v1/openai",
+      "apiKey": "DEEPINFRA_API_KEY",
+      "models": {
+        "zai-org/GLM-4.7-Flash": {
+          "name": "glm-4.7-flash"
+        },
+        "moonshotai/Kimi-K2.6": {
+          "name": "kimi-K2.6"
+        },
+        "deepseek-ai/DeepSeek-V4-Pro": {
+          "name": "DeepSeek-V4-Pro"
+        }
+      }
+    },
+    "openai": {
+      "kind": "openai",
+      "baseURL": "https://api.openai.com/v1",
+      "apiKey": "OPENAI_API_KEY",
+      "models": {
+        "gpt-5.4": {
+          "name": "gpt-5.4"
+        }
+      }
+    }
+  }
+}
+EOF
+Command outputs captured
+Running command: if [ -f /bootstrap/test_initial_state.py ]; then pytest -s --log-cli-level=DEBUG /bootstrap/test_initial_state.py > >(tee /logs/agent/pochi/initial-test-stdout.txt) 2> >(tee /logs/agent/pochi/initial-test-stderr.txt >&2); fi
+Command outputs captured
+Running command: pochi --model deepseek/deepseek-4-pro --max-steps 200 --max-retries 10 --blobs-dir /logs/agent/pochi/blobs --experimental-stream-trajectory /logs/agent/pochi/trajectory.jsonl > >(tee /logs/agent/pochi/stdout.txt) 2> >(tee /logs/agent/pochi/stderr.txt >&2) <<'EOF'
+# Hookdeck: CLI Destination + Programmatic Replay
+
+## Background
+You are wiring a local development workflow on top of Hookdeck. A webhook producer pushes one event into a Hookdeck `WEBHOOK` source. Hookdeck must forward the event to a local HTTP server through a `CLI` destination created by `hookdeck listen`. The local server is flaky on first contact (returns `500` once, then `200`). Your job is to drive the recovery using the Hookdeck REST API: detect the failed event and replay it programmatically — not through the interactive TUI.
+
+## Requirements
+- Authenticate the Hookdeck CLI using `HOOKDECK_API_KEY` (headless, no browser).
+- Run a tiny local HTTP server on port `3000` whose `POST /hooks` handler returns HTTP `500` on the first request and HTTP `200` on every subsequent request (in-memory toggle, one process).
+- Use `hookdeck listen` to forward a `WEBHOOK` source to `http://localhost:3000/hooks`. The destination created by `hookdeck listen` must be of type `CLI` with `cli_path` equal to `/hooks`.
+- Publish exactly one event to the source via the Hookdeck Publish API (`POST https://hkdk.events/v1/publish`).
+- After the first delivery attempt FAILS, replay the event by calling the Hookdeck REST API endpoint `POST /events/{id}/retry`. Do not press the `r` key in the TUI; the retry must be triggered programmatically.
+- Persist enough information to a log file so the verifier can locate and inspect the artifacts in Hookdeck.
+
+## Implementation Hints
+- Read `ZEALT_RUN_ID` from the environment and append it to any externally visible resource name (source, destination, connection) to keep parallel runs isolated.
+- `hookdeck listen <port> <source-name> --path <path>` will create the source, the `CLI` destination, and the connection on first run. Use `--output quiet` or `--output compact` so the process runs cleanly in a headless container.
+- The CLI process is long-lived; start it in the background and wait until the connection is established before publishing.
+- The Publish API requires the `Authorization: Bearer $HOOKDECK_API_KEY` header and the `X-Hookdeck-Source-Name` header.
+- According to the Hookdeck docs, `POST /events/{id}/retry` returns the Event object directly at the root of the response (no wrapper). Treat the JSON body as the event itself.
+- Poll `GET /events/{id}` until `status` becomes `SUCCESSFUL` and `attempts == 2` before declaring success.
+
+## Acceptance Criteria
+- Project path: /home/user/project
+- Ensure the real Hookdeck actions are executed and the log artifact exists.
+- Log file: /home/user/project/output.log
+- The log file MUST contain the following lines, each on its own line, with these exact prefixes:
+  - `Source Name: <source_name>`
+  - `Connection ID: <web_...>`
+  - `Event ID: <evt_...>`
+  - `Retry Response Event ID: <evt_...>`
+  - `Final Status: SUCCESSFUL`
+  - `Final Attempts: 2`
+- The resource name suffix rule:
+  - The Hookdeck source name MUST be `cli-replay-${ZEALT_RUN_ID}` (lowercased).
+- Connection shape (verified via the Hookdeck REST API):
+  - `source.type == "WEBHOOK"`
+  - `destination.type == "CLI"`
+  - `destination.config.cli_path == "/hooks"`
+- Event shape (verified via the Hookdeck REST API):
+  - Exactly one event is created for that source during this run.
+  - `attempts == 2`
+  - `status == "SUCCESSFUL"`
+  - The retry response logged as `Retry Response Event ID:` MUST equal the `Event ID:` (i.e. the retry endpoint returns the Event object at the root, not wrapped under a `data` or `event` key).
+
+
+EOF
+Command failed
+Running command: rm -f ~/.pochi/config.jsonc
+Command outputs captured
+The verifier.env contains an API key (often the case for LLM-based verifiers). You will incur costs associated with the API calls.

@@ -1,0 +1,101 @@
+{
+    "reportFormat": "CTRF",
+    "specVersion": "0.0.0",
+    "timestamp": "2026-06-11T10:40:32.232398+00:00",
+    "generatedBy": "pytest",
+    "results": {
+        "tool": {
+            "name": "pytest",
+            "version": "7.4.4"
+        },
+        "summary": {
+            "tests": 8,
+            "passed": 8,
+            "failed": 0,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1781174430240,
+            "stop": 1781174432232
+        },
+        "environment": {
+            "buildName": "Pytest JSON CTRF Report",
+            "buildNumber": "000",
+            "buildUrl": "https://ctrf.io"
+        },
+        "tests": [
+            {
+                "name": "test_final_state.py::test_connection_name_matches_run_id",
+                "status": "passed",
+                "duration": 195,
+                "start": 1781174430464,
+                "stop": 1781174430659,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_connection_is_active",
+                "status": "passed",
+                "duration": 1,
+                "start": 1781174430659,
+                "stop": 1781174430660,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_source_type_stripe_and_name",
+                "status": "passed",
+                "duration": 1,
+                "start": 1781174430660,
+                "stop": 1781174430661,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_destination_type_mock_api_and_name",
+                "status": "passed",
+                "duration": 1,
+                "start": 1781174430661,
+                "stop": 1781174430662,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_filter_rule_on_charge_succeeded",
+                "status": "passed",
+                "duration": 1,
+                "start": 1781174430663,
+                "stop": 1781174430664,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_exactly_one_event_delivered",
+                "status": "passed",
+                "duration": 276,
+                "start": 1781174430664,
+                "stop": 1781174430940,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_delivered_event_body_is_charge_succeeded",
+                "status": "passed",
+                "duration": 178,
+                "start": 1781174430941,
+                "stop": 1781174431119,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_other_events_were_filtered_out",
+                "status": "passed",
+                "duration": 1112,
+                "start": 1781174431119,
+                "stop": 1781174432231,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            }
+        ]
+    }
+}

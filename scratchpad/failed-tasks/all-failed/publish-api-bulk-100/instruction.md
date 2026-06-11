@@ -1,0 +1,35 @@
+# Bulk Publish 100 Events via Hookdeck Publish API
+
+## Background
+Hookdeck's Publish API lets you send requests directly to a Hookdeck Source by name (or ID), bypassing any inbound webhook URL. This is useful for outbound mocking, load testing, and generating synthetic traffic for a Connection. Combined with a `MOCK_API` Destination, you can fully verify a Source -> Destination pipeline without needing inbound network access.
+
+In this task, you will programmatically push a batch of 100 small events through a freshly created Hookdeck pipeline and verify them with the Inspect API.
+
+## Requirements
+- Create a Hookdeck Connection that links a new Source named `bulk-source-${run-id}` to a new Destination named `bulk-dest-${run-id}`. The Destination MUST be of type `MOCK_API`.
+- Use the Hookdeck Publish API to send exactly 100 events to `bulk-source-${run-id}`.
+  - Each event MUST carry the custom request header `x-batch-id: BATCH-001`.
+  - Each event body MUST be a JSON object of the form `{"i": <n>}` where `<n>` covers every integer from 0 to 99 exactly once (no duplicates, no gaps).
+- After publishing, verify (via the Inspect API) that the requests were ingested and that the 100 events were successfully delivered to the Mock API destination.
+- Write a summary log file describing what was published.
+
+## Implementation Hints
+- Read `run-id` from the `ZEALT_RUN_ID` environment variable. The Hookdeck API key is in `HOOKDECK_API_KEY`.
+- The Hookdeck REST API is at `https://api.hookdeck.com/2025-07-01` and uses `Authorization: Bearer $HOOKDECK_API_KEY`. The Publish API uses a different base URL and is also authenticated with the same bearer token. Consult the Hookdeck Publish API and Inspect API docs to confirm the exact URL and required headers for targeting a Source by name.
+- You may use the Hookdeck CLI, the Hookdeck REST API, or any HTTP client. Pick whichever combination is most reliable for creating the Source/Destination/Connection and then issuing the publishes.
+- After publishing, Hookdeck needs a moment to ingest the requests and deliver them to the Mock API destination. Poll the Inspect API for requests/events until counts settle before writing the summary log.
+
+## Acceptance Criteria
+- Project path: /home/user/hookdeck-task
+- Ensure the real publish actions are executed and the log artifact exists.
+- Log file: /home/user/hookdeck-task/output.log
+- The log file MUST contain the following lines (in any order, one per line):
+  - `Source Name: bulk-source-<run-id>`
+  - `Destination Name: bulk-dest-<run-id>`
+  - `Published Count: 100`
+  - `Batch ID: BATCH-001`
+- A Hookdeck Connection MUST exist linking a Source named `bulk-source-<run-id>` to a Destination named `bulk-dest-<run-id>` of type `MOCK_API`.
+- Exactly 100 Hookdeck Requests on `bulk-source-<run-id>` MUST carry the header `x-batch-id: BATCH-001`.
+- Exactly 100 Hookdeck Events on the Connection MUST reach the terminal status `SUCCESSFUL` (delivered to the Mock API).
+- The set of request bodies on `bulk-source-<run-id>` MUST equal `{ {"i": 0}, {"i": 1}, ..., {"i": 99} }` with no duplicates and no extra values.
+

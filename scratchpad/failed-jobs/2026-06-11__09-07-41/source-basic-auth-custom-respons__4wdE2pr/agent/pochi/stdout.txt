@@ -1,0 +1,82 @@
+- Initializing MCP connections...
+You
+# Secure Hookdeck Source with Basic Auth and Custom JSON Response ## Background You are protecting a public webhook endpoint with Hookdeck. The endpoint must reject anonymous traffic, accept only requests authenticated with HTTP Basic Auth, and answer authorized callers with a tailored JSON payload that downstream callers depend on. Events received from authorized callers must be queued for delivery to a Mock API destination. ## Requirements * Create a Hookdeck Source of type `WEBHOOK`. * Configure the source so that incoming requests must authenticate with HTTP Basic Auth using username `eval-user` and password `eval-pass`. * Configure a custom response on the source: the response `content_type` must be `json` and the response body must equal `{"ok": true, "id": "abc"}`. * Create a Mock API destination and link it to the source via a connection so authorized events are routed to the mock. * Persist the created source identifier and source URL to `/home/user/hookdeck-project/source.json` so the verifier can probe the live endpoint. ## Implementation Hints * The Hookdeck CLI may not expose every source configuration field; the REST API at `https://api.hookdeck.com/2025-07-01/sources` is authoritative for `config.auth_type`, `config.auth`, and `config.custom_response`. * Read the current `run-id` from the `ZEALT_RUN_ID` environment variable and append it to every resource name to keep concurrent runs isolated. * The Hookdeck source `url` field returned from the API is the public ingest URL clients must call. * The Hookdeck API key is provided in the `HOOKDECK_API_KEY` environment variable. ## Acceptance Criteria * Project path: /home/user/hookdeck-project * Ensure the real Hookdeck resources (source, destination, connection) are created in the workspace. * All resource names must be suffixed with the value of `ZEALT_RUN_ID` (referred to as `${run-id}`). * The source `config.auth_type` must be exactly `BASIC_AUTH` with the specified username and password. * The source `config.custom_response.content_type` must be `json` and `config.custom_response.body` must encode the exact JSON object `{"ok": true, "id": "abc"}`. * The destination must be of type `MOCK_API` (or a Hookdeck destination whose behavior is functionally a mock API). * A connection must link the source to the mock destination. * Log file: /home/user/hookdeck-project/source.json * The log file must contain valid JSON with at least the fields `source_id` and `source_url` populated from the created source. * The live source URL must respond with HTTP 200 and the configured custom JSON body when called with the correct Basic Auth credentials, and must reject calls with wrong credentials.   
+
+Pochi
+💭 Thinking for 330 characters   
+💫 Executing echo $ZEALT_RUN_ID
+echo $HOOKDECK_API_KEY ✔ 
+💭 Thinking for 381 characters   
+💫 Executing curl -X POST https://api.hookdeck.com/2025-07-01/sources \
+  -H "Authorization: Bearer $HOOKDECK_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "eval-source-'"$ZEALT_RUN_ID"'",
+    "custom_response": {
+      "content_type": "json",
+      "body": "{\"ok\": true, \"id\": \"abc\"}"
+    }
+  }' ✔ 
+💭 Thinking for 289 characters   
+💫 Executing curl -X POST https://api.hookdeck.com/2025-07-01/sources \
+  -H "Authorization: Bearer $HOOKDECK_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "eval-source-2-'"$ZEALT_RUN_ID"'",
+    "type": "WEBHOOK",
+    "config": {
+      "custom_response": {
+        "content_type": "json",
+        "body": "{\"ok\": true, \"id\": \"abc\"}"
+      },
+      "auth_type": "BASIC_AUTH",
+      "auth": {
+        "username": "eval-user",
+        "password": "eval-pass"
+      }
+    }
+  }' ✔ 
+💫 Executing curl -X POST https://api.hookdeck.com/2025-07-01/destinations \
+  -H "Authorization: Bearer $HOOKDECK_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "eval-dest-'"$ZEALT_RUN_ID"'",
+    "type": "MOCK_API"
+  }' ✔ 
+💭 Thinking for 261 characters   
+💫 Executing curl -X POST https://api.hookdeck.com/2025-07-01/connections \
+  -H "Authorization: Bearer $HOOKDECK_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "eval-conn-'"$ZEALT_RUN_ID"'",
+    "source_id": "src_0s9v1qppolkico",
+    "destination_id": "des_Hxj0m5uMhypB"
+  }' ✔ 
+💭 Thinking for 175 characters   
+💫 Executing curl -u eval-user:eval-pass https://hkdk.events/0s9v1qppolkico -H "Content-Type: application/json" -d '{"test": true}' ✔ 
+💭 Thinking for 264 characters   
+💫 Executing curl -i https://hkdk.events/0s9v1qppolkico -H "Content-Type: application/json" -d '{"test": true}' ✔ 
+💭 Thinking for 387 characters   
+💫 Executing mkdir -p /home/user/hookdeck-project ✔ 
+💭 Thinking for 184 characters   
+✏️  Writing /home/user/hookdeck-project/source.json ✔ 
+💭 Thinking for 665 characters   
+💫 Executing curl -X DELETE https://api.hookdeck.com/2025-07-01/sources/src_w4nf26d3f2cajj \
+  -H "Authorization: Bearer $HOOKDECK_API_KEY" ✔ 
+💫 Executing cat /home/user/hookdeck-project/source.json ✔ 
+💫 Executing curl https://api.hookdeck.com/2025-07-01/destinations/des_Hxj0m5uMhypB \
+  -H "Authorization: Bearer $HOOKDECK_API_KEY" ✔ 
+💫 Executing curl https://api.hookdeck.com/2025-07-01/connections/web_T3HZR5fBtGT6 \
+  -H "Authorization: Bearer $HOOKDECK_API_KEY" ✔ 
+💭 Thinking for 619 characters   
+🎉 Task Completed
+I have successfully set up the Hookdeck resources according to your requirements. 
+
+Here is what was completed:
+1. **Source**: Created a Webhook source named `eval-source-2-zr-4wde2pr` configured with HTTP Basic Auth (`eval-user` / `eval-pass`). It also has a custom JSON response configured (`{"ok": true, "id": "abc"}`).
+2. **Destination**: Created a Mock API destination named `eval-dest-zr-4wde2pr`.
+3. **Connection**: Created a connection named `eval-conn-zr-4wde2pr` linking the source to the Mock API destination.
+4. **Log File**: Saved the resulting `source_id` and `source_url` in a valid JSON format to `/home/user/hookdeck-project/source.json`. 
+
+The live endpoint has been tested and confirmed to successfully accept requests with the correct credentials (returning the custom JSON response) and reject requests that are unauthorized.   
+  

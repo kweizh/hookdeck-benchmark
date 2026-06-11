@@ -1,0 +1,98 @@
+{
+    "reportFormat": "CTRF",
+    "specVersion": "0.0.0",
+    "timestamp": "2026-06-11T08:53:16.244341+00:00",
+    "generatedBy": "pytest",
+    "results": {
+        "tool": {
+            "name": "pytest",
+            "version": "7.4.4"
+        },
+        "summary": {
+            "tests": 7,
+            "passed": 5,
+            "failed": 2,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1781167961781,
+            "stop": 1781167996244
+        },
+        "environment": {
+            "buildName": "Pytest JSON CTRF Report",
+            "buildNumber": "000",
+            "buildUrl": "https://ctrf.io"
+        },
+        "tests": [
+            {
+                "name": "test_final_state.py::test_source_basic_auth_config",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 261,
+                "start": 1781167961953,
+                "stop": 1781167962214,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "source_obj = {'authenticated': True, 'config': {'allowed_http_methods': ['POST', 'PUT', 'PATCH', 'DELETE'], 'auth_type': 'BASIC_AUT...ok\": true, \"id\": \"abc\"}', 'content_type': 'json'}}, 'created_at': '2026-06-11T08:51:35.522Z', 'description': None, ...}\nrun_id = 'zr-emusas4'\n\n    def test_source_basic_auth_config(source_obj: dict, run_id: str):\n        assert source_obj.get(\"type\") == \"WEBHOOK\", (\n            f\"Source must be of type WEBHOOK, got {source_obj.get('type')!r}\"\n        )\n        name = source_obj.get(\"name\", \"\")\n        assert isinstance(name, str) and name.endswith(f\"-{run_id}\"), (\n            f\"Source name must end with '-{run_id}', got {name!r}\"\n        )\n    \n        config = source_obj.get(\"config\") or {}\n        assert config.get(\"auth_type\") == \"BASIC_AUTH\", (\n            f\"Expected source config.auth_type == 'BASIC_AUTH', got {config.get('auth_type')!r}\"\n        )\n        auth = config.get(\"auth\") or {}\n>       assert auth.get(\"username\") == EXPECTED_USERNAME, (\n            f\"Expected source basic auth username {EXPECTED_USERNAME!r}, got {auth.get('username')!r}\"\n        )\nE       AssertionError: Expected source basic auth username 'eval-user', got None\nE       assert None == 'eval-user'\nE        +  where None = <built-in method get of dict object at 0x7f51ec1d0800>('username')\nE        +    where <built-in method get of dict object at 0x7f51ec1d0800> = {}.get\n\ntests/test_final_state.py:78: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            },
+            {
+                "name": "test_final_state.py::test_source_custom_response_config",
+                "status": "passed",
+                "duration": 1,
+                "start": 1781167962215,
+                "stop": 1781167962216,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_source_url_matches_log",
+                "status": "passed",
+                "duration": 1,
+                "start": 1781167962216,
+                "stop": 1781167962217,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_connection_and_mock_destination",
+                "status": "passed",
+                "duration": 353,
+                "start": 1781167962217,
+                "stop": 1781167962570,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_live_authorized_probe_returns_custom_response",
+                "status": "passed",
+                "duration": 260,
+                "start": 1781167962570,
+                "stop": 1781167962830,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_live_unauthorized_probe_returns_401",
+                "status": "passed",
+                "duration": 114,
+                "start": 1781167962830,
+                "stop": 1781167962944,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_inspect_api_records_authorized_request_only",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 33299,
+                "start": 1781167962944,
+                "stop": 1781167996243,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "source_log = {'auth_type': 'BASIC_AUTH', 'custom_response': {'body': '{\"ok\": true, \"id\": \"abc\"}', 'content_type': 'json'}, 'source_id': 'src_4zxfz7vr1ntgli', 'source_name': 'source-zr-emusas4', ...}\nauth_headers = {'Authorization': 'Bearer REDACTED'}\nrun_id = 'zr-emusas4'\n\n    def test_inspect_api_records_authorized_request_only(source_log: dict, auth_headers: dict, run_id: str):\n        source_id = source_log[\"source_id\"]\n    \n        # Hookdeck ingestion has a small async delay; poll briefly.\n        deadline = time.time() + 30\n        authorized_hits = []\n        unauthorized_hits = []\n        while time.time() < deadline:\n            models = _list_requests(source_id, auth_headers)\n            authorized_hits = [m for m in models if _request_matches(m, \"auth-ok\", run_id)]\n            unauthorized_hits = [m for m in models if _request_matches(m, \"auth-bad\", run_id)]\n            if authorized_hits:\n                break\n            time.sleep(3)\n    \n>       assert len(authorized_hits) >= 1, (\n            f\"Expected at least one ingested request with probe=auth-ok and run={run_id}; found none.\"\n        )\nE       AssertionError: Expected at least one ingested request with probe=auth-ok and run=zr-emusas4; found none.\nE       assert 0 >= 1\nE        +  where 0 = len([])\n\ntests/test_final_state.py:239: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            }
+        ]
+    }
+}

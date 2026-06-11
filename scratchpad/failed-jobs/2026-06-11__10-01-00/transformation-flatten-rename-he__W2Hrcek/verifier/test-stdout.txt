@@ -1,0 +1,123 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-7.4.4, pluggy-1.4.0
+rootdir: /tests
+plugins: json-ctrf-0.5.2
+collected 7 items
+
+tests/test_final_state.py EEEEEEE                                        [100%]
+
+==================================== ERRORS ====================================
+_____________ ERROR at setup of test_source_exists_and_is_webhook ______________
+
+    @pytest.fixture(scope="session")
+    def result_ids() -> dict:
+        """Parse the executor-produced log file and return the recorded IDs."""
+>       assert os.path.isfile(LOG_FILE), (
+            f"Expected log file {LOG_FILE} to exist after the task; it does not."
+        )
+E       AssertionError: Expected log file /home/user/hookdeck-task/output.log to exist after the task; it does not.
+E       assert False
+E        +  where False = <function isfile at 0x7fe505d58220>('/home/user/hookdeck-task/output.log')
+E        +    where <function isfile at 0x7fe505d58220> = <module 'posixpath' (frozen)>.isfile
+E        +      where <module 'posixpath' (frozen)> = os.path
+
+tests/test_final_state.py:38: AssertionError
+__________ ERROR at setup of test_destination_exists_and_is_mock_api ___________
+
+    @pytest.fixture(scope="session")
+    def result_ids() -> dict:
+        """Parse the executor-produced log file and return the recorded IDs."""
+>       assert os.path.isfile(LOG_FILE), (
+            f"Expected log file {LOG_FILE} to exist after the task; it does not."
+        )
+E       AssertionError: Expected log file /home/user/hookdeck-task/output.log to exist after the task; it does not.
+E       assert False
+E        +  where False = <function isfile at 0x7fe505d58220>('/home/user/hookdeck-task/output.log')
+E        +    where <function isfile at 0x7fe505d58220> = <module 'posixpath' (frozen)>.isfile
+E        +      where <module 'posixpath' (frozen)> = os.path
+
+tests/test_final_state.py:38: AssertionError
+_________ ERROR at setup of test_connection_references_transformation __________
+
+    @pytest.fixture(scope="session")
+    def result_ids() -> dict:
+        """Parse the executor-produced log file and return the recorded IDs."""
+>       assert os.path.isfile(LOG_FILE), (
+            f"Expected log file {LOG_FILE} to exist after the task; it does not."
+        )
+E       AssertionError: Expected log file /home/user/hookdeck-task/output.log to exist after the task; it does not.
+E       assert False
+E        +  where False = <function isfile at 0x7fe505d58220>('/home/user/hookdeck-task/output.log')
+E        +    where <function isfile at 0x7fe505d58220> = <module 'posixpath' (frozen)>.isfile
+E        +      where <module 'posixpath' (frozen)> = os.path
+
+tests/test_final_state.py:38: AssertionError
+_____________ ERROR at setup of test_transformation_code_contract ______________
+
+    @pytest.fixture(scope="session")
+    def result_ids() -> dict:
+        """Parse the executor-produced log file and return the recorded IDs."""
+>       assert os.path.isfile(LOG_FILE), (
+            f"Expected log file {LOG_FILE} to exist after the task; it does not."
+        )
+E       AssertionError: Expected log file /home/user/hookdeck-task/output.log to exist after the task; it does not.
+E       assert False
+E        +  where False = <function isfile at 0x7fe505d58220>('/home/user/hookdeck-task/output.log')
+E        +    where <function isfile at 0x7fe505d58220> = <module 'posixpath' (frozen)>.isfile
+E        +      where <module 'posixpath' (frozen)> = os.path
+
+tests/test_final_state.py:38: AssertionError
+_____________ ERROR at setup of test_exactly_two_events_delivered ______________
+
+    @pytest.fixture(scope="session")
+    def result_ids() -> dict:
+        """Parse the executor-produced log file and return the recorded IDs."""
+>       assert os.path.isfile(LOG_FILE), (
+            f"Expected log file {LOG_FILE} to exist after the task; it does not."
+        )
+E       AssertionError: Expected log file /home/user/hookdeck-task/output.log to exist after the task; it does not.
+E       assert False
+E        +  where False = <function isfile at 0x7fe505d58220>('/home/user/hookdeck-task/output.log')
+E        +    where <function isfile at 0x7fe505d58220> = <module 'posixpath' (frozen)>.isfile
+E        +      where <module 'posixpath' (frozen)> = os.path
+
+tests/test_final_state.py:38: AssertionError
+__________ ERROR at setup of test_delivered_event_bodies_and_headers ___________
+
+    @pytest.fixture(scope="session")
+    def result_ids() -> dict:
+        """Parse the executor-produced log file and return the recorded IDs."""
+>       assert os.path.isfile(LOG_FILE), (
+            f"Expected log file {LOG_FILE} to exist after the task; it does not."
+        )
+E       AssertionError: Expected log file /home/user/hookdeck-task/output.log to exist after the task; it does not.
+E       assert False
+E        +  where False = <function isfile at 0x7fe505d58220>('/home/user/hookdeck-task/output.log')
+E        +    where <function isfile at 0x7fe505d58220> = <module 'posixpath' (frozen)>.isfile
+E        +      where <module 'posixpath' (frozen)> = os.path
+
+tests/test_final_state.py:38: AssertionError
+___________ ERROR at setup of test_dropped_event_recorded_as_ignored ___________
+
+    @pytest.fixture(scope="session")
+    def result_ids() -> dict:
+        """Parse the executor-produced log file and return the recorded IDs."""
+>       assert os.path.isfile(LOG_FILE), (
+            f"Expected log file {LOG_FILE} to exist after the task; it does not."
+        )
+E       AssertionError: Expected log file /home/user/hookdeck-task/output.log to exist after the task; it does not.
+E       assert False
+E        +  where False = <function isfile at 0x7fe505d58220>('/home/user/hookdeck-task/output.log')
+E        +    where <function isfile at 0x7fe505d58220> = <module 'posixpath' (frozen)>.isfile
+E        +      where <module 'posixpath' (frozen)> = os.path
+
+tests/test_final_state.py:38: AssertionError
+=========================== short test summary info ============================
+ERROR tests/test_final_state.py::test_source_exists_and_is_webhook - Assertio...
+ERROR tests/test_final_state.py::test_destination_exists_and_is_mock_api - As...
+ERROR tests/test_final_state.py::test_connection_references_transformation - ...
+ERROR tests/test_final_state.py::test_transformation_code_contract - Assertio...
+ERROR tests/test_final_state.py::test_exactly_two_events_delivered - Assertio...
+ERROR tests/test_final_state.py::test_delivered_event_bodies_and_headers - As...
+ERROR tests/test_final_state.py::test_dropped_event_recorded_as_ignored - Ass...
+============================== 7 errors in 0.33s ===============================

@@ -1,0 +1,27 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-7.4.4, pluggy-1.4.0
+rootdir: /bootstrap
+plugins: json-ctrf-0.5.2
+collected 11 items
+
+bootstrap/test_initial_state.py::test_python3_available PASSED
+bootstrap/test_initial_state.py::test_requests_library_importable PASSED
+bootstrap/test_initial_state.py::test_workspace_directory_exists PASSED
+bootstrap/test_initial_state.py::test_hookdeck_api_key_present PASSED
+bootstrap/test_initial_state.py::test_hookdeck_cli_available PASSED
+bootstrap/test_initial_state.py::test_seeded_env_file_exists PASSED
+bootstrap/test_initial_state.py::test_seeded_env_file_defines_successful_event_id PASSED
+bootstrap/test_initial_state.py::test_seeded_env_file_defines_failed_event_id PASSED
+bootstrap/test_initial_state.py::test_seeded_successful_event_reachable_via_inspect_api 
+-------------------------------- live log call ---------------------------------
+DEBUG    urllib3.connectionpool:connectionpool.py:1062 Starting new HTTPS connection (1): api.hookdeck.com:443
+DEBUG    urllib3.connectionpool:connectionpool.py:544 https://api.hookdeck.com:443 "GET /2025-07-01/events/evt_eXcoGEMMlzKBxjs2px HTTP/1.1" 200 None
+PASSED
+bootstrap/test_initial_state.py::test_seeded_failed_event_reachable_via_inspect_api 
+-------------------------------- live log call ---------------------------------
+DEBUG    urllib3.connectionpool:connectionpool.py:1062 Starting new HTTPS connection (1): api.hookdeck.com:443
+DEBUG    urllib3.connectionpool:connectionpool.py:544 https://api.hookdeck.com:443 "GET /2025-07-01/events/evt_ENKRaJ0Mksp4z0oEku HTTP/1.1" 200 None
+PASSED
+bootstrap/test_initial_state.py::test_await_delivery_script_not_yet_created PASSED
+
+============================== 11 passed in 5.91s ==============================

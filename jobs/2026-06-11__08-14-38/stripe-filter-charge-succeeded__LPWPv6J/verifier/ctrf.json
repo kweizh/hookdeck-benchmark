@@ -1,0 +1,104 @@
+{
+    "reportFormat": "CTRF",
+    "specVersion": "0.0.0",
+    "timestamp": "2026-06-11T08:41:06.512074+00:00",
+    "generatedBy": "pytest",
+    "results": {
+        "tool": {
+            "name": "pytest",
+            "version": "7.4.4"
+        },
+        "summary": {
+            "tests": 8,
+            "passed": 7,
+            "failed": 1,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1781167171338,
+            "stop": 1781167266511
+        },
+        "environment": {
+            "buildName": "Pytest JSON CTRF Report",
+            "buildNumber": "000",
+            "buildUrl": "https://ctrf.io"
+        },
+        "tests": [
+            {
+                "name": "test_final_state.py::test_connection_name_matches_run_id",
+                "status": "passed",
+                "duration": 186,
+                "start": 1781167171493,
+                "stop": 1781167171679,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_connection_is_active",
+                "status": "passed",
+                "duration": 1,
+                "start": 1781167171679,
+                "stop": 1781167171680,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_source_type_stripe_and_name",
+                "status": "passed",
+                "duration": 1,
+                "start": 1781167171680,
+                "stop": 1781167171681,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_destination_type_mock_api_and_name",
+                "status": "passed",
+                "duration": 1,
+                "start": 1781167171681,
+                "stop": 1781167171682,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_filter_rule_on_charge_succeeded",
+                "status": "passed",
+                "duration": 1,
+                "start": 1781167171682,
+                "stop": 1781167171683,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_exactly_one_event_delivered",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 91757,
+                "start": 1781167171683,
+                "stop": 1781167263440,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "ids = {'connection_id': 'web_fwEFB6TrvhiP', 'delivered_event_id': 'evt_Was0RGQfDJ9Rv9Ti0C', 'destination_id': 'des_cVGmr4kqbfut', 'source_id': 'src_lexumbf7hxobjt'}\n\n    def test_exactly_one_event_delivered(ids: dict):\n        # Allow up to 90 seconds for asynchronous delivery to settle.\n        deadline = time.time() + 90\n        events: list[dict] = []\n        while time.time() < deadline:\n            events = _list_events_for_connection(ids[\"connection_id\"])\n            if len(events) == 1 and events[0].get(\"status\") == \"SUCCESSFUL\":\n                break\n            time.sleep(3)\n    \n>       assert len(events) == 1, (\n            f\"Expected exactly 1 event routed through the connection, got {len(events)}. \"\n            f\"Events: {events!r}\"\n        )\nE       AssertionError: Expected exactly 1 event routed through the connection, got 3. Events: [{'team_id': 'tm_y0vMXx2IWjqZ', 'created_at': '2026-06-11T08:39:00.506Z', 'id': 'evt_Was0RGQfDJ9Rv9Ti0C', 'source_id': 'src_lexumbf7hxobjt', 'destination_id': 'des_cVGmr4kqbfut', 'webhook_id': 'web_fwEFB6TrvhiP', 'request_id': 'req_d9jGn6swtZq75L2QMeuf', 'status': 'SUCCESSFUL', 'attempts': 1, 'response_status': 200, 'error_code': None, 'event_data_id': 'edt_8vVCQl2s3uGFg1tGKyki', 'next_attempt_at': None, 'last_attempt_at': '2026-06-11T08:39:00.540Z', 'successful_at': '2026-06-11T08:39:00.547Z', 'cli_id': None, 'updated_at': '2026-06-11T08:39:00.567Z'}, {'team_id': 'tm_y0vMXx2IWjqZ', 'created_at': '2026-06-11T08:38:23.771Z', 'id': 'evt_vjrM7eQo6XjPSDqNzo', 'source_id': 'src_lexumbf7hxobjt', 'destination_id': 'des_cVGmr4kqbfut', 'webhook_id': 'web_fwEFB6TrvhiP', 'request_id': 'req_N410ol6nHlx6EItISvuC', 'status': 'SUCCESSFUL', 'attempts': 1, 'response_status': 200, 'error_code': None, 'event_data_id': 'edt_F6Swvli9WXVZtQ1hYLpa', 'next_attempt_at': None, 'last_attempt_at': '2026-06-11T08:38:23.804Z', 'successful_at': '2026-06-11T08:38:23.808Z', 'cli_id': None, 'updated_at': '2026-06-11T08:38:23.827Z'}, {'team_id': 'tm_y0vMXx2IWjqZ', 'created_at': '2026-06-11T08:36:52.659Z', 'id': 'evt_bEh4tNfSVMVuQTfO4Z', 'source_id': 'src_lexumbf7hxobjt', 'destination_id': 'des_cVGmr4kqbfut', 'webhook_id': 'web_fwEFB6TrvhiP', 'request_id': 'req_NGIV7GIYA1l4IXSKzjw3', 'status': 'SUCCESSFUL', 'attempts': 1, 'response_status': 200, 'error_code': None, 'event_data_id': 'edt_BP78EQBjkWoJvTYgUWtE', 'next_attempt_at': None, 'last_attempt_at': '2026-06-11T08:36:52.699Z', 'successful_at': '2026-06-11T08:36:52.703Z', 'cli_id': None, 'updated_at': '2026-06-11T08:36:52.721Z'}]\nE       assert 3 == 1\nE        +  where 3 = len([{'attempts': 1, 'cli_id': None, 'created_at': '2026-06-11T08:39:00.506Z', 'destination_id': 'des_cVGmr4kqbfut', ...},..., {'attempts': 1, 'cli_id': None, 'created_at': '2026-06-11T08:36:52.659Z', 'destination_id': 'des_cVGmr4kqbfut', ...}])\n\ntests/test_final_state.py:155: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            },
+            {
+                "name": "test_final_state.py::test_delivered_event_body_is_charge_succeeded",
+                "status": "passed",
+                "duration": 189,
+                "start": 1781167263440,
+                "stop": 1781167263629,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_other_events_were_filtered_out",
+                "status": "passed",
+                "duration": 2882,
+                "start": 1781167263629,
+                "stop": 1781167266511,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            }
+        ]
+    }
+}

@@ -1,0 +1,72 @@
+- Initializing MCP connections...
+You
+# Hookdeck Source Signature Verification (Shopify HMAC) ## Background Hookdeck can verify incoming webhooks at the Source level. When a Source is configured with the `SHOPIFY` verification integration, Hookdeck computes a base64-encoded HMAC SHA-256 of the **raw request body** using the configured `webhook_secret_key` and compares it against the `X-Shopify-Hmac-Sha256` header (case-insensitive). Each ingested request is then exposed via the Inspect API with a `verified` flag and, when applicable, a `rejection_cause`. Your task is to create a `SHOPIFY` Source with HMAC verification enabled, then exercise the verification by sending two HTTP requests to its public URL: one signed correctly with the secret, and one that is NOT signed correctly. Hookdeck must record the first request as `verified: true` and the second as `verified: false` with `rejection_cause` set to `VERIFICATION_FAILED`. ## Requirements * Read `run-id` from the `ZEALT_RUN_ID` environment variable. * Read the Hookdeck API key from `HOOKDECK_API_KEY`. * Read the webhook secret from the `SHOPIFY_WEBHOOK_SECRET` environment variable. Use this exact value as the source's webhook secret. * Create a Hookdeck Source named `shopify-verify-${run-id}` of type `SHOPIFY` with Shopify HMAC verification enabled using `SHOPIFY_WEBHOOK_SECRET`. * Capture the Source's public ingestion URL from the API response. * Send **two** HTTP `POST` requests to the Source URL with identical JSON bodies (`Content-Type: application/json`): 1. **Correctly signed**: include an `X-Shopify-Hmac-Sha256` header whose value is the base64-encoded HMAC SHA-256 of the **raw request body** using the secret. 2. **Tampered/unsigned**: send the same body but with either no `X-Shopify-Hmac-Sha256` header or one containing an obviously wrong value. * Write the resulting Source ID to a log file so the verifier can locate the requests. ## Implementation Hints * The Shopify-style HMAC contract Hookdeck expects: `base64(HMAC_SHA256(secret, raw_request_body))` placed in the `X-Shopify-Hmac-Sha256` header. * Always check the official Hookdeck REST API documentation for the exact Source `verification` schema (`https://hookdeck.com/docs/api`) and the Inspect API endpoints. * The hookdeck CLI is pre-installed; you may use either the REST API directly or the CLI for source creation, but the verification configuration must be set programmatically. * Login the CLI with `hookdeck ci --api-key "$HOOKDECK_API_KEY"` if you choose the CLI path, since the environment is headless. * The signature MUST be computed over the exact byte sequence of the HTTP body you actually send; canonicalize JSON before hashing. * Allow a few seconds between sending the requests and verification so Hookdeck has time to ingest them. ## Acceptance Criteria * Project path: /home/user/hookdeck-task * Ensure the script is executed and the artifact exists. * Log file: /home/user/hookdeck-task/output.log * The log file must contain a line in the format: `Source ID: <source_id>` where `<source_id>` is the ID returned by Hookdeck. * A Source named `shopify-verify-${run-id}` of type `SHOPIFY` must exist in the Hookdeck project, with Shopify signature verification configured. * The Inspect API (`GET https://api.hookdeck.com/2025-07-01/requests?source_id=<source_id>`) must return at least two requests for this Source. * Exactly one of the requests must have `verified` equal to `true`. * At least one other request must have `verified` equal to `false` AND `rejection_cause` equal to `VERIFICATION_FAILED`.   
+
+Pochi
+💭 Thinking for 359 characters   
+📂 Listing files in /home/user/hookdeck-task recursively ✔ 
+💭 Thinking for 217 characters   
+📋 Updating todo list (6 items) ✔ 
+📋 Updating todo list (6 items) ✔ 
+💫 Executing echo "Run ID: $ZEALT_RUN_ID" && echo "Secret set: ${SHOPIFY_WEBHOOK_SECRET:+yes}" && echo "API Key set: ${HOOKDECK_API_KEY:+yes}" && node -v && python3 --version && curl --version ✔ 
+💭 Thinking for 361 characters   
+🛠️ Tool webSearch ✔ 
+🛠️ Tool webSearch ✔ 
+💭 Thinking for 287 characters   
+🛠️ Tool webSearch ✔ 
+💭 Thinking for 273 characters   
+🛠️ Tool webSearch ✔ 
+💭 Thinking for 288 characters   
+🛠️ Tool webSearch ✔ 
+🛠️ Tool webSearch ✔ 
+💭 Thinking for 683 characters   
+📋 Updating todo list (6 items) ✔ 
+💭 Thinking for 291 characters   
+✏️  Writing /home/user/hookdeck-task/test_api.js ✔ 
+💫 Executing node /home/user/hookdeck-task/test_api.js ✔ 
+💭 Thinking for 316 characters   
+✏️  Writing /home/user/hookdeck-task/delete_test.js ✔ 
+💫 Executing node /home/user/hookdeck-task/delete_test.js && rm /home/user/hookdeck-task/delete_test.js /home/user/hookdeck-task/test_api.js ✔ 
+💭 Thinking for 282 characters   
+📋 Updating todo list (6 items) ✔ 
+💭 Thinking for 271 characters   
+✏️  Writing /home/user/hookdeck-task/create_source.js ✔ 
+💫 Executing node /home/user/hookdeck-task/create_source.js ✔ 
+💭 Thinking for 263 characters   
+📋 Updating todo list (6 items) ✔ 
+💭 Thinking for 672 characters   
+✏️  Writing /home/user/hookdeck-task/send_requests.js ✔ 
+💫 Executing node /home/user/hookdeck-task/send_requests.js ✔ 
+💭 Thinking for 277 characters   
+📋 Updating todo list (6 items) ✔ 
+💭 Thinking for 525 characters   
+✏️  Writing /home/user/hookdeck-task/verify_requests.js ✔ 
+💫 Executing node /home/user/hookdeck-task/verify_requests.js ✔ 
+💭 Thinking for 256 characters   
+📖 Reading /home/user/hookdeck-task/output.log ✔ 
+💭 Thinking for 719 characters   
+📋 Updating todo list (6 items) ✔ 
+💭 Thinking for 205 characters   
+🎉 Task Completed
+I have successfully completed the tasks to create and verify a Hookdeck Source with Shopify HMAC verification enabled.
+
+### Summary of Actions Completed:
+1. **Source Creation**: 
+   - Created a Hookdeck Source named `shopify-verify-zr-s6mhdsk` of type `SHOPIFY`.
+   - Programmatically configured it with the Hookdeck API using version `2025-07-01` with the webhook secret key set to the value of `SHOPIFY_WEBHOOK_SECRET`.
+   - Captured the Source's unique ID (`src_atuxgtvg9m8ntl`) and ingestion URL (`https://hkdk.events/atuxgtvg9m8ntl`).
+
+2. **Request Delivery**:
+   - Sent a **correctly signed** `POST` request with the JSON body and computed base64 HMAC SHA-256 signature placed in the `X-Shopify-Hmac-Sha256` header. Hookdeck successfully accepted the request (HTTP 200).
+   - Sent a **tampered/unsigned** `POST` request with the identical JSON body but with an invalid signature in the `X-Shopify-Hmac-Sha256` header. Hookdeck rejected the request (HTTP 401).
+
+3. **Validation & Logging**:
+   - Verified the status of both requests using the Hookdeck Inspect API (`GET https://api.hookdeck.com/2025-07-01/requests?source_id=src_atuxgtvg9m8ntl`).
+   - Confirmed that exactly one request was ingested with `verified: true`, and one request was ingested with `verified: false` and `rejection_cause: "VERIFICATION_FAILED"`.
+   - Wrote the Source ID to the log file at `/home/user/hookdeck-task/output.log` as required:
+     ```
+     Source ID: src_atuxgtvg9m8ntl
+     ```
+
+All acceptance criteria are fully met!   
+  

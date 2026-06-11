@@ -1,0 +1,98 @@
+{
+    "reportFormat": "CTRF",
+    "specVersion": "0.0.0",
+    "timestamp": "2026-06-11T09:10:57.313331+00:00",
+    "generatedBy": "pytest",
+    "results": {
+        "tool": {
+            "name": "pytest",
+            "version": "7.4.4"
+        },
+        "summary": {
+            "tests": 7,
+            "passed": 5,
+            "failed": 2,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1781169055383,
+            "stop": 1781169057313
+        },
+        "environment": {
+            "buildName": "Pytest JSON CTRF Report",
+            "buildNumber": "000",
+            "buildUrl": "https://ctrf.io"
+        },
+        "tests": [
+            {
+                "name": "test_final_state.py::test_source_exists_and_is_webhook",
+                "status": "passed",
+                "duration": 205,
+                "start": 1781169055590,
+                "stop": 1781169055795,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_destination_exists_and_is_mock_api",
+                "status": "passed",
+                "duration": 166,
+                "start": 1781169055795,
+                "stop": 1781169055961,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_connection_references_transformation",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 205,
+                "start": 1781169055962,
+                "stop": 1781169056167,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "result_ids = {'connection_id': 'web_Rgc7v4yAXxGy', 'destination_id': 'des_Rk4Q9DiayIKS', 'source_id': 'src_9g1tukcoies053', 'transformation_id': 'trs_WZOowWBmnLvSKZ'}\n\n    def test_connection_references_transformation(result_ids):\n        rid = _run_id()\n        resp = requests.get(\n            f\"{API_BASE}/connections/{result_ids['connection_id']}\",\n            headers=_headers(),\n            timeout=30,\n        )\n        assert resp.status_code == 200, (\n            f\"GET /connections/{result_ids['connection_id']} returned\"\n            f\" {resp.status_code}: {resp.text}\"\n        )\n        body = resp.json()\n        assert body.get(\"name\") == f\"flatten-conn-{rid}\", (\n            f\"Connection name mismatch: expected 'flatten-conn-{rid}',\"\n            f\" got {body.get('name')!r}.\"\n        )\n        source = body.get(\"source\") or {}\n        destination = body.get(\"destination\") or {}\n        assert source.get(\"id\") == result_ids[\"source_id\"], (\n            f\"Connection source mismatch: expected {result_ids['source_id']},\"\n            f\" got {source.get('id')!r}.\"\n        )\n        assert destination.get(\"id\") == result_ids[\"destination_id\"], (\n            f\"Connection destination mismatch: expected {result_ids['destination_id']},\"\n            f\" got {destination.get('id')!r}.\"\n        )\n        rules = body.get(\"rules\") or []\n        matching = [\n            r for r in rules\n            if isinstance(r, dict)\n            and r.get(\"type\") == \"transformation\"\n            and r.get(\"transformation_id\") == result_ids[\"transformation_id\"]\n        ]\n>       assert matching, (\n            \"Connection.rules must contain a transformation rule referencing\"\n            f\" transformation_id={result_ids['transformation_id']}. Got rules={rules!r}.\"\n        )\nE       AssertionError: Connection.rules must contain a transformation rule referencing transformation_id=trs_WZOowWBmnLvSKZ. Got rules=[{'type': 'transform', 'transformation_id': 'trs_WZOowWBmnLvSKZ'}].\nE       assert []\n\ntests/test_final_state.py:134: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            },
+            {
+                "name": "test_final_state.py::test_transformation_code_contract",
+                "status": "passed",
+                "duration": 182,
+                "start": 1781169056168,
+                "stop": 1781169056350,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_exactly_two_events_delivered",
+                "status": "passed",
+                "duration": 274,
+                "start": 1781169056350,
+                "stop": 1781169056624,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_delivered_event_bodies_and_headers",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 453,
+                "start": 1781169056624,
+                "stop": 1781169057077,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "result_ids = {'connection_id': 'web_Rgc7v4yAXxGy', 'destination_id': 'des_Rk4Q9DiayIKS', 'source_id': 'src_9g1tukcoies053', 'transformation_id': 'trs_WZOowWBmnLvSKZ'}\n\n    def test_delivered_event_bodies_and_headers(result_ids):\n        events = _wait_for_terminal_events(result_ids[\"connection_id\"], expected=2)\n        successful = [e for e in events if e.get(\"status\") == \"SUCCESSFUL\"]\n        assert len(successful) >= 2, (\n            f\"Need at least 2 successful events to check shape; got {len(successful)}.\"\n        )\n    \n        expected_keys = {\"id\", \"amount\", \"currency\", \"email\"}\n        forbidden_keys = {\"data\", \"object\", \"customer_email\"}\n    \n        for event in successful[:2]:\n            event_id = event.get(\"id\")\n            assert event_id, f\"Successful event is missing id: {event!r}\"\n            detail_resp = requests.get(\n                f\"{API_BASE}/events/{event_id}\",\n                headers=_headers(),\n                timeout=30,\n            )\n            assert detail_resp.status_code == 200, (\n                f\"GET /events/{event_id} returned {detail_resp.status_code}:\"\n                f\" {detail_resp.text}\"\n            )\n            detail = detail_resp.json()\n            data = detail.get(\"data\") or {}\n            # The delivered body is at data.body.body per the Inspect API schema.\n            outer_body = data.get(\"body\")\n            assert isinstance(outer_body, dict), (\n                f\"Event {event_id}: data.body is not an object: {outer_body!r}\"\n            )\n            inner_body = outer_body.get(\"body\")\n>           assert isinstance(inner_body, dict), (\n                f\"Event {event_id}: data.body.body must be an object (the transformed\"\n                f\" payload); got {inner_body!r}\"\n            )\nE           AssertionError: Event evt_fCNXaOwlBBnl0PQKvX: data.body.body must be an object (the transformed payload); got None\nE           assert False\nE            +  where False = isinstance(None, dict)\n\ntests/test_final_state.py:264: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            },
+            {
+                "name": "test_final_state.py::test_dropped_event_recorded_as_ignored",
+                "status": "passed",
+                "duration": 234,
+                "start": 1781169057078,
+                "stop": 1781169057312,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            }
+        ]
+    }
+}

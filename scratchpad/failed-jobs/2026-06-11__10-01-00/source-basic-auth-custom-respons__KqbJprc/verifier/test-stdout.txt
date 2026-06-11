@@ -1,0 +1,102 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-7.4.4, pluggy-1.4.0
+rootdir: /tests
+plugins: json-ctrf-0.5.2
+collected 7 items
+
+tests/test_final_state.py EEEEEEE                                        [100%]
+
+==================================== ERRORS ====================================
+_______________ ERROR at setup of test_source_basic_auth_config ________________
+
+    @pytest.fixture(scope="session")
+    def source_log() -> dict:
+>       assert os.path.exists(SOURCE_JSON_PATH), f"{SOURCE_JSON_PATH} does not exist"
+E       AssertionError: /home/user/hookdeck-project/source.json does not exist
+E       assert False
+E        +  where False = <function exists at 0x7f6ecc91f560>('/home/user/hookdeck-project/source.json')
+E        +    where <function exists at 0x7f6ecc91f560> = <module 'posixpath' (frozen)>.exists
+E        +      where <module 'posixpath' (frozen)> = os.path
+
+tests/test_final_state.py:39: AssertionError
+_____________ ERROR at setup of test_source_custom_response_config _____________
+
+    @pytest.fixture(scope="session")
+    def source_log() -> dict:
+>       assert os.path.exists(SOURCE_JSON_PATH), f"{SOURCE_JSON_PATH} does not exist"
+E       AssertionError: /home/user/hookdeck-project/source.json does not exist
+E       assert False
+E        +  where False = <function exists at 0x7f6ecc91f560>('/home/user/hookdeck-project/source.json')
+E        +    where <function exists at 0x7f6ecc91f560> = <module 'posixpath' (frozen)>.exists
+E        +      where <module 'posixpath' (frozen)> = os.path
+
+tests/test_final_state.py:39: AssertionError
+________________ ERROR at setup of test_source_url_matches_log _________________
+
+    @pytest.fixture(scope="session")
+    def source_log() -> dict:
+>       assert os.path.exists(SOURCE_JSON_PATH), f"{SOURCE_JSON_PATH} does not exist"
+E       AssertionError: /home/user/hookdeck-project/source.json does not exist
+E       assert False
+E        +  where False = <function exists at 0x7f6ecc91f560>('/home/user/hookdeck-project/source.json')
+E        +    where <function exists at 0x7f6ecc91f560> = <module 'posixpath' (frozen)>.exists
+E        +      where <module 'posixpath' (frozen)> = os.path
+
+tests/test_final_state.py:39: AssertionError
+____________ ERROR at setup of test_connection_and_mock_destination ____________
+
+    @pytest.fixture(scope="session")
+    def source_log() -> dict:
+>       assert os.path.exists(SOURCE_JSON_PATH), f"{SOURCE_JSON_PATH} does not exist"
+E       AssertionError: /home/user/hookdeck-project/source.json does not exist
+E       assert False
+E        +  where False = <function exists at 0x7f6ecc91f560>('/home/user/hookdeck-project/source.json')
+E        +    where <function exists at 0x7f6ecc91f560> = <module 'posixpath' (frozen)>.exists
+E        +      where <module 'posixpath' (frozen)> = os.path
+
+tests/test_final_state.py:39: AssertionError
+_____ ERROR at setup of test_live_authorized_probe_returns_custom_response _____
+
+    @pytest.fixture(scope="session")
+    def source_log() -> dict:
+>       assert os.path.exists(SOURCE_JSON_PATH), f"{SOURCE_JSON_PATH} does not exist"
+E       AssertionError: /home/user/hookdeck-project/source.json does not exist
+E       assert False
+E        +  where False = <function exists at 0x7f6ecc91f560>('/home/user/hookdeck-project/source.json')
+E        +    where <function exists at 0x7f6ecc91f560> = <module 'posixpath' (frozen)>.exists
+E        +      where <module 'posixpath' (frozen)> = os.path
+
+tests/test_final_state.py:39: AssertionError
+__________ ERROR at setup of test_live_unauthorized_probe_returns_401 __________
+
+    @pytest.fixture(scope="session")
+    def source_log() -> dict:
+>       assert os.path.exists(SOURCE_JSON_PATH), f"{SOURCE_JSON_PATH} does not exist"
+E       AssertionError: /home/user/hookdeck-project/source.json does not exist
+E       assert False
+E        +  where False = <function exists at 0x7f6ecc91f560>('/home/user/hookdeck-project/source.json')
+E        +    where <function exists at 0x7f6ecc91f560> = <module 'posixpath' (frozen)>.exists
+E        +      where <module 'posixpath' (frozen)> = os.path
+
+tests/test_final_state.py:39: AssertionError
+______ ERROR at setup of test_inspect_api_records_authorized_request_only ______
+
+    @pytest.fixture(scope="session")
+    def source_log() -> dict:
+>       assert os.path.exists(SOURCE_JSON_PATH), f"{SOURCE_JSON_PATH} does not exist"
+E       AssertionError: /home/user/hookdeck-project/source.json does not exist
+E       assert False
+E        +  where False = <function exists at 0x7f6ecc91f560>('/home/user/hookdeck-project/source.json')
+E        +    where <function exists at 0x7f6ecc91f560> = <module 'posixpath' (frozen)>.exists
+E        +      where <module 'posixpath' (frozen)> = os.path
+
+tests/test_final_state.py:39: AssertionError
+=========================== short test summary info ============================
+ERROR tests/test_final_state.py::test_source_basic_auth_config - AssertionErr...
+ERROR tests/test_final_state.py::test_source_custom_response_config - Asserti...
+ERROR tests/test_final_state.py::test_source_url_matches_log - AssertionError...
+ERROR tests/test_final_state.py::test_connection_and_mock_destination - Asser...
+ERROR tests/test_final_state.py::test_live_authorized_probe_returns_custom_response
+ERROR tests/test_final_state.py::test_live_unauthorized_probe_returns_401 - A...
+ERROR tests/test_final_state.py::test_inspect_api_records_authorized_request_only
+============================== 7 errors in 0.30s ===============================

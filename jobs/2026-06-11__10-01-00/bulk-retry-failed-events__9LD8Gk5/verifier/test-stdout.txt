@@ -1,0 +1,76 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-7.4.4, pluggy-1.4.0
+rootdir: /tests
+plugins: json-ctrf-0.5.2
+collected 5 items
+
+tests/test_final_state.py EEEEE                                          [100%]
+
+==================================== ERRORS ====================================
+___________ ERROR at setup of test_output_log_contains_connection_id ___________
+
+    @pytest.fixture(scope="session")
+    def connection_id():
+>       assert os.path.isfile(LOG_FILE), f"Log file {LOG_FILE} does not exist."
+E       AssertionError: Log file /home/user/hookdeck-task/output.log does not exist.
+E       assert False
+E        +  where False = <function isfile at 0x7f78f8234220>('/home/user/hookdeck-task/output.log')
+E        +    where <function isfile at 0x7f78f8234220> = <module 'posixpath' (frozen)>.isfile
+E        +      where <module 'posixpath' (frozen)> = os.path
+
+tests/test_final_state.py:39: AssertionError
+__________ ERROR at setup of test_logged_connection_matches_seed_name __________
+
+    @pytest.fixture(scope="session")
+    def connection_id():
+>       assert os.path.isfile(LOG_FILE), f"Log file {LOG_FILE} does not exist."
+E       AssertionError: Log file /home/user/hookdeck-task/output.log does not exist.
+E       assert False
+E        +  where False = <function isfile at 0x7f78f8234220>('/home/user/hookdeck-task/output.log')
+E        +    where <function isfile at 0x7f78f8234220> = <module 'posixpath' (frozen)>.isfile
+E        +      where <module 'posixpath' (frozen)> = os.path
+
+tests/test_final_state.py:39: AssertionError
+________________ ERROR at setup of test_no_failed_events_remain ________________
+
+    @pytest.fixture(scope="session")
+    def connection_id():
+>       assert os.path.isfile(LOG_FILE), f"Log file {LOG_FILE} does not exist."
+E       AssertionError: Log file /home/user/hookdeck-task/output.log does not exist.
+E       assert False
+E        +  where False = <function isfile at 0x7f78f8234220>('/home/user/hookdeck-task/output.log')
+E        +    where <function isfile at 0x7f78f8234220> = <module 'posixpath' (frozen)>.isfile
+E        +      where <module 'posixpath' (frozen)> = os.path
+
+tests/test_final_state.py:39: AssertionError
+_______ ERROR at setup of test_at_least_one_event_succeeded_after_retry ________
+
+    @pytest.fixture(scope="session")
+    def connection_id():
+>       assert os.path.isfile(LOG_FILE), f"Log file {LOG_FILE} does not exist."
+E       AssertionError: Log file /home/user/hookdeck-task/output.log does not exist.
+E       assert False
+E        +  where False = <function isfile at 0x7f78f8234220>('/home/user/hookdeck-task/output.log')
+E        +    where <function isfile at 0x7f78f8234220> = <module 'posixpath' (frozen)>.isfile
+E        +      where <module 'posixpath' (frozen)> = os.path
+
+tests/test_final_state.py:39: AssertionError
+_ ERROR at setup of test_latest_attempt_was_triggered_by_bulk_or_manual_retry __
+
+    @pytest.fixture(scope="session")
+    def connection_id():
+>       assert os.path.isfile(LOG_FILE), f"Log file {LOG_FILE} does not exist."
+E       AssertionError: Log file /home/user/hookdeck-task/output.log does not exist.
+E       assert False
+E        +  where False = <function isfile at 0x7f78f8234220>('/home/user/hookdeck-task/output.log')
+E        +    where <function isfile at 0x7f78f8234220> = <module 'posixpath' (frozen)>.isfile
+E        +      where <module 'posixpath' (frozen)> = os.path
+
+tests/test_final_state.py:39: AssertionError
+=========================== short test summary info ============================
+ERROR tests/test_final_state.py::test_output_log_contains_connection_id - Ass...
+ERROR tests/test_final_state.py::test_logged_connection_matches_seed_name - A...
+ERROR tests/test_final_state.py::test_no_failed_events_remain - AssertionErro...
+ERROR tests/test_final_state.py::test_at_least_one_event_succeeded_after_retry
+ERROR tests/test_final_state.py::test_latest_attempt_was_triggered_by_bulk_or_manual_retry
+============================== 5 errors in 0.20s ===============================

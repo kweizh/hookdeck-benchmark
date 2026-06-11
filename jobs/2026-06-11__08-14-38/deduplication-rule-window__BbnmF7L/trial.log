@@ -1,0 +1,91 @@
+Skipping image OS validation for hb__deduplication-rule-window: docker inspect returned 1
+Running command: apt-get update && apt-get install -y curl ripgrep
+Command outputs captured
+Running command: set -euo pipefail; curl -fsSL https://getpochi.com/install.sh | bash -x -s -- pochi-v0.6.14 && mkdir -p /logs/agent/pochi && ~/.pochi/bin/pochi --version
+Command outputs captured
+Running command: ln -sf ~/.pochi/bin/pochi /usr/local/bin/pochi
+Command outputs captured
+Running command: echo zr-bbnmf7l > /logs/artifacts/run-id && echo deduplication-rule-window__BbnmF7L > /logs/artifacts/trial_id
+Command outputs captured
+Running command: mkdir -p ~/.pochi && cat << 'EOF' | sed -e "s/OPENAI_API_KEY/${OPENAI_API_KEY}/g" -e "s/DEEPINFRA_API_KEY/${DEEPINFRA_API_KEY}/g" > ~/.pochi/config.jsonc
+{
+  "providers": {
+    "deepinfra": {
+      "kind": "openai",
+      "baseURL": "https://api.deepinfra.com/v1/openai",
+      "apiKey": "DEEPINFRA_API_KEY",
+      "models": {
+        "zai-org/GLM-4.7-Flash": {
+          "name": "glm-4.7-flash"
+        },
+        "moonshotai/Kimi-K2.6": {
+          "name": "kimi-K2.6"
+        },
+        "deepseek-ai/DeepSeek-V4-Pro": {
+          "name": "DeepSeek-V4-Pro"
+        }
+      }
+    },
+    "openai": {
+      "kind": "openai",
+      "baseURL": "https://api.openai.com/v1",
+      "apiKey": "OPENAI_API_KEY",
+      "models": {
+        "gpt-5.4": {
+          "name": "gpt-5.4"
+        }
+      }
+    }
+  }
+}
+EOF
+Command outputs captured
+Running command: if [ -f /bootstrap/test_initial_state.py ]; then pytest -s --log-cli-level=DEBUG /bootstrap/test_initial_state.py > >(tee /logs/agent/pochi/initial-test-stdout.txt) 2> >(tee /logs/agent/pochi/initial-test-stderr.txt >&2); fi
+Command outputs captured
+Running command: pochi --model google/gemini-3.5-flash --max-steps 200 --max-retries 10 --blobs-dir /logs/agent/pochi/blobs --experimental-stream-trajectory /logs/agent/pochi/trajectory.jsonl > >(tee /logs/agent/pochi/stdout.txt) 2> >(tee /logs/agent/pochi/stderr.txt >&2) <<'EOF'
+# Suppress Duplicate Webhooks With a Hookdeck Deduplication Rule
+
+## Background
+A noisy upstream producer keeps replaying the same webhook several times. Use Hookdeck's deduplication connection rule to keep duplicates from reaching the downstream consumer, while still letting through events that have different identifying fields.
+
+## Requirements
+- Read `run-id` from the `ZEALT_RUN_ID` environment variable and use it to suffix every Hookdeck resource you create so concurrent runs don't collide.
+- In your Hookdeck project, configure a single Connection that:
+  - Uses a fresh Webhook Source named `dedup-src-${run-id}`.
+  - Uses a fresh Mock API Destination named `dedup-dst-${run-id}` (Hookdeck-hosted mock endpoint, no public inbound network needed).
+  - Has exactly one rule applied: a deduplication rule with a 5 minute window that treats two events as duplicates when their JSON body `id` and `type` fields match.
+- Drive the connection with the Hookdeck Publish API:
+  - Send 5 requests that share an identical `{ "id": "...", "type": "..." }` pair so only the first becomes a delivered event and the other 4 are suppressed as duplicates.
+  - Send 2 additional requests with distinct `{ id, type }` pairs (different from the duplicate group and from each other) so each produces its own delivered event.
+- After the events have flushed, write a summary to `/home/user/hookdeck-dedup/output.log` containing:
+  - `Connection ID: <id>`
+  - `Source ID: <id>`
+  - `Destination ID: <id>`
+
+## Implementation Hints
+- The Hookdeck CLI is preinstalled; authenticate non-interactively with `hookdeck ci --api-key "$HOOKDECK_API_KEY"` before doing anything else. The REST API base URL is `https://api.hookdeck.com/2025-07-01` and uses `Authorization: Bearer $HOOKDECK_API_KEY`.
+- Always confirm rule field semantics against the docs (`https://hookdeck.com/docs/connections.md`, `https://hookdeck.com/docs/deduplication`) before submitting — window units, allowed field-path prefixes, and the connections request body are easy to get wrong from memory.
+- Mock API destinations are created by setting the destination `type` to `MOCK_API`; no custom URL is needed.
+- The Publish API endpoint is `POST https://hkdk.events/v1/publish` and routes by the `X-Hookdeck-Source-Name` header. Give Hookdeck a few seconds to deliver events before you read back state.
+- Inspect delivery with `GET /events?webhook_id=<connection_id>&status=SUCCESSFUL` and inspect deduplication side-effects with `GET /requests?source_id=<source_id>` (look at `ignored_count`).
+
+## Acceptance Criteria
+- Project path: /home/user/hookdeck-dedup
+- Ensure the real Hookdeck configuration and publish actions are executed and the log artifact exists.
+- Log file: /home/user/hookdeck-dedup/output.log
+- The log file must contain three lines in this exact format (any order):
+  - `Connection ID: <connection_id>`
+  - `Source ID: <source_id>`
+  - `Destination ID: <destination_id>`
+- Resource names must use the `run-id` suffix pattern described in Requirements (`dedup-src-${run-id}`, `dedup-dst-${run-id}`).
+- The connection identified by `<connection_id>` must have exactly one rule, and that rule must be a deduplication rule whose configuration matches the Hookdeck REST API representation documented at `https://hookdeck.com/docs/deduplication` for a 5 minute window keyed on the body `id` and `type` fields.
+- The destination identified by `<destination_id>` must be of type `MOCK_API`.
+- Querying the Hookdeck REST API for successful events on `<connection_id>` must return exactly 3 events.
+- Requests received for `<source_id>` must show that duplicate events were suppressed (Hookdeck reports this as a non-zero `ignored_count` on the duplicate requests).
+
+
+EOF
+Command outputs captured
+Running command: rm -f ~/.pochi/config.jsonc
+Command outputs captured
+The verifier.env contains an API key (often the case for LLM-based verifiers). You will incur costs associated with the API calls.

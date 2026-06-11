@@ -1,0 +1,76 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-7.4.4, pluggy-1.4.0
+rootdir: /tests
+plugins: json-ctrf-0.5.2
+collected 7 items
+
+tests/test_final_state.py F.....F                                        [100%]
+
+=================================== FAILURES ===================================
+________________________ test_source_basic_auth_config _________________________
+
+source_obj = {'authenticated': True, 'config': {'allowed_http_methods': ['POST', 'PUT', 'PATCH', 'DELETE'], 'auth_type': 'BASIC_AUT...ok": true, "id": "abc"}', 'content_type': 'json'}}, 'created_at': '2026-06-11T09:39:53.588Z', 'description': None, ...}
+run_id = 'zr-mn8hr5x'
+
+    def test_source_basic_auth_config(source_obj: dict, run_id: str):
+        assert source_obj.get("type") == "WEBHOOK", (
+            f"Source must be of type WEBHOOK, got {source_obj.get('type')!r}"
+        )
+        name = source_obj.get("name", "")
+        assert isinstance(name, str) and name.endswith(f"-{run_id}"), (
+            f"Source name must end with '-{run_id}', got {name!r}"
+        )
+    
+        config = source_obj.get("config") or {}
+        assert config.get("auth_type") == "BASIC_AUTH", (
+            f"Expected source config.auth_type == 'BASIC_AUTH', got {config.get('auth_type')!r}"
+        )
+        auth = config.get("auth") or {}
+>       assert auth.get("username") == EXPECTED_USERNAME, (
+            f"Expected source basic auth username {EXPECTED_USERNAME!r}, got {auth.get('username')!r}"
+        )
+E       AssertionError: Expected source basic auth username 'eval-user', got None
+E       assert None == 'eval-user'
+E        +  where None = <built-in method get of dict object at 0x7f0156275480>('username')
+E        +    where <built-in method get of dict object at 0x7f0156275480> = {}.get
+
+tests/test_final_state.py:78: AssertionError
+_______________ test_inspect_api_records_authorized_request_only _______________
+
+source_log = {'source_id': 'src_x4lvvkyfo7s6cg', 'source_url': 'https://hkdk.events/x4lvvkyfo7s6cg'}
+auth_headers = {'Authorization': 'Bearer REDACTED'}
+run_id = 'zr-mn8hr5x'
+
+    def test_inspect_api_records_authorized_request_only(source_log: dict, auth_headers: dict, run_id: str):
+        source_id = source_log["source_id"]
+    
+        # Hookdeck ingestion has a small async delay; poll briefly.
+        deadline = time.time() + 30
+        authorized_hits = []
+        unauthorized_hits = []
+        while time.time() < deadline:
+            models = _list_requests(source_id, auth_headers)
+            authorized_hits = [m for m in models if _request_matches(m, "auth-ok", run_id)]
+            unauthorized_hits = [m for m in models if _request_matches(m, "auth-bad", run_id)]
+            if authorized_hits:
+                break
+            time.sleep(3)
+    
+>       assert len(authorized_hits) >= 1, (
+            f"Expected at least one ingested request with probe=auth-ok and run={run_id}; found none."
+        )
+E       AssertionError: Expected at least one ingested request with probe=auth-ok and run=zr-mn8hr5x; found none.
+E       assert 0 >= 1
+E        +  where 0 = len([])
+
+tests/test_final_state.py:239: AssertionError
+==================================== PASSES ====================================
+=========================== short test summary info ============================
+PASSED tests/test_final_state.py::test_source_custom_response_config
+PASSED tests/test_final_state.py::test_source_url_matches_log
+PASSED tests/test_final_state.py::test_connection_and_mock_destination
+PASSED tests/test_final_state.py::test_live_authorized_probe_returns_custom_response
+PASSED tests/test_final_state.py::test_live_unauthorized_probe_returns_401
+FAILED tests/test_final_state.py::test_source_basic_auth_config - AssertionEr...
+FAILED tests/test_final_state.py::test_inspect_api_records_authorized_request_only
+========================= 2 failed, 5 passed in 33.79s =========================
