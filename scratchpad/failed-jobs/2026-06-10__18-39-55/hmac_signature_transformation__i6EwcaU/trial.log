@@ -1,0 +1,81 @@
+Skipping image OS validation for hb__hmac_signature_transformation: docker inspect returned 1
+Running command: apt-get update && apt-get install -y curl ripgrep
+Command outputs captured
+Running command: set -euo pipefail; curl -fsSL https://getpochi.com/install.sh | bash -x -s -- pochi-v0.6.14 && mkdir -p /logs/agent/pochi && ~/.pochi/bin/pochi --version
+Command outputs captured
+Running command: ln -sf ~/.pochi/bin/pochi /usr/local/bin/pochi
+Command outputs captured
+Running command: echo zr-i6ewcau > /logs/artifacts/run-id && echo hmac_signature_transformation__i6EwcaU > /logs/artifacts/trial_id
+Command outputs captured
+Running command: mkdir -p ~/.pochi && cat << 'EOF' | sed -e "s/OPENAI_API_KEY/${OPENAI_API_KEY}/g" -e "s/DEEPINFRA_API_KEY/${DEEPINFRA_API_KEY}/g" > ~/.pochi/config.jsonc
+{
+  "providers": {
+    "deepinfra": {
+      "kind": "openai",
+      "baseURL": "https://api.deepinfra.com/v1/openai",
+      "apiKey": "DEEPINFRA_API_KEY",
+      "models": {
+        "zai-org/GLM-4.7-Flash": {
+          "name": "glm-4.7-flash"
+        },
+        "moonshotai/Kimi-K2.6": {
+          "name": "kimi-K2.6"
+        },
+        "deepseek-ai/DeepSeek-V4-Pro": {
+          "name": "DeepSeek-V4-Pro"
+        }
+      }
+    },
+    "openai": {
+      "kind": "openai",
+      "baseURL": "https://api.openai.com/v1",
+      "apiKey": "OPENAI_API_KEY",
+      "models": {
+        "gpt-5.4": {
+          "name": "gpt-5.4"
+        }
+      }
+    }
+  }
+}
+EOF
+Command outputs captured
+Running command: if [ -f /bootstrap/test_initial_state.py ]; then pytest -s --log-cli-level=DEBUG /bootstrap/test_initial_state.py > >(tee /logs/agent/pochi/initial-test-stdout.txt) 2> >(tee /logs/agent/pochi/initial-test-stderr.txt >&2); fi
+Command outputs captured
+Running command: pochi --model deepseek/deepseek-4-pro --max-steps 200 --max-retries 10 --blobs-dir /logs/agent/pochi/blobs --experimental-stream-trajectory /logs/agent/pochi/trajectory.jsonl > >(tee /logs/agent/pochi/stdout.txt) 2> >(tee /logs/agent/pochi/stderr.txt >&2) <<'EOF'
+# Hookdeck HMAC Signature Transformation
+
+## Background
+Hookdeck allows you to write JavaScript transformations to modify event payloads and headers before they are delivered to a destination. In this task, you will create a connection that computes an HMAC signature of the payload and adds it as a header.
+
+## Requirements
+- Create a Hookdeck connection named `hmac-connection-${run-id}`.
+- The connection must link a new source named `hmac-source-${run-id}` to a new MOCK destination named `hmac-dest-${run-id}`.
+- Attach a transformation to this connection. The transformation must:
+  1. Read a secret key from the environment variable `HMAC_SECRET`.
+  2. Compute the HMAC SHA-256 signature of the stringified request body.
+  3. Add the computed signature to the `x-hmac-signature` header of the request.
+- You must write and execute a script (e.g., `setup.sh` or `setup.js`) to provision these resources on Hookdeck.
+- You are operating in a headless environment.
+
+## Implementation Hints
+- Use `hookdeck ci --api-key $HOOKDECK_API_KEY` to authenticate the CLI in a headless environment, or use the Hookdeck REST API directly.
+- Hookdeck transformations run in a V8 isolate and have access to built-in crypto modules. You can use standard Node.js `crypto` functions like `crypto.createHmac('sha256', env.HMAC_SECRET).update(JSON.stringify(request.body)).digest('hex')`.
+- Ensure you read the `run-id` from the `ZEALT_RUN_ID` environment variable to name your resources correctly and avoid conflicts.
+- Remember to configure the transformation environment variable `HMAC_SECRET` on Hookdeck so the transformation script can access it.
+
+## Acceptance Criteria
+- Project path: /home/user/hookdeck-task
+- Ensure the setup script is executed and the Hookdeck resources are created.
+- Log file: /home/user/hookdeck-task/output.log
+- In the log file, output the created Source ID in the format: `Source ID: <source_id>`.
+- In the log file, output the created Connection ID in the format: `Connection ID: <connection_id>`.
+- The connection must be correctly configured to route events from `hmac-source-${run-id}` to `hmac-dest-${run-id}` (a Mock API destination).
+- The transformation must correctly compute the HMAC SHA-256 signature and attach it as the `x-hmac-signature` header on the outgoing request.
+
+
+EOF
+Command outputs captured
+Running command: rm -f ~/.pochi/config.jsonc
+Command outputs captured
+The verifier.env contains an API key (often the case for LLM-based verifiers). You will incur costs associated with the API calls.

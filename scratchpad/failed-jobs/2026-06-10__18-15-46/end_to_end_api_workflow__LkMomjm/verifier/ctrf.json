@@ -1,0 +1,59 @@
+{
+    "reportFormat": "CTRF",
+    "specVersion": "0.0.0",
+    "timestamp": "2026-06-10T18:30:31.606669+00:00",
+    "generatedBy": "pytest",
+    "results": {
+        "tool": {
+            "name": "pytest",
+            "version": "7.4.4"
+        },
+        "summary": {
+            "tests": 3,
+            "passed": 2,
+            "failed": 1,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1781116231013,
+            "stop": 1781116231606
+        },
+        "environment": {
+            "buildName": "Pytest JSON CTRF Report",
+            "buildNumber": "000",
+            "buildUrl": "https://ctrf.io"
+        },
+        "tests": [
+            {
+                "name": "test_final_state.py::test_log_file_exists",
+                "status": "passed",
+                "duration": 1,
+                "start": 1781116231212,
+                "stop": 1781116231213,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_connection_created_correctly",
+                "status": "passed",
+                "duration": 176,
+                "start": 1781116231213,
+                "stop": 1781116231389,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_event_processed_successfully",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 217,
+                "start": 1781116231389,
+                "stop": 1781116231606,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "def test_event_processed_successfully():\n        assert os.path.isfile(LOG_FILE), \"Cannot verify event without log file.\"\n    \n        with open(LOG_FILE, \"r\") as f:\n            content = f.read()\n    \n        event_match = re.search(r\"Event ID:\\s*([a-zA-Z0-9_-]+)\", content)\n        assert event_match, \"Event ID not found in the log file in the expected format.\"\n        event_id = event_match.group(1)\n    \n        run_id = get_run_id()\n        api_key = get_api_key()\n    \n        headers = {\n            \"Authorization\": f\"Bearer {api_key}\"\n        }\n    \n        response = requests.get(f\"https://api.hookdeck.com/2025-07-01/events/{event_id}\", headers=headers)\n        assert response.status_code == 200, f\"Failed to fetch event details: {response.text}\"\n    \n        data = response.json()\n        assert data.get(\"status\") == \"SUCCESSFUL\", f\"Expected event status 'SUCCESSFUL', got {data.get('status')}\"\n    \n        body = data.get(\"body\", {})\n>       assert body.get(\"test_id\") == run_id, f\"Expected event body.test_id '{run_id}', got {body.get('test_id')}\"\nE       AssertionError: Expected event body.test_id 'zr-lkmomjm', got None\nE       assert None == 'zr-lkmomjm'\nE        +  where None = <built-in method get of dict object at 0x7f41d4b61240>('test_id')\nE        +    where <built-in method get of dict object at 0x7f41d4b61240> = {}.get\n\ntests/test_final_state.py:75: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            }
+        ]
+    }
+}

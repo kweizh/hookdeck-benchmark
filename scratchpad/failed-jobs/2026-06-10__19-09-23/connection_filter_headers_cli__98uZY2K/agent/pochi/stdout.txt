@@ -1,0 +1,79 @@
+- Initializing MCP connections...
+You
+# Create a Hookdeck Connection with Header Filter ## Background You need to configure Hookdeck to receive webhooks and route them to a Mock API destination, but only if they contain a specific HTTP header. You are in a headless environment. ## Requirements - Authenticate with Hookdeck in a headless CI environment. - Create a new Connection named `header-filter-conn-${run-id}`. - The Connection must use a Source named `header-source-${run-id}`. - The Connection must route to a Mock API Destination named `mock-dest-${run-id}`. - The Connection must include a Filter rule that only allows events where the HTTP header `x-target-event` equals exactly `process`. - Output the resulting Connection ID to a log file. ## Implementation Hints - Read the current `run-id` from the `ZEALT_RUN_ID` environment variable. - Ensure you login to Hookdeck CLI properly for a headless environment. - You can use the Hookdeck CLI or the Hookdeck REST API to create the resources. - Write the Connection ID to `/home/user/hookdeck-task/output.log`. ## Acceptance Criteria - Project path: `/home/user/hookdeck-task` - Ensure the script is executed and the artifacts exist. - Log file: `/home/user/hookdeck-task/output.log` - The log file must contain the Connection ID in the format: `Connection ID: <connection_id>`. - The connection must exist in Hookdeck with the exact name `header-filter-conn-${run-id}`. - The connection must be linked to a source named `header-source-${run-id}` and a destination named `mock-dest-${run-id}`. - The connection must have a filter rule configured to allow only events where the header `x-target-event` equals `process`.   
+
+Pochi
+💭 Thinking for 316 characters   
+💫 Executing echo "Run ID: $ZEALT_RUN_ID"; env | grep HOOKDECK ✔ 
+💭 Thinking for 345 characters   
+💫 Executing hookdeck --version ✔ 
+💭 Thinking for 581 characters   
+💫 Executing curl -s -X POST https://api.hookdeck.com/2024-03-01/connections \
+-H "Authorization: Bearer $HOOKDECK_API_KEY" \
+-H "Content-Type: application/json" \
+-d '{
+  "name": "header-filter-conn-'$ZEALT_RUN_ID'",
+  "source": {
+    "name": "header-source-'$ZEALT_RUN_ID'"
+  },
+  "destination": {
+    "name": "mock-dest-'$ZEALT_RUN_ID'",
+    "url": "mock://mock-dest-'$ZEALT_RUN_ID'" 
+  },
+  "rules": [
+    {
+      "type": "filter",
+      "filter": {
+        "headers": {
+          "x-target-event": "process"
+        }
+      }
+    }
+  ]
+}' ✔ 
+💭 Thinking for 253 characters   
+💫 Executing hookdeck destination create --help ✖ "Command exited with code 1"
+💭 Thinking for 274 characters   
+💫 Executing hookdeck --help ✔ 
+💭 Thinking for 503 characters   
+💫 Executing curl -s -X POST https://api.hookdeck.com/2024-03-01/destinations \
+-H "Authorization: Bearer $HOOKDECK_API_KEY" \
+-H "Content-Type: application/json" \
+-d '{
+  "name": "mock-dest-'$ZEALT_RUN_ID'",
+  "url": "https://mock.hookdeck.com"
+}' ✔ 
+💭 Thinking for 617 characters   
+💫 Executing hookdeck connection list ✖ "Command execution timed out after 120 seconds."
+💫 Executing hookdeck ci --help ✔ 
+💫 Executing hookdeck ci --api-key $HOOKDECK_API_KEY ✔ 
+💭 Thinking for 322 characters   
+💫 Executing hookdeck gateway connection create --help ✔ 
+💭 Thinking for 308 characters   
+💫 Executing hookdeck gateway connection create \
+  --name "header-filter-conn-${ZEALT_RUN_ID}" \
+  --source-type WEBHOOK --source-name "header-source-${ZEALT_RUN_ID}" \
+  --destination-type MOCK --destination-name "mock-dest-${ZEALT_RUN_ID}" \
+  --rule-filter-headers '{"x-target-event": "process"}' \
+  --output json ✖ "Command exited with code 1"
+💫 Executing hookdeck gateway connection create \
+  --name "header-filter-conn-${ZEALT_RUN_ID}" \
+  --source-type WEBHOOK --source-name "header-source-${ZEALT_RUN_ID}" \
+  --destination-type MOCK_API --destination-name "mock-dest-${ZEALT_RUN_ID}" \
+  --rule-filter-headers '{"x-target-event": "process"}' \
+  --output json ✔ 
+💭 Thinking for 274 characters   
+💫 Executing mkdir -p /home/user/hookdeck-task && echo "Connection ID: web_T9joP1VM1jeM" > /home/user/hookdeck-task/output.log ✔ 
+💭 Thinking for 248 characters   
+💫 Executing cat /home/user/hookdeck-task/output.log ✔ 
+💭 Thinking for 292 characters   
+🎉 Task Completed
+I have successfully created the Hookdeck Connection and configured the required resources. 
+
+Here are the details of what was accomplished:
+- Authenticated with Hookdeck in the headless CI environment using `hookdeck ci --api-key $HOOKDECK_API_KEY`.
+- Created a new connection named `header-filter-conn-zr-98uzy2k`.
+- The connection was properly linked to a new source named `header-source-zr-98uzy2k` and a Mock API destination named `mock-dest-zr-98uzy2k`.
+- Added a filter rule to only allow events where the HTTP header `x-target-event` equals `process`.
+- Captured the resulting Connection ID (`web_T9joP1VM1jeM`) and outputted it to `/home/user/hookdeck-task/output.log` as requested.   
+  

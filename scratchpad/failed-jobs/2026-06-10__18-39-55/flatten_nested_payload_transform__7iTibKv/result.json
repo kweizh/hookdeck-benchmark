@@ -1,0 +1,117 @@
+{
+    "id": "5d788fc4-58c6-4857-984e-4ba8302f0443",
+    "task_name": "flatten_nested_payload_transformation_cli",
+    "trial_name": "flatten_nested_payload_transform__7iTibKv",
+    "trial_uri": "file:///home/kweizh/zealt/zealt-agent/jobs/2026-06-10__18-39-55/flatten_nested_payload_transform__7iTibKv",
+    "task_id": {
+        "path": "/home/kweizh/zealt/hookdeck-benchmark/scratchpad/pending-tasks/flatten_nested_payload_transformation_cli"
+    },
+    "source": "pending-tasks",
+    "task_checksum": "8267db9c7789ee741378366af3e3174e395d8670be39a2da49cacd8d3ba1c155",
+    "config": {
+        "task": {
+            "path": "/home/kweizh/zealt/hookdeck-benchmark/scratchpad/pending-tasks/flatten_nested_payload_transformation_cli",
+            "git_url": null,
+            "git_commit_id": null,
+            "name": null,
+            "ref": null,
+            "overwrite": false,
+            "download_dir": null,
+            "source": "pending-tasks"
+        },
+        "trial_name": "flatten_nested_payload_transform__7iTibKv",
+        "trials_dir": "jobs/2026-06-10__18-39-55",
+        "timeout_multiplier": 1.0,
+        "agent_timeout_multiplier": null,
+        "verifier_timeout_multiplier": null,
+        "agent_setup_timeout_multiplier": null,
+        "environment_build_timeout_multiplier": null,
+        "agent": {
+            "name": null,
+            "import_path": "agents.pochi:Pochi",
+            "model_name": "deepseek/deepseek-4-pro",
+            "skills": [],
+            "override_timeout_sec": null,
+            "override_setup_timeout_sec": null,
+            "max_timeout_sec": null,
+            "kwargs": {},
+            "env": {},
+            "mcp_servers": []
+        },
+        "environment": {
+            "type": "docker",
+            "import_path": null,
+            "force_build": false,
+            "delete": true,
+            "cpu_enforcement_policy": "auto",
+            "memory_enforcement_policy": "auto",
+            "override_cpus": null,
+            "override_memory_mb": null,
+            "override_storage_mb": null,
+            "override_gpus": null,
+            "suppress_override_warnings": false,
+            "mounts": [
+                {
+                    "type": "bind",
+                    "source": "test_initial_state.py",
+                    "target": "/bootstrap/test_initial_state.py"
+                }
+            ],
+            "extra_docker_compose": [],
+            "env": {},
+            "kwargs": {}
+        },
+        "verifier": {
+            "override_timeout_sec": null,
+            "max_timeout_sec": null,
+            "env": {},
+            "disable": false
+        },
+        "artifacts": [
+            "/home/user"
+        ],
+        "extra_instruction_paths": [],
+        "job_id": "4f5c8584-cd33-4fc0-844b-1672aec04151"
+    },
+    "agent_info": {
+        "name": "pochi",
+        "version": "0.6.14",
+        "model_info": {
+            "name": "deepseek-4-pro",
+            "provider": "deepseek"
+        }
+    },
+    "agent_result": {
+        "n_input_tokens": 0,
+        "n_cache_tokens": 0,
+        "n_output_tokens": 32095,
+        "cost_usd": null,
+        "rollout_details": null,
+        "metadata": null
+    },
+    "verifier_result": {
+        "rewards": {
+            "reward": 0.0
+        }
+    },
+    "exception_info": null,
+    "started_at": "2026-06-10T18:49:47.273613Z",
+    "finished_at": "2026-06-10T18:59:58.636123Z",
+    "environment_setup": {
+        "started_at": "2026-06-10T18:49:47.277779Z",
+        "finished_at": "2026-06-10T18:49:50.009745Z"
+    },
+    "agent_setup": {
+        "started_at": "2026-06-10T18:49:50.009782Z",
+        "finished_at": "2026-06-10T18:50:04.812871Z"
+    },
+    "agent_execution": {
+        "started_at": "2026-06-10T18:50:04.812972Z",
+        "finished_at": "2026-06-10T18:59:44.033839Z"
+    },
+    "verifier": {
+        "started_at": "2026-06-10T18:59:45.381855Z",
+        "finished_at": "2026-06-10T18:59:46.995366Z"
+    },
+    "step_results": null
+}

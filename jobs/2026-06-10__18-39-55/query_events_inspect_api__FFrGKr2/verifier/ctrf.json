@@ -1,0 +1,57 @@
+{
+    "reportFormat": "CTRF",
+    "specVersion": "0.0.0",
+    "timestamp": "2026-06-10T19:06:30.237427+00:00",
+    "generatedBy": "pytest",
+    "results": {
+        "tool": {
+            "name": "pytest",
+            "version": "7.4.4"
+        },
+        "summary": {
+            "tests": 3,
+            "passed": 2,
+            "failed": 1,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1781118389593,
+            "stop": 1781118390237
+        },
+        "environment": {
+            "buildName": "Pytest JSON CTRF Report",
+            "buildNumber": "000",
+            "buildUrl": "https://ctrf.io"
+        },
+        "tests": [
+            {
+                "name": "test_final_state.py::test_event_is_successful",
+                "status": "failed",
+                "duration": 30,
+                "start": 1781118389762,
+                "stop": 1781118389792,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "@pytest.fixture\n    def event_id():\n        assert os.path.isfile(LOG_FILE), f\"Log file {LOG_FILE} does not exist.\"\n        with open(LOG_FILE, \"r\") as f:\n            content = f.read()\n    \n        match = re.search(r\"Event ID:\\s*(\\S+)\", content)\n>       assert match is not None, f\"Could not find 'Event ID: <event_id>' in {LOG_FILE}.\"\nE       AssertionError: Could not find 'Event ID: <event_id>' in /home/user/hookdeck-task/output.log.\nE       assert None is not None\n\ntests/test_final_state.py:28: AssertionError"
+            },
+            {
+                "name": "test_final_state.py::test_source_exists",
+                "status": "passed",
+                "duration": 233,
+                "start": 1781118389793,
+                "stop": 1781118390026,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_destination_exists",
+                "status": "passed",
+                "duration": 210,
+                "start": 1781118390026,
+                "stop": 1781118390236,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            }
+        ]
+    }
+}

@@ -1,0 +1,82 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-7.4.4, pluggy-1.4.0
+rootdir: /tests
+plugins: json-ctrf-0.5.2
+collected 3 items
+
+tests/test_final_state.py .FF                                            [100%]
+
+=================================== FAILURES ===================================
+_____________________________ test_event_published _____________________________
+
+    def test_event_published():
+        """Verify that the event was successfully published and retrieved via API."""
+        run_id = get_run_id()
+        api_key = get_api_key()
+    
+        with open(LOG_FILE, "r") as f:
+            content = f.read()
+    
+        match = re.search(r"Event ID:\s*([a-zA-Z0-9_]+)", content)
+        assert match, f"Could not find 'Event ID: <event_id>' in {LOG_FILE}. Content: {content}"
+    
+        event_id = match.group(1)
+    
+        # Check event
+        response = requests.get(
+            f"https://api.hookdeck.com/2025-07-01/events/{event_id}",
+            headers={"Authorization": f"Bearer {api_key}"}
+        )
+        assert response.status_code == 200, f"Failed to retrieve event {event_id}. Status: {response.status_code}, Body: {response.text}"
+    
+        event_data = response.json()
+        source_id = event_data.get("source_id")
+        assert source_id, f"Event {event_id} does not have a source_id."
+    
+        # Check source name
+        source_response = requests.get(
+            f"https://api.hookdeck.com/2025-07-01/sources/{source_id}",
+            headers={"Authorization": f"Bearer {api_key}"}
+        )
+        assert source_response.status_code == 200, f"Failed to retrieve source {source_id}."
+        source_data = source_response.json()
+    
+        expected_source_name = f"mock-source-{run_id}"
+        actual_source_name = source_data.get("name")
+>       assert actual_source_name == expected_source_name, f"Expected source name {expected_source_name}, got {actual_source_name}"
+E       AssertionError: Expected source name mock-source-zr-vpkm7mw, got mock-source-run002
+E       assert 'mock-source-run002' == 'mock-source-zr-vpkm7mw'
+E         - mock-source-zr-vpkm7mw
+E         + mock-source-run002
+
+tests/test_final_state.py:56: AssertionError
+____________________________ test_connection_exists ____________________________
+
+    def test_connection_exists():
+        """Verify that the connection to the mock destination was created."""
+        run_id = get_run_id()
+        api_key = get_api_key()
+    
+        response = requests.get(
+            "https://api.hookdeck.com/2025-07-01/connections",
+            headers={"Authorization": f"Bearer {api_key}"}
+        )
+        assert response.status_code == 200, f"Failed to list connections. Status: {response.status_code}"
+    
+        # The Hookdeck API returns a paginated response with a "models" array
+        data = response.json()
+        connections = data.get("models", [])
+        connection_names = [conn.get("name") for conn in connections]
+    
+        expected_name = f"mock-conn-{run_id}"
+>       assert expected_name in connection_names, f"Expected connection {expected_name} in connections, got {connection_names}"
+E       AssertionError: Expected connection mock-conn-zr-vpkm7mw in connections, got ['mock-conn-run002', 'header-filter-conn-zr-d2xu5xj', 'mock-conn-test123', 'custom-methods-conn-zr-bbtrk2g', 'hmac-connection-zr-i6ewcau', 'stripe-to-mock-zr-cmd2czb', 'order-filter-zr-hntbqww', 'safe-transform-conn-zr-kktqwqh', 'mock-conn-zr-virenxb', 'test-source-zr-gccu54k-connection', 'conn-zr-lkmomjm', 'header-conn-zr-gcepdec', 'conn-2-zr-pypymgq', 'conn-1-zr-pypymgq', 'conn-zr-vv6mprj', 'legacy-to-mock-zr-vsibpjz', 'conn-2-zr-qqlupnq', 'conn-1-zr-qqlupnq', 'custom-retry-conn-zr-aqwqgzo', 'hmac-connection-zr-y6dbzds', 'cli-forward-conn-zr-scmbdzm', 'custom-methods-connection-zr-kfehpfj', 'header-filter-conn-zr-bwvs9ub', 'mock-conn-zr-ykwwbyc', 'order-filter-zr-9qoq6iz', 'stripe-to-mock-zr-d5rcksb', 'auth-conn-zr-jevaz6b', 'conn-to-dest-2-zr-8uvdzfr', 'conn-to-dest-1-zr-8uvdzfr', 'mock-conn-zr-edkjoev', 'safe-transform-conn-zr-tzgtau3', 'conn-zr-zgz6exw', 'test-source-zr-jz3lhpi-to-mock-dest-zr-jz3lhpi', 'conn-2-zr-yetprgo', 'conn-1-zr-yetprgo', 'custom-retry-conn-zr-aktjzpv', 'legacy-to-mock-zr-mbaje2f', 'header-conn-zr-8mkgmjf', 'conn-zr-pg49tcu', None, 'cli-forward-conn-zr-tp8hvh7', 'header-filter-conn-zr-ivntxnv', 'mock-conn-241f6e59', 'hmac-connection-zr-i2emwuw', 'mock-conn-test1', 'order-filter-zr-zasggek', 'stripe-to-mock-zr-fknwf7p', 'auth-conn-zr-3mkhk2x', 'mock-conn-zr-dfz9ejl', 'safe-transform-conn-zr-tzstikr', 'conn-zr-ca6tqio', 'legacy-to-mock-zr-wvpxrtd', 'conn-zr-aaewucg', 'conn-zr-i5txsfa', 'conn-2-zr-zieuhd3', 'conn-1-zr-zieuhd3', 'custom-retry-conn-zr-rkdv7od', 'fanout-conn-2-zr-zivuhyx', 'fanout-conn-1-zr-zivuhyx', 'cli-forward-conn-zr-nzaoubn', 'header-conn-zr-d9nizby', 'hmac-connection-zr-nydxzuv', 'header-filter-conn-zr-qnwhz2t', 'custom-methods-conn-zr-iq56c3r', 'mock-conn-41axgk2f', 'mock-conn-8pd1efs3', 'test-conn-publish', 'order-filter-zr-3syqvef', 'stripe-to-mock-zr-hgqgseq', 'test-conn-123', 'hmac-conn-zr-5ypehms', 'order-connection-zr-xv8wdjk', 'harbor-conn-zr-qibaenm', 'zealt-conn-zr-carbkj3', 'fanout-conn-low-zr-8uetvrt', 'fanout-conn-high-zr-8uetvrt', None]
+E       assert 'mock-conn-zr-vpkm7mw' in ['mock-conn-run002', 'header-filter-conn-zr-d2xu5xj', 'mock-conn-test123', 'custom-methods-conn-zr-bbtrk2g', 'hmac-connection-zr-i6ewcau', 'stripe-to-mock-zr-cmd2czb', ...]
+
+tests/test_final_state.py:75: AssertionError
+==================================== PASSES ====================================
+=========================== short test summary info ============================
+PASSED tests/test_final_state.py::test_log_file_exists
+FAILED tests/test_final_state.py::test_event_published - AssertionError: Expe...
+FAILED tests/test_final_state.py::test_connection_exists - AssertionError: Ex...
+========================= 2 failed, 1 passed in 0.85s ==========================

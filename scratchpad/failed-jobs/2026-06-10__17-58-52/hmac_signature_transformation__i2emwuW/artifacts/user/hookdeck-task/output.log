@@ -1,0 +1,24 @@
+Setting up Hookdeck resources for run: zr-i2emwuw
+Source name:      hmac-source-zr-i2emwuw
+Destination name: hmac-dest-zr-i2emwuw
+Connection name:  hmac-connection-zr-i2emwuw
+Transform name:   hmac-transform-zr-i2emwuw
+
+Creating source...
+Source created → ID: src_gl3q44mlj7d773  URL: https://hkdk.events/gl3q44mlj7d773
+
+Creating mock destination...
+Destination created → ID: des_ZijUc9oUXNd6  Name: hmac-dest-zr-i2emwuw
+
+Creating transformation...
+Transformation created → ID: trs_THnNZL7dfBQoyX  Name: hmac-transform-zr-i2emwuw
+
+Creating connection...
+Connection created → ID: web_xtSPwqZguhXO  Name: hmac-connection-zr-i2emwuw
+
+========== Setup Complete ==========
+Source ID: src_gl3q44mlj7d773
+Destination ID: des_ZijUc9oUXNd6
+Transformation ID: trs_THnNZL7dfBQoyX
+Connection ID: web_xtSPwqZguhXO
+====================================

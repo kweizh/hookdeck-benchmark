@@ -1,0 +1,126 @@
+- Initializing MCP connections...
+You
+# Configure Allowed HTTP Methods for a Source ## Background Hookdeck allows you to restrict the HTTP methods that a source accepts. This is useful for ensuring that only specific types of webhooks (e.g., only `PUT` or `PATCH` requests) are processed by your infrastructure. ## Requirements * Create a new Hookdeck connection linking a new source to a new Mock API destination. * The source name must be `custom-methods-source-${run-id}`. * The destination name must be `mock-dest-${run-id}` and its type must be `MOCK`. * Configure the source to ONLY accept `PUT` and `PATCH` HTTP methods. * Write the created Source ID to `/home/user/hookdeck-task/source_id.txt`. * Write the created Connection ID to `/home/user/hookdeck-task/connection_id.txt`. ## Implementation Hints * Read `run-id` from the `ZEALT_RUN_ID` environment variable. * Remember the evaluation environment is headless, so use `hookdeck ci --api-key $HOOKDECK_API_KEY` to authenticate if you use the CLI. * You may need to use the Hookdeck REST API (e.g., `https://api.hookdeck.com/2025-07-01/sources`) to configure `allowed_http_methods`, as the CLI might not expose this specific configuration directly. ## Acceptance Criteria * Project path: /home/user/hookdeck-task * Ensure the real connection and source creation actions are executed and the artifacts exist. * Log file: /home/user/hookdeck-task/source\_id.txt containing only the Source ID. * Log file: /home/user/hookdeck-task/connection\_id.txt containing only the Connection ID. * The source name must be `custom-methods-source-${run-id}` where `run-id` is read from `ZEALT_RUN_ID`. * The destination name must be `mock-dest-${run-id}`. * The source configuration must have `allowed_http_methods` set to exactly `["PUT", "PATCH"]`.   
+
+Pochi
+💭 Thinking for 594 characters   
+📋 Updating todo list (5 items) ✔ 
+💭 Thinking for 68 characters   
+💫 Executing echo $ZEALT_RUN_ID ✔ 
+💫 Executing echo $HOOKDECK_API_KEY ✔ 
+💫 Executing mkdir -p /home/user/hookdeck-task ✔ 
+💭 Thinking for 664 characters   
+📋 Updating todo list (5 items) ✔ 
+💭 Thinking for 102 characters   
+💫 Executing curl -s -X POST "https://api.hookdeck.com/2025-07-01/sources" \
+  -H "Authorization: Bearer $HOOKDECK_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "custom-methods-source-zr-kfehpfj",
+    "allowed_http_methods": ["PUT", "PATCH"]
+  }' ✔ 
+💫 Executing curl -s -X POST "https://api.hookdeck.com/2025-07-01/destinations" \
+  -H "Authorization: Bearer $HOOKDECK_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "mock-dest-zr-kfehpfj",
+    "type": "MOCK"
+  }' ✔ 
+💭 Thinking for 374 characters   
+💫 Executing curl -s -X PUT "https://api.hookdeck.com/2025-07-01/sources/src_5nchot329fncm3" \
+  -H "Authorization: Bearer $HOOKDECK_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "allowed_http_methods": ["PUT", "PATCH"]
+  }' ✔ 
+💫 Executing curl -s -X POST "https://api.hookdeck.com/2025-07-01/destinations" \
+  -H "Authorization: Bearer $HOOKDECK_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "mock-dest-zr-kfehpfj",
+    "type": "MOCK_API"
+  }' ✔ 
+💭 Thinking for 579 characters   
+💫 Executing curl -s -X PUT "https://api.hookdeck.com/2025-07-01/sources/src_5nchot329fncm3" \
+  -H "Authorization: Bearer $HOOKDECK_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "config": {
+      "allowed_http_methods": ["PUT", "PATCH"]
+    }
+  }' ✔ 
+💭 Thinking for 482 characters   
+💫 Executing curl -s -X PATCH "https://api.hookdeck.com/2025-07-01/sources/src_5nchot329fncm3" \
+  -H "Authorization: Bearer $HOOKDECK_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "allowed_http_methods": ["PUT", "PATCH"]
+  }' ✔ 
+💭 Thinking for 716 characters   
+💫 Executing curl -s -X POST "https://api.hookdeck.com/2025-07-01/sources" \
+  -H "Authorization: Bearer $HOOKDECK_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "custom-methods-source-zr-kfehpfj-v2",
+    "allowed_http_methods": ["PUT", "PATCH"]
+  }' | python3 -m json.tool ✔ 
+💭 Thinking for 294 characters   
+💫 Executing curl -s -X POST "https://api.hookdeck.com/2025-07-01/sources" \
+  -H "Authorization: Bearer $HOOKDECK_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "custom-methods-source-zr-kfehpfj-v3",
+    "config": {
+      "allowed_http_methods": ["PUT", "PATCH"]
+    }
+  }' | python3 -m json.tool ✔ 
+💭 Thinking for 739 characters   
+💫 Executing curl -s -X DELETE "https://api.hookdeck.com/2025-07-01/sources/src_5nchot329fncm3" -H "Authorization: Bearer $HOOKDECK_API_KEY" ✔ 
+💫 Executing curl -s -X DELETE "https://api.hookdeck.com/2025-07-01/sources/src_k9e75w4gso34a5" -H "Authorization: Bearer $HOOKDECK_API_KEY" ✔ 
+💭 Thinking for 122 characters   
+💫 Executing curl -s -X DELETE "https://api.hookdeck.com/2025-07-01/sources/src_yh1c528m4xxz9n" -H "Authorization: Bearer $HOOKDECK_API_KEY" ✔ 
+💭 Thinking for 78 characters   
+Now let me create the source with the correct name and configuration, and then create the connection:   
+💫 Executing curl -s -X POST "https://api.hookdeck.com/2025-07-01/sources" \
+  -H "Authorization: Bearer $HOOKDECK_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "custom-methods-source-zr-kfehpfj",
+    "config": {
+      "allowed_http_methods": ["PUT", "PATCH"]
+    }
+  }' | python3 -m json.tool ✔ 
+💭 Thinking for 280 characters   
+📋 Updating todo list (5 items) ✔ 
+💭 Thinking for 117 characters   
+💫 Executing curl -s -X POST "https://api.hookdeck.com/2025-07-01/connections" \
+  -H "Authorization: Bearer $HOOKDECK_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "custom-methods-connection-zr-kfehpfj",
+    "source_id": "src_81xmyndzy3fa9l",
+    "destination_id": "des_51nqwyUPIJfO"
+  }' | python3 -m json.tool ✔ 
+💭 Thinking for 156 characters   
+💫 Executing echo -n "src_81xmyndzy3fa9l" > /home/user/hookdeck-task/source_id.txt ✔ 
+💫 Executing echo -n "web_rLLTe4rRm3Vd" > /home/user/hookdeck-task/connection_id.txt ✔ 
+💫 Executing cat /home/user/hookdeck-task/source_id.txt && echo "" && cat /home/user/hookdeck-task/connection_id.txt ✔ 
+📋 Updating todo list (5 items) ✔ 
+🎉 Task Completed
+Successfully configured the Hookdeck resources:
+
+1. **Source** (`custom-methods-source-zr-kfehpfj`): Created with `allowed_http_methods` set to exactly `["PUT", "PATCH"]` by passing the configuration inside the `config` object in the API request.
+   - Source ID: `src_81xmyndzy3fa9l`
+
+2. **Destination** (`mock-dest-zr-kfehpfj`): Created as type `MOCK_API`.
+   - Destination ID: `des_51nqwyUPIJfO`
+
+3. **Connection**: Linked the source to the destination.
+   - Connection ID: `web_rLLTe4rRm3Vd`
+
+Artifacts written:
+- `/home/user/hookdeck-task/source_id.txt` → `src_81xmyndzy3fa9l`
+- `/home/user/hookdeck-task/connection_id.txt` → `web_rLLTe4rRm3Vd`
+
+Key finding: The `allowed_http_methods` field must be nested inside a `config` object when creating a source via the Hookdeck REST API (e.g., `{"name": "...", "config": {"allowed_http_methods": ["PUT", "PATCH"]}}`). Passing it at the top level is silently ignored and defaults to all methods.   
+  

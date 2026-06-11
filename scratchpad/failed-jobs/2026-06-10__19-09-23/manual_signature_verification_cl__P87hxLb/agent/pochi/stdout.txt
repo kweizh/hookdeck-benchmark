@@ -1,0 +1,125 @@
+- Initializing MCP connections...
+You
+# Setup Manual Signature Verification in Source Config ## Background Configure a Hookdeck Source to perform manual HMAC signature verification. This ensures that incoming webhooks are authentic and have not been tampered with. ## Requirements * Create a new Hookdeck Source named `secure-source-${run-id}`. * Configure the source to use HMAC signature verification. * The HMAC algorithm must be `SHA256`. * The encoding must be `base64`. * The signature must be expected in the `x-custom-signature` header. * The secret key must be `my_super_secret_key`. * Save the resulting Source ID to a log file. ## Implementation Hints * Read the `run-id` from the `ZEALT_RUN_ID` environment variable. * You can use the Hookdeck API (`POST https://api.hookdeck.com/2025-07-01/sources`) to create the source with the required `verification` configuration. * Write the Source ID to `/home/user/hookdeck-task/output.log`. ## Acceptance Criteria * Project path: /home/user/hookdeck-task * Ensure the real source creation action is executed and the log artifact exists. * Log file: /home/user/hookdeck-task/output.log * The source name must be `secure-source-${run-id}` where `run-id` is read from the `ZEALT_RUN_ID` environment variable. * The source must have HMAC signature verification configured with `SHA256`, `base64`, header `x-custom-signature`, and secret `my_super_secret_key`. * The log file must contain the Source ID in the format: `Source ID: <source_id>`.   
+
+Pochi
+💭 Thinking for 690 characters   
+💫 Executing echo $ZEALT_RUN_ID; echo $HOOKDECK_API_KEY ✔ 
+💭 Thinking for 232 characters   
+💫 Executing curl -X POST https://api.hookdeck.com/2025-07-01/sources \
+  -H "REDACTED" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "secure-source-zr-p87hxlb",
+    "custom_response": {
+      "content_type": "application/json",
+      "body": "{}"
+    },
+    "verification": {
+      "type": "hmac",
+      "configs": {
+        "header_key": "x-custom-signature",
+        "algorithm": "sha256",
+        "encoding": "base64",
+        "webhook_secret_key": "my_super_secret_key"
+      }
+    }
+  }' ✔ 
+💭 Thinking for 883 characters   
+💫 Executing curl -s -X POST https://api.hookdeck.com/2025-07-01/sources \
+  -H "REDACTED" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "secure-source-zr-p87hxlb-2",
+    "verification": {
+      "type": "hmac",
+      "configs": {
+        "header_key": "x-custom-signature",
+        "algorithm": "sha256",
+        "encoding": "base64",
+        "webhook_secret_key": "my_super_secret_key"
+      }
+    }
+  }' ✔ 
+💭 Thinking for 717 characters   
+💫 Executing curl -s https://api.hookdeck.com/2025-07-01/sources/src_eygsmzqckigb5w -H "REDACTED" ✔ 
+💭 Thinking for 252 characters   
+🛠️ Tool webSearch ✔ 
+💭 Thinking for 345 characters   
+💫 Executing curl -s -X POST https://api.hookdeck.com/2025-07-01/sources \
+  -H "REDACTED" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "secure-source-zr-p87hxlb-3",
+    "config": {
+      "auth_type": "HMAC",
+      "auth": {
+        "header_key": "x-custom-signature",
+        "algorithm": "SHA256",
+        "encoding": "BASE64",
+        "webhook_secret_key": "my_super_secret_key"
+      }
+    }
+  }' ✔ 
+💭 Thinking for 204 characters   
+💫 Executing curl -s -X POST https://api.hookdeck.com/2025-07-01/sources \
+  -H "REDACTED" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "secure-source-zr-p87hxlb",
+    "config": {
+      "auth_type": "HMAC",
+      "auth": {
+        "header_key": "x-custom-signature",
+        "algorithm": "sha256",
+        "encoding": "base64",
+        "webhook_secret_key": "my_super_secret_key"
+      }
+    }
+  }' ✔ 
+💭 Thinking for 293 characters   
+💫 Executing curl -s -X PUT https://api.hookdeck.com/2025-07-01/sources/src_mzp9oxq2h8jbis \
+  -H "REDACTED" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "secure-source-zr-p87hxlb",
+    "config": {
+      "auth_type": "HMAC",
+      "auth": {
+        "header_key": "x-custom-signature",
+        "algorithm": "sha256",
+        "encoding": "base64",
+        "webhook_secret_key": "my_super_secret_key"
+      }
+    }
+  }' ✔ 
+💭 Thinking for 299 characters   
+💫 Executing curl -s -X DELETE https://api.hookdeck.com/2025-07-01/sources/src_mzp9oxq2h8jbis \
+  -H "REDACTED" ✔ 
+💫 Executing curl -s -X POST https://api.hookdeck.com/2025-07-01/sources \
+  -H "REDACTED" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "secure-source-zr-p87hxlb",
+    "config": {
+      "auth_type": "HMAC",
+      "auth": {
+        "header_key": "x-custom-signature",
+        "algorithm": "sha256",
+        "encoding": "base64",
+        "webhook_secret_key": "my_super_secret_key"
+      }
+    }
+  }' ✔ 
+💭 Thinking for 186 characters   
+💫 Executing mkdir -p /home/user/hookdeck-task && echo "Source ID: src_pjtx09bozg4fov" > /home/user/hookdeck-task/output.log ✔ 
+💭 Thinking for 232 characters   
+💫 Executing cat /home/user/hookdeck-task/output.log ✔ 
+💭 Thinking for 613 characters   
+🎉 Task Completed
+I have successfully created the Hookdeck Source with the required HMAC signature verification. 
+
+- The source is named `secure-source-zr-p87hxlb` (using the `ZEALT_RUN_ID` environment variable).
+- It is configured with HMAC signature verification using the `sha256` algorithm, `base64` encoding, `x-custom-signature` header, and the secret key `my_super_secret_key`.
+- The returned Source ID has been saved to `/home/user/hookdeck-task/output.log` in the format `Source ID: <source_id>`.   
+  

@@ -1,0 +1,8 @@
+✔ Connection created successfully
+
+Connection:  stripe-to-mock-zr-hgqgseq (web_z5T4TI2JlgWy)
+Source:      stripe-zr-hgqgseq (src_pxrcalk9yuwbmq)
+Source Type: STRIPE
+Source URL:  https://hkdk.events/pxrcalk9yuwbmq
+Destination: mock-dest-zr-hgqgseq (des_3wZVxQXWivt6)
+Destination Type: MOCK_API

@@ -1,0 +1,57 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-7.4.4, pluggy-1.4.0
+rootdir: /tests
+plugins: json-ctrf-0.5.2
+collected 1 item
+
+tests/test_final_state.py F                                              [100%]
+
+=================================== FAILURES ===================================
+____________________ test_connection_exists_and_configured _____________________
+
+    def test_connection_exists_and_configured():
+        run_id, api_key = get_env_vars()
+        headers = {"Authorization": f"Bearer {api_key}"}
+    
+        # Check Connection
+        conn_name = f"header-conn-{run_id}"
+        url = f"https://api.hookdeck.com/2025-07-01/connections?name={conn_name}"
+        resp = requests.get(url, headers=headers)
+        assert resp.status_code == 200, f"Failed to fetch connections: {resp.text}"
+    
+        data = resp.json()
+        assert data.get("count", 0) > 0, f"Connection '{conn_name}' not found."
+    
+        models = data.get("models", [])
+        conn = models[0]
+    
+        # Verify Source and Destination
+        source = conn.get("source", {})
+        destination = conn.get("destination", {})
+    
+        assert source.get("name") == f"source-{run_id}", f"Expected source name 'source-{run_id}', got {source.get('name')}"
+        assert destination.get("name") == f"mock-dest-{run_id}", f"Expected destination name 'mock-dest-{run_id}', got {destination.get('name')}"
+    
+        # Verify Destination Type via Destination object
+        # In Hookdeck API, the destination type might be in the destination object or we can fetch it separately
+        dest_url = f"https://api.hookdeck.com/2025-07-01/destinations?name=mock-dest-{run_id}"
+        dest_resp = requests.get(dest_url, headers=headers)
+        assert dest_resp.status_code == 200, f"Failed to fetch destinations: {dest_resp.text}"
+        dest_data = dest_resp.json()
+        assert dest_data.get("count", 0) > 0, f"Destination 'mock-dest-{run_id}' not found."
+        dest_model = dest_data.get("models", [])[0]
+    
+        # Check destination type (could be "MOCK" or similar depending on Hookdeck API, mock-api etc)
+        # The requirement says type MOCK
+        # We will check if it's CLI or MOCK but we specifically requested MOCK
+        # The actual API might return 'cli' or 'mock'
+>       assert dest_model.get("type", "").upper() == "MOCK", f"Expected destination type MOCK, got {dest_model.get('type')}"
+E       AssertionError: Expected destination type MOCK, got MOCK_API
+E       assert 'MOCK_API' == 'MOCK'
+E         - MOCK
+E         + MOCK_API
+
+tests/test_final_state.py:48: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_final_state.py::test_connection_exists_and_configured - Ass...
+============================== 1 failed in 12.22s ==============================

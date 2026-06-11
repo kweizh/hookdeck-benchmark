@@ -1,0 +1,7 @@
+{
+  "id": "trs_tQdpmM7v3sASoy",
+  "name": "flatten-zr-uvdf9lt",
+  "code": "addHandler(\"transform\", (request, context) =\u003e {\n  if (request.body \u0026\u0026 request.body.data \u0026\u0026 request.body.data.object !== undefined) {\n    request.body = request.body.data.object;\n  }\n  return request;\n});\n",
+  "updated_at": "2026-06-10T19:18:04.061Z",
+  "created_at": "2026-06-10T19:18:04.06Z"
+}

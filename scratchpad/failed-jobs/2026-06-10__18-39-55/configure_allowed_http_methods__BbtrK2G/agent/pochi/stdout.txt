@@ -1,0 +1,79 @@
+- Initializing MCP connections...
+You
+# Configure Allowed HTTP Methods for a Source ## Background Hookdeck allows you to restrict the HTTP methods that a source accepts. This is useful for ensuring that only specific types of webhooks (e.g., only `PUT` or `PATCH` requests) are processed by your infrastructure. ## Requirements * Create a new Hookdeck connection linking a new source to a new Mock API destination. * The source name must be `custom-methods-source-${run-id}`. * The destination name must be `mock-dest-${run-id}` and its type must be `MOCK`. * Configure the source to ONLY accept `PUT` and `PATCH` HTTP methods. * Write the created Source ID to `/home/user/hookdeck-task/source_id.txt`. * Write the created Connection ID to `/home/user/hookdeck-task/connection_id.txt`. ## Implementation Hints * Read `run-id` from the `ZEALT_RUN_ID` environment variable. * Remember the evaluation environment is headless, so use `hookdeck ci --api-key $HOOKDECK_API_KEY` to authenticate if you use the CLI. * You may need to use the Hookdeck REST API (e.g., `https://api.hookdeck.com/2025-07-01/sources`) to configure `allowed_http_methods`, as the CLI might not expose this specific configuration directly. ## Acceptance Criteria * Project path: /home/user/hookdeck-task * Ensure the real connection and source creation actions are executed and the artifacts exist. * Log file: /home/user/hookdeck-task/source\_id.txt containing only the Source ID. * Log file: /home/user/hookdeck-task/connection\_id.txt containing only the Connection ID. * The source name must be `custom-methods-source-${run-id}` where `run-id` is read from `ZEALT_RUN_ID`. * The destination name must be `mock-dest-${run-id}`. * The source configuration must have `allowed_http_methods` set to exactly `["PUT", "PATCH"]`.   
+
+Pochi
+I'll start by understanding the task and setting up the environment.   
+📋 Updating todo list (6 items) ✔ 
+💫 Executing echo "ZEALT_RUN_ID=$ZEALT_RUN_ID" && echo "HOOKDECK_API_KEY=${HOOKDECK_API_KEY:0:10}..." ✔ 
+💫 Executing mkdir -p /home/user/hookdeck-task ✔ 
+Got the run ID: `zr-bbtrk2g`. Now let me create the destination and source. Let me check what the Hookdeck CLI supports first.   
+📋 Updating todo list (6 items) ✔ 
+💫 Executing hookdeck ci --api-key "$HOOKDECK_API_KEY" destination:create --help 2>&1 | head -40 ✔ 
+💫 Executing hookdeck ci --api-key "$HOOKDECK_API_KEY" source:create --help 2>&1 | head -40 ✔ 
+The CLI's subcommands aren't showing. Let me check available commands:   
+💫 Executing hookdeck --help 2>&1 | head -60 ✔ 
+💫 Executing hookdeck gateway --help 2>&1 | head -40 ✔ 
+💫 Executing hookdeck connection --help 2>&1 | head -40 ✔ 
+💫 Executing hookdeck gateway source create --help 2>&1 ✔ 
+💫 Executing hookdeck gateway destination create --help 2>&1 ✔ 
+The CLI supports `--allowed-http-methods` on the source create command. Let me now create both the destination and source. First, let me check the connection create command too:   
+💫 Executing hookdeck gateway connection create --help 2>&1 ✔ 
+The `connection create` command supports everything inline. I can use a single command to create the source, destination, and connection all at once with `--source-allowed-http-methods`. Let me do that:   
+💫 Executing hookdeck gateway connection create \
+  --name "custom-methods-conn-zr-bbtrk2g" \
+  --source-type WEBHOOK \
+  --source-name "custom-methods-source-zr-bbtrk2g" \
+  --source-allowed-http-methods "PUT,PATCH" \
+  --destination-type MOCK \
+  --destination-name "mock-dest-zr-bbtrk2g" \
+  --output json 2>&1 ✖ "Command execution timed out after 30 seconds."
+The CLI needs authentication. Let me use the `ci` method as the task hints suggest:   
+💫 Executing hookdeck ci --api-key "$HOOKDECK_API_KEY" 2>&1 ✔ 
+Now let me create the connection with inline source and destination:   
+💫 Executing hookdeck gateway connection create \
+  --name "custom-methods-conn-zr-bbtrk2g" \
+  --source-type WEBHOOK \
+  --source-name "custom-methods-source-zr-bbtrk2g" \
+  --source-allowed-http-methods "PUT,PATCH" \
+  --destination-type MOCK \
+  --destination-name "mock-dest-zr-bbtrk2g" \
+  --output json 2>&1 ✖ "Command exited with code 1"
+The type should be `MOCK_API`, not `MOCK`. Let me fix that:   
+💫 Executing hookdeck gateway connection create \
+  --name "custom-methods-conn-zr-bbtrk2g" \
+  --source-type WEBHOOK \
+  --source-name "custom-methods-source-zr-bbtrk2g" \
+  --source-allowed-http-methods "PUT,PATCH" \
+  --destination-type MOCK_API \
+  --destination-name "mock-dest-zr-bbtrk2g" \
+  --output json 2>&1 ✔ 
+All three resources were created successfully. Let me extract the IDs and write them to the required files: - **Source ID**: `src_2ovctwl9w1vrfe` - **Connection ID**: `web_IMrwK2HC2E5r` - **Destination ID**: `des_viH6080UEHRk` The source config confirms `allowed_http_methods` is set to `["PUT", "PATCH"]`.   
+📋 Updating todo list (6 items) ✔ 
+✏️  Writing /home/user/hookdeck-task/source_id.txt ✔ 
+✏️  Writing /home/user/hookdeck-task/connection_id.txt ✔ 
+📋 Updating todo list (6 items) ✔ 
+Let me verify the files are correct:   
+💫 Executing cat /home/user/hookdeck-task/source_id.txt && echo "" && cat /home/user/hookdeck-task/connection_id.txt ✔ 
+🎉 Task Completed
+All Hookdeck resources have been created and configured successfully. Here's a summary:
+
+**Resources Created:**
+
+| Resource | Name | ID |
+|----------|------|----|
+| Source | `custom-methods-source-zr-bbtrk2g` | `src_2ovctwl9w1vrfe` |
+| Destination | `mock-dest-zr-bbtrk2g` | `des_viH6080UEHRk` |
+| Connection | `custom-methods-conn-zr-bbtrk2g` | `web_IMrwK2HC2E5r` |
+
+**Source Configuration:**
+- Type: `WEBHOOK`
+- `allowed_http_methods`: `["PUT", "PATCH"]` — only PUT and PATCH requests are accepted
+- URL: `https://hkdk.events/2ovctwl9w1vrfe`
+
+**Artifacts:**
+- `/home/user/hookdeck-task/source_id.txt` — contains `src_2ovctwl9w1vrfe`
+- `/home/user/hookdeck-task/connection_id.txt` — contains `web_IMrwK2HC2E5r`
+
+The source is linked to the Mock API destination via the connection, and only PUT and PATCH HTTP methods are allowed on the source.   
+  

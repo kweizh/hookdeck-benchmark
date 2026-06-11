@@ -1,0 +1,1565 @@
+Skipping image OS validation for hb__filter_payload_property_cli: docker inspect returned 1
+Skipping image OS validation for hb__hmac_signature_transformation: docker inspect returned 1
+Skipping image OS validation for hb__trigger_mock_event: docker inspect returned 1
+Skipping image OS validation for hb__forward_stripe_to_mock_cli: docker inspect returned 1
+Skipping image OS validation for hb__manual_signature_verification_cli: docker inspect returned 1
+Running command: apt-get update && apt-get install -y curl ripgrep
+Running command: apt-get update && apt-get install -y curl ripgrep
+Running command: apt-get update && apt-get install -y curl ripgrep
+Running command: apt-get update && apt-get install -y curl ripgrep
+Running command: apt-get update && apt-get install -y curl ripgrep
+Command outputs captured
+Running command: set -euo pipefail; curl -fsSL https://getpochi.com/install.sh | bash -x -s -- pochi-v0.6.14 && mkdir -p /logs/agent/pochi && ~/.pochi/bin/pochi --version
+Command outputs captured
+Running command: set -euo pipefail; curl -fsSL https://getpochi.com/install.sh | bash -x -s -- pochi-v0.6.14 && mkdir -p /logs/agent/pochi && ~/.pochi/bin/pochi --version
+Command outputs captured
+Running command: set -euo pipefail; curl -fsSL https://getpochi.com/install.sh | bash -x -s -- pochi-v0.6.14 && mkdir -p /logs/agent/pochi && ~/.pochi/bin/pochi --version
+Command outputs captured
+Running command: set -euo pipefail; curl -fsSL https://getpochi.com/install.sh | bash -x -s -- pochi-v0.6.14 && mkdir -p /logs/agent/pochi && ~/.pochi/bin/pochi --version
+Command outputs captured
+Running command: set -euo pipefail; curl -fsSL https://getpochi.com/install.sh | bash -x -s -- pochi-v0.6.14 && mkdir -p /logs/agent/pochi && ~/.pochi/bin/pochi --version
+Command outputs captured
+Running command: ln -sf ~/.pochi/bin/pochi /usr/local/bin/pochi
+Command outputs captured
+Running command: ln -sf ~/.pochi/bin/pochi /usr/local/bin/pochi
+Command outputs captured
+Command outputs captured
+Command outputs captured
+Running command: ln -sf ~/.pochi/bin/pochi /usr/local/bin/pochi
+Command outputs captured
+Command outputs captured
+Running command: ln -sf ~/.pochi/bin/pochi /usr/local/bin/pochi
+Command outputs captured
+Running command: echo zr-i6ewcau > /logs/artifacts/run-id && echo hmac_signature_transformation__i6EwcaU > /logs/artifacts/trial_id
+Running command: echo zr-hntbqww > /logs/artifacts/run-id && echo filter_payload_property_cli__hntBQWW > /logs/artifacts/trial_id
+Command outputs captured
+Running command: ln -sf ~/.pochi/bin/pochi /usr/local/bin/pochi
+Command outputs captured
+Running command: mkdir -p ~/.pochi && cat << 'EOF' | sed -e "s/OPENAI_API_KEY/${OPENAI_API_KEY}/g" -e "s/DEEPINFRA_API_KEY/${DEEPINFRA_API_KEY}/g" > ~/.pochi/config.jsonc
+{
+  "providers": {
+    "deepinfra": {
+      "kind": "openai",
+      "baseURL": "https://api.deepinfra.com/v1/openai",
+      "apiKey": "DEEPINFRA_API_KEY",
+      "models": {
+        "zai-org/GLM-4.7-Flash": {
+          "name": "glm-4.7-flash"
+        },
+        "moonshotai/Kimi-K2.6": {
+          "name": "kimi-K2.6"
+        },
+        "deepseek-ai/DeepSeek-V4-Pro": {
+          "name": "DeepSeek-V4-Pro"
+        }
+      }
+    },
+    "openai": {
+      "kind": "openai",
+      "baseURL": "https://api.openai.com/v1",
+      "apiKey": "OPENAI_API_KEY",
+      "models": {
+        "gpt-5.4": {
+          "name": "gpt-5.4"
+        }
+      }
+    }
+  }
+}
+EOF
+Command outputs captured
+Command outputs captured
+Running command: mkdir -p ~/.pochi && cat << 'EOF' | sed -e "s/OPENAI_API_KEY/${OPENAI_API_KEY}/g" -e "s/DEEPINFRA_API_KEY/${DEEPINFRA_API_KEY}/g" > ~/.pochi/config.jsonc
+{
+  "providers": {
+    "deepinfra": {
+      "kind": "openai",
+      "baseURL": "https://api.deepinfra.com/v1/openai",
+      "apiKey": "DEEPINFRA_API_KEY",
+      "models": {
+        "zai-org/GLM-4.7-Flash": {
+          "name": "glm-4.7-flash"
+        },
+        "moonshotai/Kimi-K2.6": {
+          "name": "kimi-K2.6"
+        },
+        "deepseek-ai/DeepSeek-V4-Pro": {
+          "name": "DeepSeek-V4-Pro"
+        }
+      }
+    },
+    "openai": {
+      "kind": "openai",
+      "baseURL": "https://api.openai.com/v1",
+      "apiKey": "OPENAI_API_KEY",
+      "models": {
+        "gpt-5.4": {
+          "name": "gpt-5.4"
+        }
+      }
+    }
+  }
+}
+EOF
+Command outputs captured
+Running command: if [ -f /bootstrap/test_initial_state.py ]; then pytest -s --log-cli-level=DEBUG /bootstrap/test_initial_state.py > >(tee /logs/agent/pochi/initial-test-stdout.txt) 2> >(tee /logs/agent/pochi/initial-test-stderr.txt >&2); fi
+Command outputs captured
+Running command: if [ -f /bootstrap/test_initial_state.py ]; then pytest -s --log-cli-level=DEBUG /bootstrap/test_initial_state.py > >(tee /logs/agent/pochi/initial-test-stdout.txt) 2> >(tee /logs/agent/pochi/initial-test-stderr.txt >&2); fi
+Running command: echo zr-vpkm7mw > /logs/artifacts/run-id && echo trigger_mock_event__vPKM7MW > /logs/artifacts/trial_id
+Command outputs captured
+Running command: mkdir -p ~/.pochi && cat << 'EOF' | sed -e "s/OPENAI_API_KEY/${OPENAI_API_KEY}/g" -e "s/DEEPINFRA_API_KEY/${DEEPINFRA_API_KEY}/g" > ~/.pochi/config.jsonc
+{
+  "providers": {
+    "deepinfra": {
+      "kind": "openai",
+      "baseURL": "https://api.deepinfra.com/v1/openai",
+      "apiKey": "DEEPINFRA_API_KEY",
+      "models": {
+        "zai-org/GLM-4.7-Flash": {
+          "name": "glm-4.7-flash"
+        },
+        "moonshotai/Kimi-K2.6": {
+          "name": "kimi-K2.6"
+        },
+        "deepseek-ai/DeepSeek-V4-Pro": {
+          "name": "DeepSeek-V4-Pro"
+        }
+      }
+    },
+    "openai": {
+      "kind": "openai",
+      "baseURL": "https://api.openai.com/v1",
+      "apiKey": "OPENAI_API_KEY",
+      "models": {
+        "gpt-5.4": {
+          "name": "gpt-5.4"
+        }
+      }
+    }
+  }
+}
+EOF
+Command outputs captured
+Running command: if [ -f /bootstrap/test_initial_state.py ]; then pytest -s --log-cli-level=DEBUG /bootstrap/test_initial_state.py > >(tee /logs/agent/pochi/initial-test-stdout.txt) 2> >(tee /logs/agent/pochi/initial-test-stderr.txt >&2); fi
+Command outputs captured
+Running command: pochi --model deepseek/deepseek-4-pro --max-steps 200 --max-retries 10 --blobs-dir /logs/agent/pochi/blobs --experimental-stream-trajectory /logs/agent/pochi/trajectory.jsonl > >(tee /logs/agent/pochi/stdout.txt) 2> >(tee /logs/agent/pochi/stderr.txt >&2) <<'EOF'
+# Hookdeck HMAC Signature Transformation
+
+## Background
+Hookdeck allows you to write JavaScript transformations to modify event payloads and headers before they are delivered to a destination. In this task, you will create a connection that computes an HMAC signature of the payload and adds it as a header.
+
+## Requirements
+- Create a Hookdeck connection named `hmac-connection-${run-id}`.
+- The connection must link a new source named `hmac-source-${run-id}` to a new MOCK destination named `hmac-dest-${run-id}`.
+- Attach a transformation to this connection. The transformation must:
+  1. Read a secret key from the environment variable `HMAC_SECRET`.
+  2. Compute the HMAC SHA-256 signature of the stringified request body.
+  3. Add the computed signature to the `x-hmac-signature` header of the request.
+- You must write and execute a script (e.g., `setup.sh` or `setup.js`) to provision these resources on Hookdeck.
+- You are operating in a headless environment.
+
+## Implementation Hints
+- Use `hookdeck ci --api-key $HOOKDECK_API_KEY` to authenticate the CLI in a headless environment, or use the Hookdeck REST API directly.
+- Hookdeck transformations run in a V8 isolate and have access to built-in crypto modules. You can use standard Node.js `crypto` functions like `crypto.createHmac('sha256', env.HMAC_SECRET).update(JSON.stringify(request.body)).digest('hex')`.
+- Ensure you read the `run-id` from the `ZEALT_RUN_ID` environment variable to name your resources correctly and avoid conflicts.
+- Remember to configure the transformation environment variable `HMAC_SECRET` on Hookdeck so the transformation script can access it.
+
+## Acceptance Criteria
+- Project path: /home/user/hookdeck-task
+- Ensure the setup script is executed and the Hookdeck resources are created.
+- Log file: /home/user/hookdeck-task/output.log
+- In the log file, output the created Source ID in the format: `Source ID: <source_id>`.
+- In the log file, output the created Connection ID in the format: `Connection ID: <connection_id>`.
+- The connection must be correctly configured to route events from `hmac-source-${run-id}` to `hmac-dest-${run-id}` (a Mock API destination).
+- The transformation must correctly compute the HMAC SHA-256 signature and attach it as the `x-hmac-signature` header on the outgoing request.
+
+
+EOF
+Command outputs captured
+Running command: pochi --model deepseek/deepseek-4-pro --max-steps 200 --max-retries 10 --blobs-dir /logs/agent/pochi/blobs --experimental-stream-trajectory /logs/agent/pochi/trajectory.jsonl > >(tee /logs/agent/pochi/stdout.txt) 2> >(tee /logs/agent/pochi/stderr.txt >&2) <<'EOF'
+# Filter Webhooks by Payload Property
+
+## Background
+You need to route webhooks using Hookdeck, but only forward events that match a specific payload property.
+
+## Requirements
+- Authenticate the Hookdeck CLI in a headless environment.
+- Create a new Hookdeck connection that links a webhook source to a mock destination.
+- Apply a filter rule to the connection so that only events where `body.type` is `order.created` are allowed through.
+- The connection, source, and destination names must be suffixed with the current `run-id`.
+- Output the resulting Connection ID to a log file.
+
+## Implementation Hints
+- Use `hookdeck ci --api-key $HOOKDECK_API_KEY` to authenticate.
+- Use the `hookdeck gateway connection create` command to set up the connection, source, destination, and rules in one step.
+- Read the `run-id` from the `ZEALT_RUN_ID` environment variable.
+
+## Acceptance Criteria
+- Project path: /home/user/hookdeck-task
+- Ensure the real connection creation action is executed and the log artifact exists.
+- Log file: /home/user/hookdeck-task/output.log
+- The log file must contain the created Connection ID in the format: `Connection ID: <connection_id>`.
+- The connection must have the following configuration:
+  - Connection Name: `order-filter-${run-id}`
+  - Source Name: `stripe-source-${run-id}`
+  - Source Type: `WEBHOOK`
+  - Destination Name: `mock-dest-${run-id}`
+  - Destination Type: `MOCK`
+  - Rules: Must include a filter rule that requires `body.type` to be `order.created`.
+
+
+EOF
+Running command: echo zr-cmd2czb > /logs/artifacts/run-id && echo forward_stripe_to_mock_cli__cMD2Czb > /logs/artifacts/trial_id
+Command outputs captured
+Running command: pochi --model deepseek/deepseek-4-pro --max-steps 200 --max-retries 10 --blobs-dir /logs/agent/pochi/blobs --experimental-stream-trajectory /logs/agent/pochi/trajectory.jsonl > >(tee /logs/agent/pochi/stdout.txt) 2> >(tee /logs/agent/pochi/stderr.txt >&2) <<'EOF'
+# Trigger Mock Event via Publish API
+
+## Background
+Hookdeck provides a Publish API to directly send events to a source, which is useful for testing without a real third-party provider. In this task, you will create a connection to a Mock destination and use the Publish API to trigger an event.
+
+## Requirements
+- Write a bash script `run.sh` that uses the Hookdeck CLI and/or API to accomplish the following.
+- Create a Hookdeck connection named `mock-conn-${run-id}` from a source named `mock-source-${run-id}` to a destination named `mock-dest-${run-id}`. The destination MUST be a Mock API destination.
+- Trigger an event to the source `mock-source-${run-id}` using the Hookdeck Publish API.
+- Retrieve the ID of the triggered event and append it to a log file.
+
+## Implementation Hints
+- Use `hookdeck ci --api-key $HOOKDECK_API_KEY` to authenticate in the headless environment.
+- Use the Hookdeck CLI or REST API to create the connection with a MOCK destination.
+- Use the Publish API (`https://hkdk.events/v1/publish`) to trigger the event.
+- Use the Inspect API (`https://api.hookdeck.com/2025-07-01/events`) to find the triggered event ID.
+
+## Acceptance Criteria
+- Project path: /home/user/hookdeck-task
+- Ensure the script `run.sh` is executed and the required actions are performed.
+- Log file: /home/user/hookdeck-task/output.log
+- A connection named `mock-conn-${run-id}` linking source `mock-source-${run-id}` to destination `mock-dest-${run-id}` must be created in the Hookdeck workspace.
+- The destination `mock-dest-${run-id}` must be of type MOCK.
+- At least one event must be successfully published to `mock-source-${run-id}`.
+- The log file must contain the triggered event ID in the exact format: `Event ID: <event_id>`.
+
+
+EOF
+Command outputs captured
+Running command: mkdir -p ~/.pochi && cat << 'EOF' | sed -e "s/OPENAI_API_KEY/${OPENAI_API_KEY}/g" -e "s/DEEPINFRA_API_KEY/${DEEPINFRA_API_KEY}/g" > ~/.pochi/config.jsonc
+{
+  "providers": {
+    "deepinfra": {
+      "kind": "openai",
+      "baseURL": "https://api.deepinfra.com/v1/openai",
+      "apiKey": "DEEPINFRA_API_KEY",
+      "models": {
+        "zai-org/GLM-4.7-Flash": {
+          "name": "glm-4.7-flash"
+        },
+        "moonshotai/Kimi-K2.6": {
+          "name": "kimi-K2.6"
+        },
+        "deepseek-ai/DeepSeek-V4-Pro": {
+          "name": "DeepSeek-V4-Pro"
+        }
+      }
+    },
+    "openai": {
+      "kind": "openai",
+      "baseURL": "https://api.openai.com/v1",
+      "apiKey": "OPENAI_API_KEY",
+      "models": {
+        "gpt-5.4": {
+          "name": "gpt-5.4"
+        }
+      }
+    }
+  }
+}
+EOF
+Command outputs captured
+Running command: if [ -f /bootstrap/test_initial_state.py ]; then pytest -s --log-cli-level=DEBUG /bootstrap/test_initial_state.py > >(tee /logs/agent/pochi/initial-test-stdout.txt) 2> >(tee /logs/agent/pochi/initial-test-stderr.txt >&2); fi
+Running command: echo zr-vohywfj > /logs/artifacts/run-id && echo manual_signature_verification_cl__voHywfj > /logs/artifacts/trial_id
+Command outputs captured
+Running command: pochi --model deepseek/deepseek-4-pro --max-steps 200 --max-retries 10 --blobs-dir /logs/agent/pochi/blobs --experimental-stream-trajectory /logs/agent/pochi/trajectory.jsonl > >(tee /logs/agent/pochi/stdout.txt) 2> >(tee /logs/agent/pochi/stderr.txt >&2) <<'EOF'
+# Forward Stripe Webhooks to Mock Destination
+
+## Background
+Hookdeck acts as an Event Gateway to receive, process, and deliver webhooks. In this task, you will configure a Connection to receive webhooks from Stripe and forward them to a Mock API destination using the Hookdeck CLI.
+
+## Requirements
+- Create a bash script `setup.sh` that authenticates with Hookdeck in a headless environment.
+- The script must create a new Hookdeck Connection with a Source named `stripe-${run-id}` (type `STRIPE`) and a Destination named `mock-dest-${run-id}` (type `MOCK`).
+- The connection itself must be named `stripe-to-mock-${run-id}`.
+- Save the resulting connection creation output to a log file.
+
+## Implementation Hints
+- The evaluation environment is headless. Use `hookdeck ci --api-key $HOOKDECK_API_KEY` to authenticate.
+- Use the `ZEALT_RUN_ID` environment variable to append the `run-id` to your resource names to avoid collisions.
+- Use the `hookdeck gateway connection create` command to create the connection with a Mock destination.
+- Write the output of the creation command to the required log file.
+
+## Acceptance Criteria
+- Project path: /home/user/hookdeck-task
+- Ensure the real connection creation action is executed and the log artifact exists.
+- Log file: /home/user/hookdeck-task/output.log
+- Required Test Criteria:
+  1. A Connection named `stripe-to-mock-${run-id}` must exist in Hookdeck.
+  2. The Connection's Source must be named `stripe-${run-id}` and have the type `STRIPE`.
+  3. The Connection's Destination must be named `mock-dest-${run-id}` and have the type `MOCK`.
+  4. The `/home/user/hookdeck-task/output.log` file must exist.
+
+
+EOF
+Command outputs captured
+Running command: mkdir -p ~/.pochi && cat << 'EOF' | sed -e "s/OPENAI_API_KEY/${OPENAI_API_KEY}/g" -e "s/DEEPINFRA_API_KEY/${DEEPINFRA_API_KEY}/g" > ~/.pochi/config.jsonc
+{
+  "providers": {
+    "deepinfra": {
+      "kind": "openai",
+      "baseURL": "https://api.deepinfra.com/v1/openai",
+      "apiKey": "DEEPINFRA_API_KEY",
+      "models": {
+        "zai-org/GLM-4.7-Flash": {
+          "name": "glm-4.7-flash"
+        },
+        "moonshotai/Kimi-K2.6": {
+          "name": "kimi-K2.6"
+        },
+        "deepseek-ai/DeepSeek-V4-Pro": {
+          "name": "DeepSeek-V4-Pro"
+        }
+      }
+    },
+    "openai": {
+      "kind": "openai",
+      "baseURL": "https://api.openai.com/v1",
+      "apiKey": "OPENAI_API_KEY",
+      "models": {
+        "gpt-5.4": {
+          "name": "gpt-5.4"
+        }
+      }
+    }
+  }
+}
+EOF
+Command outputs captured
+Running command: if [ -f /bootstrap/test_initial_state.py ]; then pytest -s --log-cli-level=DEBUG /bootstrap/test_initial_state.py > >(tee /logs/agent/pochi/initial-test-stdout.txt) 2> >(tee /logs/agent/pochi/initial-test-stderr.txt >&2); fi
+Command outputs captured
+Running command: pochi --model deepseek/deepseek-4-pro --max-steps 200 --max-retries 10 --blobs-dir /logs/agent/pochi/blobs --experimental-stream-trajectory /logs/agent/pochi/trajectory.jsonl > >(tee /logs/agent/pochi/stdout.txt) 2> >(tee /logs/agent/pochi/stderr.txt >&2) <<'EOF'
+# Setup Manual Signature Verification in Source Config
+
+## Background
+Configure a Hookdeck Source to perform manual HMAC signature verification. This ensures that incoming webhooks are authentic and have not been tampered with.
+
+## Requirements
+- Create a new Hookdeck Source named `secure-source-${run-id}`.
+- Configure the source to use HMAC signature verification.
+- The HMAC algorithm must be `SHA256`.
+- The encoding must be `base64`.
+- The signature must be expected in the `x-custom-signature` header.
+- The secret key must be `my_super_secret_key`.
+- Save the resulting Source ID to a log file.
+
+## Implementation Hints
+- Read the `run-id` from the `ZEALT_RUN_ID` environment variable.
+- You can use the Hookdeck API (`POST https://api.hookdeck.com/2025-07-01/sources`) to create the source with the required `verification` configuration.
+- Write the Source ID to `/home/user/hookdeck-task/output.log`.
+
+## Acceptance Criteria
+- Project path: /home/user/hookdeck-task
+- Ensure the real source creation action is executed and the log artifact exists.
+- Log file: /home/user/hookdeck-task/output.log
+- The source name must be `secure-source-${run-id}` where `run-id` is read from the `ZEALT_RUN_ID` environment variable.
+- The source must have HMAC signature verification configured with `SHA256`, `base64`, header `x-custom-signature`, and secret `my_super_secret_key`.
+- The log file must contain the Source ID in the format: `Source ID: <source_id>`.
+
+
+EOF
+Command outputs captured
+Running command: rm -f ~/.pochi/config.jsonc
+Command outputs captured
+The verifier.env contains an API key (often the case for LLM-based verifiers). You will incur costs associated with the API calls.
+Skipping image OS validation for hb__configure_allowed_http_methods: docker inspect returned 1
+Running command: apt-get update && apt-get install -y curl ripgrep
+Command outputs captured
+Running command: set -euo pipefail; curl -fsSL https://getpochi.com/install.sh | bash -x -s -- pochi-v0.6.14 && mkdir -p /logs/agent/pochi && ~/.pochi/bin/pochi --version
+Command outputs captured
+Running command: ln -sf ~/.pochi/bin/pochi /usr/local/bin/pochi
+Command outputs captured
+Running command: echo zr-bbtrk2g > /logs/artifacts/run-id && echo configure_allowed_http_methods__BbtrK2G > /logs/artifacts/trial_id
+Command outputs captured
+Running command: mkdir -p ~/.pochi && cat << 'EOF' | sed -e "s/OPENAI_API_KEY/${OPENAI_API_KEY}/g" -e "s/DEEPINFRA_API_KEY/${DEEPINFRA_API_KEY}/g" > ~/.pochi/config.jsonc
+{
+  "providers": {
+    "deepinfra": {
+      "kind": "openai",
+      "baseURL": "https://api.deepinfra.com/v1/openai",
+      "apiKey": "DEEPINFRA_API_KEY",
+      "models": {
+        "zai-org/GLM-4.7-Flash": {
+          "name": "glm-4.7-flash"
+        },
+        "moonshotai/Kimi-K2.6": {
+          "name": "kimi-K2.6"
+        },
+        "deepseek-ai/DeepSeek-V4-Pro": {
+          "name": "DeepSeek-V4-Pro"
+        }
+      }
+    },
+    "openai": {
+      "kind": "openai",
+      "baseURL": "https://api.openai.com/v1",
+      "apiKey": "OPENAI_API_KEY",
+      "models": {
+        "gpt-5.4": {
+          "name": "gpt-5.4"
+        }
+      }
+    }
+  }
+}
+EOF
+Command outputs captured
+Running command: if [ -f /bootstrap/test_initial_state.py ]; then pytest -s --log-cli-level=DEBUG /bootstrap/test_initial_state.py > >(tee /logs/agent/pochi/initial-test-stdout.txt) 2> >(tee /logs/agent/pochi/initial-test-stderr.txt >&2); fi
+Command outputs captured
+Running command: pochi --model deepseek/deepseek-4-pro --max-steps 200 --max-retries 10 --blobs-dir /logs/agent/pochi/blobs --experimental-stream-trajectory /logs/agent/pochi/trajectory.jsonl > >(tee /logs/agent/pochi/stdout.txt) 2> >(tee /logs/agent/pochi/stderr.txt >&2) <<'EOF'
+# Configure Allowed HTTP Methods for a Source
+
+## Background
+Hookdeck allows you to restrict the HTTP methods that a source accepts. This is useful for ensuring that only specific types of webhooks (e.g., only `PUT` or `PATCH` requests) are processed by your infrastructure.
+
+## Requirements
+- Create a new Hookdeck connection linking a new source to a new Mock API destination.
+- The source name must be `custom-methods-source-${run-id}`.
+- The destination name must be `mock-dest-${run-id}` and its type must be `MOCK`.
+- Configure the source to ONLY accept `PUT` and `PATCH` HTTP methods.
+- Write the created Source ID to `/home/user/hookdeck-task/source_id.txt`.
+- Write the created Connection ID to `/home/user/hookdeck-task/connection_id.txt`.
+
+## Implementation Hints
+- Read `run-id` from the `ZEALT_RUN_ID` environment variable.
+- Remember the evaluation environment is headless, so use `hookdeck ci --api-key $HOOKDECK_API_KEY` to authenticate if you use the CLI.
+- You may need to use the Hookdeck REST API (e.g., `https://api.hookdeck.com/2025-07-01/sources`) to configure `allowed_http_methods`, as the CLI might not expose this specific configuration directly.
+
+## Acceptance Criteria
+- Project path: /home/user/hookdeck-task
+- Ensure the real connection and source creation actions are executed and the artifacts exist.
+- Log file: /home/user/hookdeck-task/source_id.txt containing only the Source ID.
+- Log file: /home/user/hookdeck-task/connection_id.txt containing only the Connection ID.
+- The source name must be `custom-methods-source-${run-id}` where `run-id` is read from `ZEALT_RUN_ID`.
+- The destination name must be `mock-dest-${run-id}`.
+- The source configuration must have `allowed_http_methods` set to exactly `["PUT", "PATCH"]`.
+
+
+EOF
+Command outputs captured
+Running command: rm -f ~/.pochi/config.jsonc
+Command outputs captured
+The verifier.env contains an API key (often the case for LLM-based verifiers). You will incur costs associated with the API calls.
+Skipping image OS validation for hb__connection_filter_headers_cli: docker inspect returned 1
+Running command: apt-get update && apt-get install -y curl ripgrep
+Command outputs captured
+Running command: set -euo pipefail; curl -fsSL https://getpochi.com/install.sh | bash -x -s -- pochi-v0.6.14 && mkdir -p /logs/agent/pochi && ~/.pochi/bin/pochi --version
+Command outputs captured
+Running command: ln -sf ~/.pochi/bin/pochi /usr/local/bin/pochi
+Command outputs captured
+Running command: echo zr-d2xu5xj > /logs/artifacts/run-id && echo connection_filter_headers_cli__D2XU5XJ > /logs/artifacts/trial_id
+Command outputs captured
+Running command: mkdir -p ~/.pochi && cat << 'EOF' | sed -e "s/OPENAI_API_KEY/${OPENAI_API_KEY}/g" -e "s/DEEPINFRA_API_KEY/${DEEPINFRA_API_KEY}/g" > ~/.pochi/config.jsonc
+{
+  "providers": {
+    "deepinfra": {
+      "kind": "openai",
+      "baseURL": "https://api.deepinfra.com/v1/openai",
+      "apiKey": "DEEPINFRA_API_KEY",
+      "models": {
+        "zai-org/GLM-4.7-Flash": {
+          "name": "glm-4.7-flash"
+        },
+        "moonshotai/Kimi-K2.6": {
+          "name": "kimi-K2.6"
+        },
+        "deepseek-ai/DeepSeek-V4-Pro": {
+          "name": "DeepSeek-V4-Pro"
+        }
+      }
+    },
+    "openai": {
+      "kind": "openai",
+      "baseURL": "https://api.openai.com/v1",
+      "apiKey": "OPENAI_API_KEY",
+      "models": {
+        "gpt-5.4": {
+          "name": "gpt-5.4"
+        }
+      }
+    }
+  }
+}
+EOF
+Command outputs captured
+Running command: if [ -f /bootstrap/test_initial_state.py ]; then pytest -s --log-cli-level=DEBUG /bootstrap/test_initial_state.py > >(tee /logs/agent/pochi/initial-test-stdout.txt) 2> >(tee /logs/agent/pochi/initial-test-stderr.txt >&2); fi
+Command outputs captured
+Running command: pochi --model deepseek/deepseek-4-pro --max-steps 200 --max-retries 10 --blobs-dir /logs/agent/pochi/blobs --experimental-stream-trajectory /logs/agent/pochi/trajectory.jsonl > >(tee /logs/agent/pochi/stdout.txt) 2> >(tee /logs/agent/pochi/stderr.txt >&2) <<'EOF'
+# Create a Hookdeck Connection with Header Filter
+
+## Background
+You need to configure Hookdeck to receive webhooks and route them to a Mock API destination, but only if they contain a specific HTTP header. You are in a headless environment.
+
+## Requirements
+- Authenticate with Hookdeck in a headless CI environment.
+- Create a new Connection named `header-filter-conn-${run-id}`.
+- The Connection must use a Source named `header-source-${run-id}`.
+- The Connection must route to a Mock API Destination named `mock-dest-${run-id}`.
+- The Connection must include a Filter rule that only allows events where the HTTP header `x-target-event` equals exactly `process`.
+- Output the resulting Connection ID to a log file.
+
+## Implementation Hints
+- Read the current `run-id` from the `ZEALT_RUN_ID` environment variable.
+- Ensure you login to Hookdeck CLI properly for a headless environment.
+- You can use the Hookdeck CLI or the Hookdeck REST API to create the resources.
+- Write the Connection ID to `/home/user/hookdeck-task/output.log`.
+
+## Acceptance Criteria
+- Project path: `/home/user/hookdeck-task`
+- Ensure the script is executed and the artifacts exist.
+- Log file: `/home/user/hookdeck-task/output.log`
+- The log file must contain the Connection ID in the format: `Connection ID: <connection_id>`.
+- The connection must exist in Hookdeck with the exact name `header-filter-conn-${run-id}`.
+- The connection must be linked to a source named `header-source-${run-id}` and a destination named `mock-dest-${run-id}`.
+- The connection must have a filter rule configured to allow only events where the header `x-target-event` equals `process`.
+
+
+EOF
+Command outputs captured
+Running command: rm -f ~/.pochi/config.jsonc
+Command outputs captured
+The verifier.env contains an API key (often the case for LLM-based verifiers). You will incur costs associated with the API calls.
+Skipping image OS validation for hb__list_sources_api: docker inspect returned 1
+Running command: apt-get update && apt-get install -y curl ripgrep
+Command outputs captured
+Running command: set -euo pipefail; curl -fsSL https://getpochi.com/install.sh | bash -x -s -- pochi-v0.6.14 && mkdir -p /logs/agent/pochi && ~/.pochi/bin/pochi --version
+Command outputs captured
+Running command: ln -sf ~/.pochi/bin/pochi /usr/local/bin/pochi
+Command outputs captured
+Running command: echo zr-xeaqidy > /logs/artifacts/run-id && echo list_sources_api__xeaqiDy > /logs/artifacts/trial_id
+Command outputs captured
+Running command: mkdir -p ~/.pochi && cat << 'EOF' | sed -e "s/OPENAI_API_KEY/${OPENAI_API_KEY}/g" -e "s/DEEPINFRA_API_KEY/${DEEPINFRA_API_KEY}/g" > ~/.pochi/config.jsonc
+{
+  "providers": {
+    "deepinfra": {
+      "kind": "openai",
+      "baseURL": "https://api.deepinfra.com/v1/openai",
+      "apiKey": "DEEPINFRA_API_KEY",
+      "models": {
+        "zai-org/GLM-4.7-Flash": {
+          "name": "glm-4.7-flash"
+        },
+        "moonshotai/Kimi-K2.6": {
+          "name": "kimi-K2.6"
+        },
+        "deepseek-ai/DeepSeek-V4-Pro": {
+          "name": "DeepSeek-V4-Pro"
+        }
+      }
+    },
+    "openai": {
+      "kind": "openai",
+      "baseURL": "https://api.openai.com/v1",
+      "apiKey": "OPENAI_API_KEY",
+      "models": {
+        "gpt-5.4": {
+          "name": "gpt-5.4"
+        }
+      }
+    }
+  }
+}
+EOF
+Command outputs captured
+Running command: if [ -f /bootstrap/test_initial_state.py ]; then pytest -s --log-cli-level=DEBUG /bootstrap/test_initial_state.py > >(tee /logs/agent/pochi/initial-test-stdout.txt) 2> >(tee /logs/agent/pochi/initial-test-stderr.txt >&2); fi
+Command outputs captured
+Running command: pochi --model deepseek/deepseek-4-pro --max-steps 200 --max-retries 10 --blobs-dir /logs/agent/pochi/blobs --experimental-stream-trajectory /logs/agent/pochi/trajectory.jsonl > >(tee /logs/agent/pochi/stdout.txt) 2> >(tee /logs/agent/pochi/stderr.txt >&2) <<'EOF'
+# Retrieve Hookdeck Sources via REST API
+
+## Background
+Hookdeck provides a REST API to manage resources programmatically. You need to retrieve the list of sources using this API.
+
+## Requirements
+- Create a bash script `list_sources.sh` that retrieves the list of sources from the Hookdeck REST API.
+- The script must save the raw JSON response to `sources.json`.
+
+## Implementation Hints
+- Use `curl` to make a GET request to the Hookdeck API (`https://api.hookdeck.com/2025-07-01/sources`).
+- Authenticate using the `HOOKDECK_API_KEY` environment variable as a Bearer token.
+- Remember the evaluation environment is headless (`hookdeck ci --api-key $HOOKDECK_API_KEY`) and uses Mock API destinations if you need to use the CLI for testing.
+
+## Acceptance Criteria
+- Project path: /home/user/hookdeck-task
+- Ensure the script is executed and the artifacts exist.
+- Log file: /home/user/hookdeck-task/sources.json
+- The file `sources.json` must be a valid JSON object returned by the Hookdeck API containing a `models` array.
+
+EOF
+Command outputs captured
+Running command: rm -f ~/.pochi/config.jsonc
+Command outputs captured
+The verifier.env contains an API key (often the case for LLM-based verifiers). You will incur costs associated with the API calls.
+Skipping image OS validation for hb__forward_events_specific_path_cli: docker inspect returned 1
+Running command: apt-get update && apt-get install -y curl ripgrep
+Command outputs captured
+Running command: set -euo pipefail; curl -fsSL https://getpochi.com/install.sh | bash -x -s -- pochi-v0.6.14 && mkdir -p /logs/agent/pochi && ~/.pochi/bin/pochi --version
+Command outputs captured
+Running command: rm -f ~/.pochi/config.jsonc
+Command outputs captured
+Running command: ln -sf ~/.pochi/bin/pochi /usr/local/bin/pochi
+Command outputs captured
+Command outputs captured
+Command outputs captured
+Running command: rm -f ~/.pochi/config.jsonc
+Command outputs captured
+Running command: echo zr-dherap7 > /logs/artifacts/run-id && echo forward_events_specific_path_cli__dHeRAP7 > /logs/artifacts/trial_id
+Command outputs captured
+Running command: mkdir -p ~/.pochi && cat << 'EOF' | sed -e "s/OPENAI_API_KEY/${OPENAI_API_KEY}/g" -e "s/DEEPINFRA_API_KEY/${DEEPINFRA_API_KEY}/g" > ~/.pochi/config.jsonc
+{
+  "providers": {
+    "deepinfra": {
+      "kind": "openai",
+      "baseURL": "https://api.deepinfra.com/v1/openai",
+      "apiKey": "DEEPINFRA_API_KEY",
+      "models": {
+        "zai-org/GLM-4.7-Flash": {
+          "name": "glm-4.7-flash"
+        },
+        "moonshotai/Kimi-K2.6": {
+          "name": "kimi-K2.6"
+        },
+        "deepseek-ai/DeepSeek-V4-Pro": {
+          "name": "DeepSeek-V4-Pro"
+        }
+      }
+    },
+    "openai": {
+      "kind": "openai",
+      "baseURL": "https://api.openai.com/v1",
+      "apiKey": "OPENAI_API_KEY",
+      "models": {
+        "gpt-5.4": {
+          "name": "gpt-5.4"
+        }
+      }
+    }
+  }
+}
+EOF
+Command outputs captured
+Running command: if [ -f /bootstrap/test_initial_state.py ]; then pytest -s --log-cli-level=DEBUG /bootstrap/test_initial_state.py > >(tee /logs/agent/pochi/initial-test-stdout.txt) 2> >(tee /logs/agent/pochi/initial-test-stderr.txt >&2); fi
+The verifier.env contains an API key (often the case for LLM-based verifiers). You will incur costs associated with the API calls.
+Command outputs captured
+Running command: pochi --model deepseek/deepseek-4-pro --max-steps 200 --max-retries 10 --blobs-dir /logs/agent/pochi/blobs --experimental-stream-trajectory /logs/agent/pochi/trajectory.jsonl > >(tee /logs/agent/pochi/stdout.txt) 2> >(tee /logs/agent/pochi/stderr.txt >&2) <<'EOF'
+# Create a CLI Forwarding Connection
+
+## Background
+Use the Hookdeck CLI to create a connection that forwards events to a local CLI destination with a specific path.
+
+## Requirements
+- Create a bash script `setup.sh` that creates a Hookdeck connection.
+- The connection must link a new source to a new CLI destination.
+- You must use `run-id` from the `ZEALT_RUN_ID` environment variable for naming.
+- Execute the script so the connection is actually created in Hookdeck.
+
+## Implementation Hints
+- You are running in a headless CI environment; ensure you authenticate using `hookdeck ci --api-key $HOOKDECK_API_KEY` before running commands.
+- Use `hookdeck gateway connection create` to create the connection, source, and destination in one command.
+
+## Acceptance Criteria
+- Project path: /home/user/hookdeck-task
+- Ensure the real connection creation action is executed.
+- Script file: /home/user/hookdeck-task/setup.sh
+- The connection name must be `cli-forward-conn-${run-id}` where `run-id` is read from `ZEALT_RUN_ID`.
+- The source name must be `my-source-${run-id}` with source type `API`.
+- The destination name must be `my-cli-dest-${run-id}` with destination type `CLI`.
+- The destination CLI path must be `/api/webhooks`.
+
+EOF
+Skipping image OS validation for hb__fan_out_rate_limits_cli: docker inspect returned 1
+Skipping image OS validation for hb__flatten_nested_payload_transformation_cli: docker inspect returned 1
+Running command: apt-get update && apt-get install -y curl ripgrep
+Running command: apt-get update && apt-get install -y curl ripgrep
+Command outputs captured
+Running command: rm -f ~/.pochi/config.jsonc
+Command outputs captured
+Command outputs captured
+Running command: set -euo pipefail; curl -fsSL https://getpochi.com/install.sh | bash -x -s -- pochi-v0.6.14 && mkdir -p /logs/agent/pochi && ~/.pochi/bin/pochi --version
+Command outputs captured
+Running command: set -euo pipefail; curl -fsSL https://getpochi.com/install.sh | bash -x -s -- pochi-v0.6.14 && mkdir -p /logs/agent/pochi && ~/.pochi/bin/pochi --version
+The verifier.env contains an API key (often the case for LLM-based verifiers). You will incur costs associated with the API calls.
+Command outputs captured
+Running command: ln -sf ~/.pochi/bin/pochi /usr/local/bin/pochi
+Command outputs captured
+Command outputs captured
+Running command: ln -sf ~/.pochi/bin/pochi /usr/local/bin/pochi
+Command outputs captured
+Running command: echo zr-nnghhqh > /logs/artifacts/run-id && echo fan_out_rate_limits_cli__NNgHhqH > /logs/artifacts/trial_id
+Command outputs captured
+Running command: mkdir -p ~/.pochi && cat << 'EOF' | sed -e "s/OPENAI_API_KEY/${OPENAI_API_KEY}/g" -e "s/DEEPINFRA_API_KEY/${DEEPINFRA_API_KEY}/g" > ~/.pochi/config.jsonc
+{
+  "providers": {
+    "deepinfra": {
+      "kind": "openai",
+      "baseURL": "https://api.deepinfra.com/v1/openai",
+      "apiKey": "DEEPINFRA_API_KEY",
+      "models": {
+        "zai-org/GLM-4.7-Flash": {
+          "name": "glm-4.7-flash"
+        },
+        "moonshotai/Kimi-K2.6": {
+          "name": "kimi-K2.6"
+        },
+        "deepseek-ai/DeepSeek-V4-Pro": {
+          "name": "DeepSeek-V4-Pro"
+        }
+      }
+    },
+    "openai": {
+      "kind": "openai",
+      "baseURL": "https://api.openai.com/v1",
+      "apiKey": "OPENAI_API_KEY",
+      "models": {
+        "gpt-5.4": {
+          "name": "gpt-5.4"
+        }
+      }
+    }
+  }
+}
+EOF
+Command outputs captured
+Running command: if [ -f /bootstrap/test_initial_state.py ]; then pytest -s --log-cli-level=DEBUG /bootstrap/test_initial_state.py > >(tee /logs/agent/pochi/initial-test-stdout.txt) 2> >(tee /logs/agent/pochi/initial-test-stderr.txt >&2); fi
+Command outputs captured
+Running command: pochi --model deepseek/deepseek-4-pro --max-steps 200 --max-retries 10 --blobs-dir /logs/agent/pochi/blobs --experimental-stream-trajectory /logs/agent/pochi/trajectory.jsonl > >(tee /logs/agent/pochi/stdout.txt) 2> >(tee /logs/agent/pochi/stderr.txt >&2) <<'EOF'
+# Configure Fan-out with Rate Limits via Hookdeck CLI
+
+## Background
+Hookdeck can route a single source to multiple destinations (a fan-out architecture). This is useful when you want to send the same event to different services, but each service might have different throughput capacities.
+
+## Requirements
+- Create a bash script `setup_fan_out.sh` that uses the Hookdeck CLI to create a fan-out architecture.
+- The architecture must use a single Source named `fan-out-source-${run-id}`.
+- The Source must be routed to two different Mock API Destinations:
+  1. `mock-dest-1-${run-id}` with a rate limit of 10 events per second.
+  2. `mock-dest-2-${run-id}` with a rate limit of 50 events per second.
+- Both destinations should use the `MOCK` destination type.
+- You must create two Connections to link the single Source to the two Destinations.
+- After creating the resources, the script must output the Source URL to a log file.
+
+## Implementation Hints
+1. Read the current `run-id` from the `ZEALT_RUN_ID` environment variable.
+2. Use the `hookdeck gateway connection create` or `upsert` commands to create the connections with inline sources and destinations.
+3. Make sure to use the exact same source for both connections so it fans out from one URL.
+4. Use the `--destination-rate-limit` and `--destination-rate-limit-period` flags to set the required limits.
+5. Write the resulting Source URL to `/home/user/hookdeck-task/output.log`.
+
+## Acceptance Criteria
+- Project path: `/home/user/hookdeck-task`
+- Ensure the bash script `setup_fan_out.sh` is executed and the Hookdeck infrastructure is created.
+- Log file: `/home/user/hookdeck-task/output.log`
+- The script must create a Source named `fan-out-source-${run-id}` where `run-id` is read from `ZEALT_RUN_ID`.
+- The script must create two Mock Destinations named `mock-dest-1-${run-id}` and `mock-dest-2-${run-id}`.
+- The connection to `mock-dest-1-${run-id}` must have a rate limit of 10 requests per second.
+- The connection to `mock-dest-2-${run-id}` must have a rate limit of 50 requests per second.
+- The log file must contain the Source URL in the format: `Source URL: <url>`.
+
+
+EOF
+Running command: echo zr-7itibkv > /logs/artifacts/run-id && echo flatten_nested_payload_transform__7iTibKv > /logs/artifacts/trial_id
+Command outputs captured
+Running command: mkdir -p ~/.pochi && cat << 'EOF' | sed -e "s/OPENAI_API_KEY/${OPENAI_API_KEY}/g" -e "s/DEEPINFRA_API_KEY/${DEEPINFRA_API_KEY}/g" > ~/.pochi/config.jsonc
+{
+  "providers": {
+    "deepinfra": {
+      "kind": "openai",
+      "baseURL": "https://api.deepinfra.com/v1/openai",
+      "apiKey": "DEEPINFRA_API_KEY",
+      "models": {
+        "zai-org/GLM-4.7-Flash": {
+          "name": "glm-4.7-flash"
+        },
+        "moonshotai/Kimi-K2.6": {
+          "name": "kimi-K2.6"
+        },
+        "deepseek-ai/DeepSeek-V4-Pro": {
+          "name": "DeepSeek-V4-Pro"
+        }
+      }
+    },
+    "openai": {
+      "kind": "openai",
+      "baseURL": "https://api.openai.com/v1",
+      "apiKey": "OPENAI_API_KEY",
+      "models": {
+        "gpt-5.4": {
+          "name": "gpt-5.4"
+        }
+      }
+    }
+  }
+}
+EOF
+Command outputs captured
+Running command: if [ -f /bootstrap/test_initial_state.py ]; then pytest -s --log-cli-level=DEBUG /bootstrap/test_initial_state.py > >(tee /logs/agent/pochi/initial-test-stdout.txt) 2> >(tee /logs/agent/pochi/initial-test-stderr.txt >&2); fi
+Command outputs captured
+Running command: pochi --model deepseek/deepseek-4-pro --max-steps 200 --max-retries 10 --blobs-dir /logs/agent/pochi/blobs --experimental-stream-trajectory /logs/agent/pochi/trajectory.jsonl > >(tee /logs/agent/pochi/stdout.txt) 2> >(tee /logs/agent/pochi/stderr.txt >&2) <<'EOF'
+# Flatten Nested Payload Transformation
+
+## Background
+Configure Hookdeck to receive webhooks, transform the payload by flattening a nested JSON structure, and forward the result to a Mock API destination.
+
+## Requirements
+- Write a script `setup.sh` that sets up the required Hookdeck resources.
+- Create a Source named `source-${run-id}`.
+- Create a Mock Destination named `dest-${run-id}`.
+- Create a JavaScript Transformation named `flatten-${run-id}`. The transformation must modify the payload so that if `request.body.data.object` exists, its value replaces the entire `request.body`.
+- Create a Connection named `conn-${run-id}` that links the created Source, Destination, and Transformation.
+- The execution environment is headless. Ensure you authenticate using the `HOOKDECK_API_KEY` environment variable (e.g., `hookdeck ci`).
+
+## Implementation Hints
+- Read the `run-id` from the `ZEALT_RUN_ID` environment variable.
+- You can use the Hookdeck CLI (`hookdeck gateway ...`) or the Hookdeck REST API (`https://api.hookdeck.com/2025-07-01/...`) to create the resources.
+- A Hookdeck Mock destination accepts all events without forwarding them to an external server.
+
+## Acceptance Criteria
+- Project path: /home/user/hookdeck-task
+- Ensure the real resource creation action is executed by running `bash setup.sh`.
+- A Source named `source-${run-id}` must exist.
+- A Mock Destination named `dest-${run-id}` must exist.
+- A Transformation named `flatten-${run-id}` must exist, and its code must correctly flatten `request.body.data.object` to `request.body`.
+- A Connection named `conn-${run-id}` must exist, linking the Source, Destination, and Transformation.
+- The transformation must successfully flatten a published event where the payload has `{"data": {"object": {"id": 123, "status": "ok"}}}` into `{"id": 123, "status": "ok"}`.
+
+
+EOF
+Skipping image OS validation for hb__custom_retry_strategy: docker inspect returned 1
+Running command: apt-get update && apt-get install -y curl ripgrep
+Command outputs captured
+Running command: set -euo pipefail; curl -fsSL https://getpochi.com/install.sh | bash -x -s -- pochi-v0.6.14 && mkdir -p /logs/agent/pochi && ~/.pochi/bin/pochi --version
+Running command: rm -f ~/.pochi/config.jsonc
+Command outputs captured
+The verifier.env contains an API key (often the case for LLM-based verifiers). You will incur costs associated with the API calls.
+Command outputs captured
+Running command: ln -sf ~/.pochi/bin/pochi /usr/local/bin/pochi
+Command outputs captured
+Running command: echo zr-sxofgdv > /logs/artifacts/run-id && echo custom_retry_strategy__sxofgdv > /logs/artifacts/trial_id
+Command outputs captured
+Running command: mkdir -p ~/.pochi && cat << 'EOF' | sed -e "s/OPENAI_API_KEY/${OPENAI_API_KEY}/g" -e "s/DEEPINFRA_API_KEY/${DEEPINFRA_API_KEY}/g" > ~/.pochi/config.jsonc
+{
+  "providers": {
+    "deepinfra": {
+      "kind": "openai",
+      "baseURL": "https://api.deepinfra.com/v1/openai",
+      "apiKey": "DEEPINFRA_API_KEY",
+      "models": {
+        "zai-org/GLM-4.7-Flash": {
+          "name": "glm-4.7-flash"
+        },
+        "moonshotai/Kimi-K2.6": {
+          "name": "kimi-K2.6"
+        },
+        "deepseek-ai/DeepSeek-V4-Pro": {
+          "name": "DeepSeek-V4-Pro"
+        }
+      }
+    },
+    "openai": {
+      "kind": "openai",
+      "baseURL": "https://api.openai.com/v1",
+      "apiKey": "OPENAI_API_KEY",
+      "models": {
+        "gpt-5.4": {
+          "name": "gpt-5.4"
+        }
+      }
+    }
+  }
+}
+EOF
+Command outputs captured
+Running command: if [ -f /bootstrap/test_initial_state.py ]; then pytest -s --log-cli-level=DEBUG /bootstrap/test_initial_state.py > >(tee /logs/agent/pochi/initial-test-stdout.txt) 2> >(tee /logs/agent/pochi/initial-test-stderr.txt >&2); fi
+Command outputs captured
+Running command: pochi --model deepseek/deepseek-4-pro --max-steps 200 --max-retries 10 --blobs-dir /logs/agent/pochi/blobs --experimental-stream-trajectory /logs/agent/pochi/trajectory.jsonl > >(tee /logs/agent/pochi/stdout.txt) 2> >(tee /logs/agent/pochi/stderr.txt >&2) <<'EOF'
+# Configure a Custom Retry Strategy in Hookdeck
+
+## Background
+Hookdeck provides robust automatic retry mechanisms for failed events. By default, connections might retry all failures, but you can configure specific rules based on HTTP response status codes. Your task is to create a connection that only retries 5xx errors and ignores 4xx errors.
+
+## Requirements
+- Create a new Connection named `custom-retry-conn-${run-id}`.
+- The Connection must link a Source named `custom-retry-source-${run-id}` to a Mock Destination named `custom-retry-dest-${run-id}`.
+- Configure a retry rule on the connection to retry exactly 5 times, with a linear strategy and a 1-minute (60000ms) interval.
+- The retry rule must only trigger for HTTP 5xx errors (e.g., `500-599`). It must NOT retry 4xx errors.
+- Write the resulting Connection ID to a log file.
+
+## Implementation Hints
+- Read the `run-id` from the `ZEALT_RUN_ID` environment variable and append it to all resource names.
+- You may use the Hookdeck CLI or REST API. Remember that the evaluation environment is headless.
+
+## Acceptance Criteria
+- Project path: /home/user/hookdeck-task
+- Ensure the connection creation is executed and the resources exist in the Hookdeck workspace.
+- Output a log file at `/home/user/hookdeck-task/output.log` containing the Connection ID in the exact format: `Connection ID: <connection_id>`.
+- The connection must exist with the exact name `custom-retry-conn-${run-id}`.
+- The connection's rules must include a retry rule configured for 5 retries, a linear strategy, a 60000ms interval, and `response_status_codes` covering `500-599`.
+
+
+EOF
+Exception AgentTimeoutError is in exclude_exceptions, not retrying
+Not retrying trial because the exception is not in include_exceptions or the maximum number of retries has been reached
+Skipping image OS validation for hb__transform_inject_header_cli: docker inspect returned 1
+Running command: apt-get update && apt-get install -y curl ripgrep
+Command outputs captured
+Running command: set -euo pipefail; curl -fsSL https://getpochi.com/install.sh | bash -x -s -- pochi-v0.6.14 && mkdir -p /logs/agent/pochi && ~/.pochi/bin/pochi --version
+Command outputs captured
+Running command: ln -sf ~/.pochi/bin/pochi /usr/local/bin/pochi
+Command outputs captured
+Running command: echo zr-yowcmkl > /logs/artifacts/run-id && echo transform_inject_header_cli__yowCmKL > /logs/artifacts/trial_id
+Command outputs captured
+Running command: mkdir -p ~/.pochi && cat << 'EOF' | sed -e "s/OPENAI_API_KEY/${OPENAI_API_KEY}/g" -e "s/DEEPINFRA_API_KEY/${DEEPINFRA_API_KEY}/g" > ~/.pochi/config.jsonc
+{
+  "providers": {
+    "deepinfra": {
+      "kind": "openai",
+      "baseURL": "https://api.deepinfra.com/v1/openai",
+      "apiKey": "DEEPINFRA_API_KEY",
+      "models": {
+        "zai-org/GLM-4.7-Flash": {
+          "name": "glm-4.7-flash"
+        },
+        "moonshotai/Kimi-K2.6": {
+          "name": "kimi-K2.6"
+        },
+        "deepseek-ai/DeepSeek-V4-Pro": {
+          "name": "DeepSeek-V4-Pro"
+        }
+      }
+    },
+    "openai": {
+      "kind": "openai",
+      "baseURL": "https://api.openai.com/v1",
+      "apiKey": "OPENAI_API_KEY",
+      "models": {
+        "gpt-5.4": {
+          "name": "gpt-5.4"
+        }
+      }
+    }
+  }
+}
+EOF
+Command outputs captured
+Running command: if [ -f /bootstrap/test_initial_state.py ]; then pytest -s --log-cli-level=DEBUG /bootstrap/test_initial_state.py > >(tee /logs/agent/pochi/initial-test-stdout.txt) 2> >(tee /logs/agent/pochi/initial-test-stderr.txt >&2); fi
+Command outputs captured
+Running command: pochi --model deepseek/deepseek-4-pro --max-steps 200 --max-retries 10 --blobs-dir /logs/agent/pochi/blobs --experimental-stream-trajectory /logs/agent/pochi/trajectory.jsonl > >(tee /logs/agent/pochi/stdout.txt) 2> >(tee /logs/agent/pochi/stderr.txt >&2) <<'EOF'
+# Hookdeck Transformation to Inject Headers
+
+## Background
+Configure a Hookdeck connection that receives events and forwards them to a Mock API destination. Before forwarding, it must inject a custom header using a JavaScript transformation.
+
+## Requirements
+- Create a Hookdeck connection named `header-conn-${run-id}`.
+- The source must be named `source-${run-id}`.
+- The destination must be named `mock-dest-${run-id}` and configured as a MOCK destination.
+- Create and attach a JavaScript transformation named `inject-header-${run-id}` to the connection.
+- The transformation must inject a custom header `x-custom-run-id` with the value of the current `run-id` into the request.
+
+## Implementation Hints
+- Read the `run-id` from the `ZEALT_RUN_ID` environment variable.
+- You can use the Hookdeck CLI (`hookdeck ci`) or the Hookdeck REST API to create the resources.
+- The environment provides `HOOKDECK_API_KEY`.
+
+## Acceptance Criteria
+- Project path: /home/user/hookdeck-task
+- Ensure the real resources are created in the Hookdeck workspace.
+- A Connection named `header-conn-${run-id}` must exist.
+- The Connection must link a Source named `source-${run-id}` to a Destination named `mock-dest-${run-id}`.
+- The Destination `mock-dest-${run-id}` must be of type `MOCK`.
+- A Transformation named `inject-header-${run-id}` must be attached to the connection.
+- The Transformation code must successfully add the header `x-custom-run-id` with the value of `${run-id}` to the request headers.
+
+
+EOF
+Command outputs captured
+Running command: rm -f ~/.pochi/config.jsonc
+Command outputs captured
+The verifier.env contains an API key (often the case for LLM-based verifiers). You will incur costs associated with the API calls.
+Skipping image OS validation for hb__transform_restructure_payload_cli: docker inspect returned 1
+Running command: apt-get update && apt-get install -y curl ripgrep
+Command outputs captured
+Running command: set -euo pipefail; curl -fsSL https://getpochi.com/install.sh | bash -x -s -- pochi-v0.6.14 && mkdir -p /logs/agent/pochi && ~/.pochi/bin/pochi --version
+Command outputs captured
+Running command: ln -sf ~/.pochi/bin/pochi /usr/local/bin/pochi
+Command outputs captured
+Running command: echo zr-u4kj7j9 > /logs/artifacts/run-id && echo transform_restructure_payload_cl__U4KJ7j9 > /logs/artifacts/trial_id
+Command outputs captured
+Running command: mkdir -p ~/.pochi && cat << 'EOF' | sed -e "s/OPENAI_API_KEY/${OPENAI_API_KEY}/g" -e "s/DEEPINFRA_API_KEY/${DEEPINFRA_API_KEY}/g" > ~/.pochi/config.jsonc
+{
+  "providers": {
+    "deepinfra": {
+      "kind": "openai",
+      "baseURL": "https://api.deepinfra.com/v1/openai",
+      "apiKey": "DEEPINFRA_API_KEY",
+      "models": {
+        "zai-org/GLM-4.7-Flash": {
+          "name": "glm-4.7-flash"
+        },
+        "moonshotai/Kimi-K2.6": {
+          "name": "kimi-K2.6"
+        },
+        "deepseek-ai/DeepSeek-V4-Pro": {
+          "name": "DeepSeek-V4-Pro"
+        }
+      }
+    },
+    "openai": {
+      "kind": "openai",
+      "baseURL": "https://api.openai.com/v1",
+      "apiKey": "OPENAI_API_KEY",
+      "models": {
+        "gpt-5.4": {
+          "name": "gpt-5.4"
+        }
+      }
+    }
+  }
+}
+EOF
+Command outputs captured
+Running command: if [ -f /bootstrap/test_initial_state.py ]; then pytest -s --log-cli-level=DEBUG /bootstrap/test_initial_state.py > >(tee /logs/agent/pochi/initial-test-stdout.txt) 2> >(tee /logs/agent/pochi/initial-test-stderr.txt >&2); fi
+Command outputs captured
+Running command: pochi --model deepseek/deepseek-4-pro --max-steps 200 --max-retries 10 --blobs-dir /logs/agent/pochi/blobs --experimental-stream-trajectory /logs/agent/pochi/trajectory.jsonl > >(tee /logs/agent/pochi/stdout.txt) 2> >(tee /logs/agent/pochi/stderr.txt >&2) <<'EOF'
+# Restructure JSON Payload with Hookdeck Transformation
+
+## Background
+You need to configure a Hookdeck connection to receive webhooks from a legacy system, transform the payload, and forward it to a Mock API destination. The transformation must restructure the JSON payload and inject a secret token into the headers.
+
+## Requirements
+- Create a Hookdeck connection that links a new source to a Mock API destination.
+- The connection name must be `legacy-to-mock-${run-id}`.
+- The source name must be `legacy-source-${run-id}`.
+- The destination name must be `mock-dest-${run-id}`.
+- Add a JavaScript Transformation to the connection that does the following:
+  - Extracts the `data.object` field from the incoming JSON payload and sets it as the new body.
+  - Adds a custom header `x-hookdeck-transformed` with the value `true`.
+  - Adds a custom header `x-secret-token` with a value read from the transformation's environment variable `SECRET_TOKEN`.
+- The transformation's environment must have `SECRET_TOKEN` set to `super_secret_value_${run-id}`.
+- Save the created Connection ID to a log file.
+
+## Implementation Hints
+- Use the `hookdeck ci --api-key $HOOKDECK_API_KEY` command to authenticate in the headless environment.
+- Use the Hookdeck CLI or API to create the connection, source, destination, and transformation.
+- You can read the `run-id` from the `ZEALT_RUN_ID` environment variable.
+- A transformation handler receives `request` and `context`. You can modify `request.body` and `request.headers`.
+- Transformation environment variables can be accessed via `context.env`.
+
+## Acceptance Criteria
+- Project path: `/home/user/hookdeck-task`
+- Ensure the configuration script is executed and the artifacts exist.
+- Log file: `/home/user/hookdeck-task/output.log`
+- The log file must contain the connection ID in the format: `Connection ID: <connection_id>`.
+- A connection named `legacy-to-mock-${run-id}` must exist.
+- The connection must use a Mock API destination named `mock-dest-${run-id}`.
+- The connection must have a transformation that correctly extracts `data.object` to the body.
+- The transformation must set the `x-hookdeck-transformed` header to `true`.
+- The transformation must set the `x-secret-token` header to `super_secret_value_${run-id}`.
+
+
+EOF
+Command outputs captured
+Running command: rm -f ~/.pochi/config.jsonc
+Command outputs captured
+The verifier.env contains an API key (often the case for LLM-based verifiers). You will incur costs associated with the API calls.
+Skipping image OS validation for hb__fan_out_routing_cli: docker inspect returned 1
+Running command: apt-get update && apt-get install -y curl ripgrep
+Command outputs captured
+Running command: set -euo pipefail; curl -fsSL https://getpochi.com/install.sh | bash -x -s -- pochi-v0.6.14 && mkdir -p /logs/agent/pochi && ~/.pochi/bin/pochi --version
+Command outputs captured
+Running command: ln -sf ~/.pochi/bin/pochi /usr/local/bin/pochi
+Command outputs captured
+Running command: echo zr-ibzxyqv > /logs/artifacts/run-id && echo fan_out_routing_cli__iBZXyqv > /logs/artifacts/trial_id
+Command outputs captured
+Running command: mkdir -p ~/.pochi && cat << 'EOF' | sed -e "s/OPENAI_API_KEY/${OPENAI_API_KEY}/g" -e "s/DEEPINFRA_API_KEY/${DEEPINFRA_API_KEY}/g" > ~/.pochi/config.jsonc
+{
+  "providers": {
+    "deepinfra": {
+      "kind": "openai",
+      "baseURL": "https://api.deepinfra.com/v1/openai",
+      "apiKey": "DEEPINFRA_API_KEY",
+      "models": {
+        "zai-org/GLM-4.7-Flash": {
+          "name": "glm-4.7-flash"
+        },
+        "moonshotai/Kimi-K2.6": {
+          "name": "kimi-K2.6"
+        },
+        "deepseek-ai/DeepSeek-V4-Pro": {
+          "name": "DeepSeek-V4-Pro"
+        }
+      }
+    },
+    "openai": {
+      "kind": "openai",
+      "baseURL": "https://api.openai.com/v1",
+      "apiKey": "OPENAI_API_KEY",
+      "models": {
+        "gpt-5.4": {
+          "name": "gpt-5.4"
+        }
+      }
+    }
+  }
+}
+EOF
+Command outputs captured
+Running command: if [ -f /bootstrap/test_initial_state.py ]; then pytest -s --log-cli-level=DEBUG /bootstrap/test_initial_state.py > >(tee /logs/agent/pochi/initial-test-stdout.txt) 2> >(tee /logs/agent/pochi/initial-test-stderr.txt >&2); fi
+Command outputs captured
+Running command: pochi --model deepseek/deepseek-4-pro --max-steps 200 --max-retries 10 --blobs-dir /logs/agent/pochi/blobs --experimental-stream-trajectory /logs/agent/pochi/trajectory.jsonl > >(tee /logs/agent/pochi/stdout.txt) 2> >(tee /logs/agent/pochi/stderr.txt >&2) <<'EOF'
+# Hookdeck Fan-out Architecture
+
+## Background
+Hookdeck is an Event Gateway that can route webhooks from a single Source to multiple Destinations (Fan-out pattern). You need to configure a fan-out architecture using the Hookdeck CLI in a headless environment.
+
+## Requirements
+- Authenticate with the Hookdeck CLI in a headless environment using the provided `HOOKDECK_API_KEY` environment variable.
+- Create a single Source.
+- Create two separate Mock Destinations.
+- Create two Connections routing the single Source to both Mock Destinations.
+- Use the `ZEALT_RUN_ID` environment variable to namespace your resources to avoid collisions during concurrent evaluations.
+- Save the created connection names to a JSON file.
+
+## Implementation Hints
+- Use `hookdeck ci --api-key $HOOKDECK_API_KEY` to authenticate the CLI in a headless environment.
+- Read `run-id` from the `ZEALT_RUN_ID` environment variable.
+- Append `-${run-id}` to the names of your Source, Destinations, and Connections.
+- Use `hookdeck gateway connection create` to create the connections. The CLI will automatically create the Source and Destination if they do not exist.
+- For a Mock destination, specify `--destination-type MOCK`.
+- For the source, you can use a generic type like `--source-type WEBHOOK` or `--source-type API`.
+
+## Acceptance Criteria
+- Project path: /home/user/hookdeck-task
+- Ensure the real CLI configuration commands are executed and the output file exists.
+- Output file: /home/user/hookdeck-task/output.json
+- The output file must contain a valid JSON object with a key `connections` containing an array of the two connection names created (e.g., `["conn-1-...", "conn-2-..."]`).
+- The Hookdeck workspace must have exactly one Source named `fanout-source-${run-id}`.
+- The Hookdeck workspace must have exactly two Destinations named `mock-dest-1-${run-id}` and `mock-dest-2-${run-id}` with type `MOCK`.
+- The Hookdeck workspace must have exactly two Connections: one named `conn-1-${run-id}` linking the source to `mock-dest-1-${run-id}`, and another named `conn-2-${run-id}` linking the source to `mock-dest-2-${run-id}`.
+
+EOF
+Command outputs captured
+Running command: rm -f ~/.pochi/config.jsonc
+Command outputs captured
+The verifier.env contains an API key (often the case for LLM-based verifiers). You will incur costs associated with the API calls.
+Skipping image OS validation for hb__query_events_inspect_api: docker inspect returned 1
+Running command: apt-get update && apt-get install -y curl ripgrep
+Command outputs captured
+Running command: set -euo pipefail; curl -fsSL https://getpochi.com/install.sh | bash -x -s -- pochi-v0.6.14 && mkdir -p /logs/agent/pochi && ~/.pochi/bin/pochi --version
+Command outputs captured
+Running command: ln -sf ~/.pochi/bin/pochi /usr/local/bin/pochi
+Command outputs captured
+Running command: echo zr-ffrgkr2 > /logs/artifacts/run-id && echo query_events_inspect_api__FFrGKr2 > /logs/artifacts/trial_id
+Command outputs captured
+Running command: mkdir -p ~/.pochi && cat << 'EOF' | sed -e "s/OPENAI_API_KEY/${OPENAI_API_KEY}/g" -e "s/DEEPINFRA_API_KEY/${DEEPINFRA_API_KEY}/g" > ~/.pochi/config.jsonc
+{
+  "providers": {
+    "deepinfra": {
+      "kind": "openai",
+      "baseURL": "https://api.deepinfra.com/v1/openai",
+      "apiKey": "DEEPINFRA_API_KEY",
+      "models": {
+        "zai-org/GLM-4.7-Flash": {
+          "name": "glm-4.7-flash"
+        },
+        "moonshotai/Kimi-K2.6": {
+          "name": "kimi-K2.6"
+        },
+        "deepseek-ai/DeepSeek-V4-Pro": {
+          "name": "DeepSeek-V4-Pro"
+        }
+      }
+    },
+    "openai": {
+      "kind": "openai",
+      "baseURL": "https://api.openai.com/v1",
+      "apiKey": "OPENAI_API_KEY",
+      "models": {
+        "gpt-5.4": {
+          "name": "gpt-5.4"
+        }
+      }
+    }
+  }
+}
+EOF
+Command outputs captured
+Running command: if [ -f /bootstrap/test_initial_state.py ]; then pytest -s --log-cli-level=DEBUG /bootstrap/test_initial_state.py > >(tee /logs/agent/pochi/initial-test-stdout.txt) 2> >(tee /logs/agent/pochi/initial-test-stderr.txt >&2); fi
+Command outputs captured
+Running command: pochi --model deepseek/deepseek-4-pro --max-steps 200 --max-retries 10 --blobs-dir /logs/agent/pochi/blobs --experimental-stream-trajectory /logs/agent/pochi/trajectory.jsonl > >(tee /logs/agent/pochi/stdout.txt) 2> >(tee /logs/agent/pochi/stderr.txt >&2) <<'EOF'
+# Query Events using Inspect API
+
+## Background
+Hookdeck provides a Publish API to programmatically trigger events and an Inspect API to query their status. This task requires you to set up a connection, publish an event, and verify its delivery status using these APIs.
+
+## Requirements
+- Write a shell script `verify_event.sh` that automates the following steps.
+- Authenticate with Hookdeck in a headless CI environment.
+- Create a Hookdeck connection linking a new source to a Mock API destination.
+- The source name must be `test-source-${run-id}` and the destination name must be `mock-dest-${run-id}`, where `${run-id}` is read from the `ZEALT_RUN_ID` environment variable.
+- Trigger a mock event to the source using the Publish API.
+- Query the events for the source using the Inspect API to verify the event delivery status is `SUCCESSFUL`.
+- Write the successful event ID to a log file.
+
+## Implementation Hints
+- Use `hookdeck ci` for headless authentication.
+- Use the CLI to create the connection with a `MOCK` destination type.
+- You may need to use the Hookdeck REST API to retrieve the `source_id` for the Inspect API.
+
+## Acceptance Criteria
+- Project path: /home/user/hookdeck-task
+- Ensure the script `verify_event.sh` is executed and the artifacts exist.
+- Log file: /home/user/hookdeck-task/output.log
+- The log file must contain the successful event ID in the format: `Event ID: <event_id>`
+
+
+EOF
+Command outputs captured
+Running command: rm -f ~/.pochi/config.jsonc
+Command outputs captured
+The verifier.env contains an API key (often the case for LLM-based verifiers). You will incur costs associated with the API calls.
+Skipping image OS validation for hb__end_to_end_api_workflow: docker inspect returned 1
+Running command: apt-get update && apt-get install -y curl ripgrep
+Command outputs captured
+Running command: rm -f ~/.pochi/config.jsonc
+Command outputs captured
+The verifier.env contains an API key (often the case for LLM-based verifiers). You will incur costs associated with the API calls.
+Command outputs captured
+Running command: set -euo pipefail; curl -fsSL https://getpochi.com/install.sh | bash -x -s -- pochi-v0.6.14 && mkdir -p /logs/agent/pochi && ~/.pochi/bin/pochi --version
+Command outputs captured
+Running command: ln -sf ~/.pochi/bin/pochi /usr/local/bin/pochi
+Command outputs captured
+Running command: echo zr-mjzzwqj > /logs/artifacts/run-id && echo end_to_end_api_workflow__MjzzWqJ > /logs/artifacts/trial_id
+Command outputs captured
+Running command: mkdir -p ~/.pochi && cat << 'EOF' | sed -e "s/OPENAI_API_KEY/${OPENAI_API_KEY}/g" -e "s/DEEPINFRA_API_KEY/${DEEPINFRA_API_KEY}/g" > ~/.pochi/config.jsonc
+{
+  "providers": {
+    "deepinfra": {
+      "kind": "openai",
+      "baseURL": "https://api.deepinfra.com/v1/openai",
+      "apiKey": "DEEPINFRA_API_KEY",
+      "models": {
+        "zai-org/GLM-4.7-Flash": {
+          "name": "glm-4.7-flash"
+        },
+        "moonshotai/Kimi-K2.6": {
+          "name": "kimi-K2.6"
+        },
+        "deepseek-ai/DeepSeek-V4-Pro": {
+          "name": "DeepSeek-V4-Pro"
+        }
+      }
+    },
+    "openai": {
+      "kind": "openai",
+      "baseURL": "https://api.openai.com/v1",
+      "apiKey": "OPENAI_API_KEY",
+      "models": {
+        "gpt-5.4": {
+          "name": "gpt-5.4"
+        }
+      }
+    }
+  }
+}
+EOF
+Command outputs captured
+Running command: if [ -f /bootstrap/test_initial_state.py ]; then pytest -s --log-cli-level=DEBUG /bootstrap/test_initial_state.py > >(tee /logs/agent/pochi/initial-test-stdout.txt) 2> >(tee /logs/agent/pochi/initial-test-stderr.txt >&2); fi
+Command outputs captured
+Running command: pochi --model deepseek/deepseek-4-pro --max-steps 200 --max-retries 10 --blobs-dir /logs/agent/pochi/blobs --experimental-stream-trajectory /logs/agent/pochi/trajectory.jsonl > >(tee /logs/agent/pochi/stdout.txt) 2> >(tee /logs/agent/pochi/stderr.txt >&2) <<'EOF'
+# Hookdeck End-to-End Workflow
+
+## Background
+Set up a complete Hookdeck event pipeline in a headless environment, and verify its operation by publishing and inspecting an event.
+
+## Requirements
+- Authenticate with Hookdeck in a headless CI environment.
+- Create a Source named `source-${run-id}`.
+- Create a Destination named `mock-dest-${run-id}` using the Mock API destination type.
+- Create a Connection named `conn-${run-id}` linking the Source and Destination.
+- Publish a test event to the Source with a JSON payload containing `{"test_id": "${run-id}"}`.
+- Verify the event is processed successfully.
+- Write the Connection ID and the Event ID to a log file.
+
+## Implementation Hints
+- Read `run-id` from the `ZEALT_RUN_ID` environment variable.
+- Authenticate via `hookdeck ci --api-key $HOOKDECK_API_KEY`.
+- Use the Mock API destination type to avoid needing a local server or active tunnel.
+- You may use the Hookdeck CLI or REST API to provision resources, publish events, and inspect the delivery status.
+
+## Acceptance Criteria
+- Project path: /home/user/hookdeck-project
+- Ensure the real resources are created in Hookdeck, the event is published, and the log artifact exists.
+- Log file: /home/user/hookdeck-project/output.log
+- The log file must contain exactly these two lines with the corresponding IDs:
+  Connection ID: <connection_id>
+  Event ID: <event_id>
+- The Hookdeck Connection `conn-${run-id}` must exist and link `source-${run-id}` to `mock-dest-${run-id}`.
+- The Event with the logged Event ID must have a `SUCCESSFUL` status and its payload must match `{"test_id": "${run-id}"}`.
+
+EOF
+Command outputs captured
+Running command: rm -f ~/.pochi/config.jsonc
+Command outputs captured
+The verifier.env contains an API key (often the case for LLM-based verifiers). You will incur costs associated with the API calls.
+Skipping image OS validation for hb__transformation_missing_fields_cli: docker inspect returned 1
+Running command: apt-get update && apt-get install -y curl ripgrep
+Skipping image OS validation for hb__configure_source_basic_auth_cli: docker inspect returned 1
+Running command: apt-get update && apt-get install -y curl ripgrep
+Command outputs captured
+Running command: set -euo pipefail; curl -fsSL https://getpochi.com/install.sh | bash -x -s -- pochi-v0.6.14 && mkdir -p /logs/agent/pochi && ~/.pochi/bin/pochi --version
+Command outputs captured
+Running command: ln -sf ~/.pochi/bin/pochi /usr/local/bin/pochi
+Command outputs captured
+Command outputs captured
+Running command: set -euo pipefail; curl -fsSL https://getpochi.com/install.sh | bash -x -s -- pochi-v0.6.14 && mkdir -p /logs/agent/pochi && ~/.pochi/bin/pochi --version
+Running command: echo zr-55vekvz > /logs/artifacts/run-id && echo transformation_missing_fields_cl__55vEKVZ > /logs/artifacts/trial_id
+Command outputs captured
+Running command: mkdir -p ~/.pochi && cat << 'EOF' | sed -e "s/OPENAI_API_KEY/${OPENAI_API_KEY}/g" -e "s/DEEPINFRA_API_KEY/${DEEPINFRA_API_KEY}/g" > ~/.pochi/config.jsonc
+{
+  "providers": {
+    "deepinfra": {
+      "kind": "openai",
+      "baseURL": "https://api.deepinfra.com/v1/openai",
+      "apiKey": "DEEPINFRA_API_KEY",
+      "models": {
+        "zai-org/GLM-4.7-Flash": {
+          "name": "glm-4.7-flash"
+        },
+        "moonshotai/Kimi-K2.6": {
+          "name": "kimi-K2.6"
+        },
+        "deepseek-ai/DeepSeek-V4-Pro": {
+          "name": "DeepSeek-V4-Pro"
+        }
+      }
+    },
+    "openai": {
+      "kind": "openai",
+      "baseURL": "https://api.openai.com/v1",
+      "apiKey": "OPENAI_API_KEY",
+      "models": {
+        "gpt-5.4": {
+          "name": "gpt-5.4"
+        }
+      }
+    }
+  }
+}
+EOF
+Command outputs captured
+Running command: if [ -f /bootstrap/test_initial_state.py ]; then pytest -s --log-cli-level=DEBUG /bootstrap/test_initial_state.py > >(tee /logs/agent/pochi/initial-test-stdout.txt) 2> >(tee /logs/agent/pochi/initial-test-stderr.txt >&2); fi
+Command outputs captured
+Running command: pochi --model deepseek/deepseek-4-pro --max-steps 200 --max-retries 10 --blobs-dir /logs/agent/pochi/blobs --experimental-stream-trajectory /logs/agent/pochi/trajectory.jsonl > >(tee /logs/agent/pochi/stdout.txt) 2> >(tee /logs/agent/pochi/stderr.txt >&2) <<'EOF'
+# Safe Payload Transformation
+
+## Background
+Webhook payloads often have inconsistent schemas. You need to configure Hookdeck to receive webhooks, safely extract a deeply nested field, and forward the transformed payload to a mock destination.
+
+## Requirements
+- Authenticate with Hookdeck in a headless environment.
+- Create a Source named `safe-transform-src-${run-id}`.
+- Create a Mock Destination named `safe-transform-dest-${run-id}`.
+- Create a Connection between them.
+- Add a JavaScript Transformation to the Connection that extracts `request.body.data.user.id` and assigns it to `request.body.user_id`. If any part of the path (`data`, `user`, or `id`) is missing, it must safely assign `null` to `request.body.user_id` without throwing an error.
+- Write the Connection ID to a log file.
+
+## Implementation Hints
+- Read the `run-id` from the `ZEALT_RUN_ID` environment variable.
+- Since this is a headless environment, use the `hookdeck ci` command for authentication.
+- You can use the Hookdeck CLI or REST API to provision the resources.
+- Transformations run in a V8 isolate; ensure your JavaScript uses safe property access (e.g., optional chaining) to prevent TypeErrors on missing fields.
+
+## Acceptance Criteria
+- Project path: `/home/user/hookdeck-task`
+- Ensure the setup script is executed and the artifacts exist.
+- Log file: `/home/user/hookdeck-task/output.log`
+- The log file must contain the Connection ID in the format: `Connection ID: <connection_id>`.
+- The Source and Destination must be named using the `run-id` as specified.
+- The Destination type must be `MOCK`.
+- The Transformation must correctly set `user_id` to the value of `data.user.id` if present, or `null` if missing, and must not fail (the event must be processed successfully).
+
+
+EOF
+Command outputs captured
+Running command: ln -sf ~/.pochi/bin/pochi /usr/local/bin/pochi
+Command outputs captured
+Running command: echo zr-yim4mbt > /logs/artifacts/run-id && echo configure_source_basic_auth_cli__yiM4MbT > /logs/artifacts/trial_id
+Command outputs captured
+Running command: mkdir -p ~/.pochi && cat << 'EOF' | sed -e "s/OPENAI_API_KEY/${OPENAI_API_KEY}/g" -e "s/DEEPINFRA_API_KEY/${DEEPINFRA_API_KEY}/g" > ~/.pochi/config.jsonc
+{
+  "providers": {
+    "deepinfra": {
+      "kind": "openai",
+      "baseURL": "https://api.deepinfra.com/v1/openai",
+      "apiKey": "DEEPINFRA_API_KEY",
+      "models": {
+        "zai-org/GLM-4.7-Flash": {
+          "name": "glm-4.7-flash"
+        },
+        "moonshotai/Kimi-K2.6": {
+          "name": "kimi-K2.6"
+        },
+        "deepseek-ai/DeepSeek-V4-Pro": {
+          "name": "DeepSeek-V4-Pro"
+        }
+      }
+    },
+    "openai": {
+      "kind": "openai",
+      "baseURL": "https://api.openai.com/v1",
+      "apiKey": "OPENAI_API_KEY",
+      "models": {
+        "gpt-5.4": {
+          "name": "gpt-5.4"
+        }
+      }
+    }
+  }
+}
+EOF
+Command outputs captured
+Running command: if [ -f /bootstrap/test_initial_state.py ]; then pytest -s --log-cli-level=DEBUG /bootstrap/test_initial_state.py > >(tee /logs/agent/pochi/initial-test-stdout.txt) 2> >(tee /logs/agent/pochi/initial-test-stderr.txt >&2); fi
+Command outputs captured
+Running command: pochi --model deepseek/deepseek-4-pro --max-steps 200 --max-retries 10 --blobs-dir /logs/agent/pochi/blobs --experimental-stream-trajectory /logs/agent/pochi/trajectory.jsonl > >(tee /logs/agent/pochi/stdout.txt) 2> >(tee /logs/agent/pochi/stderr.txt >&2) <<'EOF'
+# Configure Source Basic Authentication with Hookdeck CLI
+
+## Background
+Configure basic authentication for a Hookdeck Source using the Hookdeck CLI to secure incoming webhooks.
+
+## Requirements
+- Create a Hookdeck connection named `auth-conn-${run-id}`.
+- The connection must have a Source named `auth-source-${run-id}` of type `WEBHOOK`.
+- The connection must have a Destination named `auth-dest-${run-id}` of type `MOCK`.
+- Configure Basic Authentication on the Source with the username `admin` and password `secret-password-${run-id}`.
+
+## Implementation Hints
+- Use the Hookdeck CLI to create the connection with inline source and destination.
+- Apply the appropriate CLI flags for configuring source basic authentication.
+- Read the current `run-id` from the `ZEALT_RUN_ID` environment variable.
+
+## Acceptance Criteria
+- Project path: /home/user/hookdeck-task
+- Ensure the real connection creation action is executed.
+- The connection name must be `auth-conn-${run-id}`.
+- The source name must be `auth-source-${run-id}`.
+- The destination name must be `auth-dest-${run-id}`.
+- The source must have Basic Authentication configured with username `admin` and password `secret-password-${run-id}`.
+
+
+EOF
+Command outputs captured
+Running command: rm -f ~/.pochi/config.jsonc
+Command outputs captured
+The verifier.env contains an API key (often the case for LLM-based verifiers). You will incur costs associated with the API calls.
+Skipping image OS validation for hb__create_connection_mock_cli: docker inspect returned 1
+Running command: apt-get update && apt-get install -y curl ripgrep
+Command outputs captured
+Running command: set -euo pipefail; curl -fsSL https://getpochi.com/install.sh | bash -x -s -- pochi-v0.6.14 && mkdir -p /logs/agent/pochi && ~/.pochi/bin/pochi --version
+Command outputs captured
+Running command: ln -sf ~/.pochi/bin/pochi /usr/local/bin/pochi
+Command outputs captured
+Running command: echo zr-ygqdr4j > /logs/artifacts/run-id && echo create_connection_mock_cli__ygQDr4j > /logs/artifacts/trial_id
+Command outputs captured
+Running command: mkdir -p ~/.pochi && cat << 'EOF' | sed -e "s/OPENAI_API_KEY/${OPENAI_API_KEY}/g" -e "s/DEEPINFRA_API_KEY/${DEEPINFRA_API_KEY}/g" > ~/.pochi/config.jsonc
+{
+  "providers": {
+    "deepinfra": {
+      "kind": "openai",
+      "baseURL": "https://api.deepinfra.com/v1/openai",
+      "apiKey": "DEEPINFRA_API_KEY",
+      "models": {
+        "zai-org/GLM-4.7-Flash": {
+          "name": "glm-4.7-flash"
+        },
+        "moonshotai/Kimi-K2.6": {
+          "name": "kimi-K2.6"
+        },
+        "deepseek-ai/DeepSeek-V4-Pro": {
+          "name": "DeepSeek-V4-Pro"
+        }
+      }
+    },
+    "openai": {
+      "kind": "openai",
+      "baseURL": "https://api.openai.com/v1",
+      "apiKey": "OPENAI_API_KEY",
+      "models": {
+        "gpt-5.4": {
+          "name": "gpt-5.4"
+        }
+      }
+    }
+  }
+}
+EOF
+Command outputs captured
+Running command: if [ -f /bootstrap/test_initial_state.py ]; then pytest -s --log-cli-level=DEBUG /bootstrap/test_initial_state.py > >(tee /logs/agent/pochi/initial-test-stdout.txt) 2> >(tee /logs/agent/pochi/initial-test-stderr.txt >&2); fi
+Command outputs captured
+Running command: pochi --model deepseek/deepseek-4-pro --max-steps 200 --max-retries 10 --blobs-dir /logs/agent/pochi/blobs --experimental-stream-trajectory /logs/agent/pochi/trajectory.jsonl > >(tee /logs/agent/pochi/stdout.txt) 2> >(tee /logs/agent/pochi/stderr.txt >&2) <<'EOF'
+# Create a Hookdeck Connection to a Mock Destination
+
+## Background
+Hookdeck acts as a reliable infrastructure layer for webhooks. In this task, you will create a new Connection linking a Source to a Mock Destination using the Hookdeck CLI.
+
+## Requirements
+- Authenticate with the Hookdeck CLI in a headless environment.
+- Create a Connection linking a new Source to a new Mock Destination.
+- Use the `ZEALT_RUN_ID` environment variable to name the resources uniquely:
+  - Connection name: `mock-conn-${run-id}`
+  - Source name: `mock-source-${run-id}`
+  - Destination name: `mock-dest-${run-id}`
+- Record the created Connection ID in a log file.
+
+## Implementation Hints
+- Use `hookdeck ci` for headless authentication.
+- Use the Hookdeck CLI to create the connection, specifying the appropriate source and destination types.
+- Remember to read `run-id` from the `ZEALT_RUN_ID` environment variable.
+
+## Acceptance Criteria
+- Project path: `/home/user/hookdeck-task`
+- Ensure the connection creation is executed and the log artifact exists.
+- Log file: `/home/user/hookdeck-task/output.log`
+- The log file must contain the Connection ID in the format: `Connection ID: <connection_id>`.
+- A Connection named `mock-conn-${run-id}` must exist in the Hookdeck workspace.
+- The Connection must link a Source named `mock-source-${run-id}` and a Destination named `mock-dest-${run-id}`.
+- The Destination type must be `MOCK`.
+
+
+EOF
+Command outputs captured
+Running command: rm -f ~/.pochi/config.jsonc
+Command outputs captured
+The verifier.env contains an API key (often the case for LLM-based verifiers). You will incur costs associated with the API calls.
+Command outputs captured
+Running command: rm -f ~/.pochi/config.jsonc
+Command outputs captured
+The verifier.env contains an API key (often the case for LLM-based verifiers). You will incur costs associated with the API calls.
+Running command: rm -f ~/.pochi/config.jsonc
+Command outputs captured
+The verifier.env contains an API key (often the case for LLM-based verifiers). You will incur costs associated with the API calls.
+Exception AgentTimeoutError is in exclude_exceptions, not retrying
+Not retrying trial because the exception is not in include_exceptions or the maximum number of retries has been reached
+Command outputs captured
+Running command: rm -f ~/.pochi/config.jsonc
+Command outputs captured
+The verifier.env contains an API key (often the case for LLM-based verifiers). You will incur costs associated with the API calls.
+Running command: rm -f ~/.pochi/config.jsonc
+Command outputs captured
+The verifier.env contains an API key (often the case for LLM-based verifiers). You will incur costs associated with the API calls.
+Exception AgentTimeoutError is in exclude_exceptions, not retrying
+Not retrying trial because the exception is not in include_exceptions or the maximum number of retries has been reached

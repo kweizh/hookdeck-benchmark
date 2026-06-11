@@ -1,0 +1,50 @@
+{
+    "reportFormat": "CTRF",
+    "specVersion": "0.0.0",
+    "timestamp": "2026-06-10T19:04:14.836033+00:00",
+    "generatedBy": "pytest",
+    "results": {
+        "tool": {
+            "name": "pytest",
+            "version": "7.4.4"
+        },
+        "summary": {
+            "tests": 2,
+            "passed": 1,
+            "failed": 1,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1781118254471,
+            "stop": 1781118254835
+        },
+        "environment": {
+            "buildName": "Pytest JSON CTRF Report",
+            "buildNumber": "000",
+            "buildUrl": "https://ctrf.io"
+        },
+        "tests": [
+            {
+                "name": "test_final_state.py::test_log_file_exists_and_contains_connection_id",
+                "status": "passed",
+                "duration": 2,
+                "start": 1781118254629,
+                "stop": 1781118254631,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_connection_details_via_api",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 204,
+                "start": 1781118254631,
+                "stop": 1781118254835,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "def test_connection_details_via_api():\n        \"\"\"Verify the connection details using the Hookdeck API.\"\"\"\n        run_id = os.environ.get(\"ZEALT_RUN_ID\")\n        assert run_id is not None, \"ZEALT_RUN_ID environment variable is missing.\"\n    \n        api_key = os.environ.get(\"HOOKDECK_API_KEY\")\n        assert api_key is not None, \"HOOKDECK_API_KEY environment variable is missing.\"\n    \n        # Extract connection ID from log file\n        with open(LOG_FILE, \"r\") as f:\n            content = f.read()\n        match = re.search(r\"Connection ID:\\s*([a-zA-Z0-9_]+)\", content)\n        assert match is not None, \"Could not extract connection ID from log file.\"\n        connection_id = match.group(1)\n    \n        # Fetch connection from API\n        url = f\"https://api.hookdeck.com/2025-07-01/connections/{connection_id}\"\n        headers = {\n            \"Authorization\": f\"Bearer {api_key}\"\n        }\n    \n        response = requests.get(url, headers=headers)\n        assert response.status_code == 200, f\"Failed to fetch connection details. Status: {response.status_code}, Response: {response.text}\"\n    \n        data = response.json()\n    \n        # Assert connection name\n        expected_conn_name = f\"mock-conn-{run_id}\"\n        assert data.get(\"name\") == expected_conn_name, f\"Expected connection name '{expected_conn_name}', got '{data.get('name')}'\"\n    \n        # Assert source name\n        source = data.get(\"source\", {})\n        expected_source_name = f\"mock-source-{run_id}\"\n        assert source.get(\"name\") == expected_source_name, f\"Expected source name '{expected_source_name}', got '{source.get('name')}'\"\n    \n        # Assert destination name and type\n        destination = data.get(\"destination\", {})\n        expected_dest_name = f\"mock-dest-{run_id}\"\n        assert destination.get(\"name\") == expected_dest_name, f\"Expected destination name '{expected_dest_name}', got '{destination.get('name')}'\"\n    \n        dest_type = destination.get(\"type\", \"\").upper()\n>       assert dest_type == \"MOCK\", f\"Expected destination type 'MOCK', got '{dest_type}'\"\nE       AssertionError: Expected destination type 'MOCK', got 'MOCK_API'\nE       assert 'MOCK_API' == 'MOCK'\nE         - MOCK\nE         + MOCK_API\n\ntests/test_final_state.py:60: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            }
+        ]
+    }
+}

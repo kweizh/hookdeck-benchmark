@@ -1,0 +1,82 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-7.4.4, pluggy-1.4.0
+rootdir: /tests
+plugins: json-ctrf-0.5.2
+collected 3 items
+
+tests/test_final_state.py ..F                                            [100%]
+
+=================================== FAILURES ===================================
+_________________________ test_publish_and_verify_hmac _________________________
+
+    def test_publish_and_verify_hmac():
+        run_id, api_key, hmac_secret = get_env_vars()
+    
+        with open(LOG_FILE, "r") as f:
+            content = f.read()
+        source_match = re.search(r"Source ID:\s*([a-zA-Z0-9_]+)", content)
+        assert source_match, "Could not find 'Source ID: <id>' in output.log"
+        source_id = source_match.group(1)
+    
+        # Publish event
+        publish_url = "https://hkdk.events/v1/publish"
+        publish_headers = {
+            "Authorization": f"Bearer {api_key}",
+            "X-Hookdeck-Source-Name": f"hmac-source-{run_id}",
+            "Content-Type": "application/json"
+        }
+        payload = {"message": "hello world"}
+    
+        pub_res = requests.post(publish_url, headers=publish_headers, json=payload)
+        assert pub_res.status_code == 200, f"Failed to publish event: {pub_res.text}"
+    
+        # Wait for processing
+        time.sleep(5)
+    
+        # Query events
+        events_url = f"https://api.hookdeck.com/2025-07-01/events?source_id={source_id}&limit=5"
+        headers = {"Authorization": f"Bearer {api_key}"}
+    
+        # Retry logic for fetching the processed event
+        found_hmac = None
+        expected_hmac = hmac.new(
+            hmac_secret.encode('utf-8'),
+            json.dumps(payload).encode('utf-8'),
+            hashlib.sha256
+        ).hexdigest()
+    
+        for _ in range(3):
+            ev_res = requests.get(events_url, headers=headers)
+            assert ev_res.status_code == 200, f"Failed to fetch events: {ev_res.text}"
+    
+            events_data = ev_res.json()
+            models = events_data.get("models", [])
+    
+            for event in models:
+                # Look at event attempts or headers
+                # Hookdeck events/attempts usually store headers in `headers` or `request_headers`
+                event_str = json.dumps(event).lower()
+                if "x-hmac-signature" in event_str:
+                    # Try to extract the value
+                    match = re.search(r'"x-hmac-signature":\s*"([^"]+)"', json.dumps(event, ignore_nan=True) if hasattr(json, 'ignore_nan') else json.dumps(event))
+                    if not match:
+                        match = re.search(r'"x-hmac-signature":\s*\["([^"]+)"\]', json.dumps(event))
+                    if match:
+                        found_hmac = match.group(1)
+                        break
+    
+            if found_hmac:
+                break
+            time.sleep(3)
+    
+>       assert found_hmac is not None, "Could not find 'x-hmac-signature' in the delivered event headers."
+E       AssertionError: Could not find 'x-hmac-signature' in the delivered event headers.
+E       assert None is not None
+
+tests/test_final_state.py:109: AssertionError
+==================================== PASSES ====================================
+=========================== short test summary info ============================
+PASSED tests/test_final_state.py::test_log_file_exists
+PASSED tests/test_final_state.py::test_extract_ids_and_verify_connection
+FAILED tests/test_final_state.py::test_publish_and_verify_hmac - AssertionErr...
+========================= 1 failed, 2 passed in 15.69s =========================

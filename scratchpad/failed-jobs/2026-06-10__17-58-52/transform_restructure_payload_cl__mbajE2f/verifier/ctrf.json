@@ -1,0 +1,50 @@
+{
+    "reportFormat": "CTRF",
+    "specVersion": "0.0.0",
+    "timestamp": "2026-06-10T18:07:44.242924+00:00",
+    "generatedBy": "pytest",
+    "results": {
+        "tool": {
+            "name": "pytest",
+            "version": "7.4.4"
+        },
+        "summary": {
+            "tests": 2,
+            "passed": 1,
+            "failed": 1,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1781114848388,
+            "stop": 1781114864242
+        },
+        "environment": {
+            "buildName": "Pytest JSON CTRF Report",
+            "buildNumber": "000",
+            "buildUrl": "https://ctrf.io"
+        },
+        "tests": [
+            {
+                "name": "test_final_state.py::test_log_file_exists_and_contains_connection_id",
+                "status": "passed",
+                "duration": 2,
+                "start": 1781114848550,
+                "stop": 1781114848552,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_transformation_restructures_payload_and_adds_headers",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 15690,
+                "start": 1781114848552,
+                "stop": 1781114864242,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "def test_transformation_restructures_payload_and_adds_headers():\n        run_id = get_run_id()\n        api_key = get_api_key()\n        source_name = f\"legacy-source-{run_id}\"\n    \n        # Send a test event using the Publish API\n        publish_url = \"https://hkdk.events/v1/publish\"\n        headers = {\n            \"Authorization\": f\"Bearer {api_key}\",\n            \"X-Hookdeck-Source-Name\": source_name,\n            \"Content-Type\": \"application/json\"\n        }\n        test_value = f\"test_value_{run_id}\"\n        payload = {\n            \"data\": {\n                \"object\": {\n                    \"test_key\": test_value\n                }\n            }\n        }\n    \n        response = requests.post(publish_url, headers=headers, json=payload)\n        assert response.status_code == 200, f\"Failed to publish event. Status: {response.status_code}, Response: {response.text}\"\n    \n        # Wait for the event to be processed\n        time.sleep(5)\n    \n        # Get the source ID\n        sources_url = f\"https://api.hookdeck.com/2025-07-01/sources?name={source_name}\"\n        headers_api = {\n            \"Authorization\": f\"Bearer {api_key}\"\n        }\n        response = requests.get(sources_url, headers=headers_api)\n        assert response.status_code == 200, f\"Failed to list sources. Status: {response.status_code}, Response: {response.text}\"\n    \n        sources_data = response.json()\n        assert \"models\" in sources_data and len(sources_data[\"models\"]) > 0, f\"Source '{source_name}' not found.\"\n        source_id = sources_data[\"models\"][0][\"id\"]\n    \n        # Query events\n        events_url = f\"https://api.hookdeck.com/2025-07-01/events?source_id={source_id}&status=SUCCESSFUL\"\n    \n        # Retry logic for event delivery\n        max_retries = 3\n        events_data = None\n        for attempt in range(max_retries):\n            response = requests.get(events_url, headers=headers_api)\n            assert response.status_code == 200, f\"Failed to query events. Status: {response.status_code}, Response: {response.text}\"\n            events_data = response.json()\n            if \"models\" in events_data and len(events_data[\"models\"]) > 0:\n                break\n            time.sleep(3)\n    \n>       assert events_data and \"models\" in events_data and len(events_data[\"models\"]) > 0, \"No SUCCESSFUL events found for the source.\"\nE       AssertionError: No SUCCESSFUL events found for the source.\nE       assert ({'count': 0, 'models': [], 'pagination': {'dir': 'desc', 'limit': 50, 'order_by': 'created_at'}} and 'models' in {'count': 0, 'models': [], 'pagination': {'dir': 'desc', 'limit': 50, 'order_by': 'created_at'}} and 0 > 0)\nE        +  where 0 = len([])\n\ntests/test_final_state.py:81: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            }
+        ]
+    }
+}

@@ -1,0 +1,41 @@
+{
+    "reportFormat": "CTRF",
+    "specVersion": "0.0.0",
+    "timestamp": "2026-06-10T18:29:10.408631+00:00",
+    "generatedBy": "pytest",
+    "results": {
+        "tool": {
+            "name": "pytest",
+            "version": "7.4.4"
+        },
+        "summary": {
+            "tests": 1,
+            "passed": 0,
+            "failed": 1,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1781116149777,
+            "stop": 1781116150408
+        },
+        "environment": {
+            "buildName": "Pytest JSON CTRF Report",
+            "buildNumber": "000",
+            "buildUrl": "https://ctrf.io"
+        },
+        "tests": [
+            {
+                "name": "test_final_state.py::test_connection_exists_and_configured",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 455,
+                "start": 1781116149953,
+                "stop": 1781116150408,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "def test_connection_exists_and_configured():\n        run_id, api_key = get_env_vars()\n        headers = {\"Authorization\": f\"Bearer {api_key}\"}\n    \n        # Check Connection\n        conn_name = f\"header-conn-{run_id}\"\n        url = f\"https://api.hookdeck.com/2025-07-01/connections?name={conn_name}\"\n        resp = requests.get(url, headers=headers)\n        assert resp.status_code == 200, f\"Failed to fetch connections: {resp.text}\"\n    \n        data = resp.json()\n        assert data.get(\"count\", 0) > 0, f\"Connection '{conn_name}' not found.\"\n    \n        models = data.get(\"models\", [])\n        conn = models[0]\n    \n        # Verify Source and Destination\n        source = conn.get(\"source\", {})\n        destination = conn.get(\"destination\", {})\n    \n        assert source.get(\"name\") == f\"source-{run_id}\", f\"Expected source name 'source-{run_id}', got {source.get('name')}\"\n        assert destination.get(\"name\") == f\"mock-dest-{run_id}\", f\"Expected destination name 'mock-dest-{run_id}', got {destination.get('name')}\"\n    \n        # Verify Destination Type via Destination object\n        # In Hookdeck API, the destination type might be in the destination object or we can fetch it separately\n        dest_url = f\"https://api.hookdeck.com/2025-07-01/destinations?name=mock-dest-{run_id}\"\n        dest_resp = requests.get(dest_url, headers=headers)\n        assert dest_resp.status_code == 200, f\"Failed to fetch destinations: {dest_resp.text}\"\n        dest_data = dest_resp.json()\n        assert dest_data.get(\"count\", 0) > 0, f\"Destination 'mock-dest-{run_id}' not found.\"\n        dest_model = dest_data.get(\"models\", [])[0]\n    \n        # Check destination type (could be \"MOCK\" or similar depending on Hookdeck API, mock-api etc)\n        # The requirement says type MOCK\n        # We will check if it's CLI or MOCK but we specifically requested MOCK\n        # The actual API might return 'cli' or 'mock'\n>       assert dest_model.get(\"type\", \"\").upper() == \"MOCK\", f\"Expected destination type MOCK, got {dest_model.get('type')}\"\nE       AssertionError: Expected destination type MOCK, got MOCK_API\nE       assert 'MOCK_API' == 'MOCK'\nE         - MOCK\nE         + MOCK_API\n\ntests/test_final_state.py:48: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            }
+        ]
+    }
+}

@@ -1,0 +1,7 @@
+[2026-06-10 19:02:50] Starting event verification for run ID: zr-ffrgkr2
+[2026-06-10 19:02:50] Authenticating with Hookdeck CI...
+time="Wed, 10 Jun 2026 19:02:50 UTC" level=info msg="The Hookdeck CLI is configured on project Event Gateway Starter in organization zealt
+"
+Updated: /home/user/hookdeck-task/.hookdeck/config.toml
+[2026-06-10 19:02:50] Authentication complete.
+[2026-06-10 19:02:50] Creating connection 'test-conn-zr-ffrgkr2' with source 'test-source-zr-ffrgkr2' and mock destination 'mock-dest-zr-ffrgkr2'...

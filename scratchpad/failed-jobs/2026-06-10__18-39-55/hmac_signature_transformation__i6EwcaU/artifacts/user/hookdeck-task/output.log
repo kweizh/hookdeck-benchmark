@@ -1,0 +1,125 @@
+=== Authenticating with Hookdeck CLI ===
+time="Wed, 10 Jun 2026 18:43:48 UTC" level=info msg="The Hookdeck CLI is configured on project Event Gateway Starter in organization zealt
+"
+
+=== Creating transformation: hmac-transform-zr-i6ewcau ===
+{
+  "id": "trs_DZgrJPvQUAyR5h",
+  "name": "hmac-transform-zr-i6ewcau",
+  "code": "addHandler(\"transform\", (request, context) =\u003e {\n  const secret = context.env.HMAC_SECRET;\n  const body = JSON.stringify(request.body);\n  const hmac = crypto.createHmac(\"sha256\", secret).update(body).digest(\"hex\");\n  request.headers[\"x-hmac-signature\"] = hmac;\n  return request;\n});",
+  "env": {
+    "HMAC_SECRET": "my-super-secret-hmac-key"
+  },
+  "updated_at": "2026-06-10T18:43:48.734Z",
+  "created_at": "2026-06-10T18:43:48.733Z"
+}
+Transformation ID: trs_DZgrJPvQUAyR5h
+
+=== Creating source: hmac-source-zr-i6ewcau ===
+{
+  "id": "src_1beawpo313xot9",
+  "name": "hmac-source-zr-i6ewcau",
+  "description": null,
+  "url": "https://hkdk.events/1beawpo313xot9",
+  "type": "WEBHOOK",
+  "config": {
+    "allowed_http_methods": [
+      "POST",
+      "PUT",
+      "PATCH",
+      "DELETE"
+    ],
+    "auth": null,
+    "auth_type": null,
+    "custom_response": null
+  },
+  "disabled_at": null,
+  "updated_at": "2026-06-10T18:44:03.285Z",
+  "created_at": "2026-06-10T18:44:03.283Z"
+}
+Source ID: src_1beawpo313xot9
+
+=== Creating destination: hmac-dest-zr-i6ewcau ===
+{
+  "id": "des_8NrIpyoDo3TP",
+  "team_id": "tm_y0vMXx2IWjqZ",
+  "name": "hmac-dest-zr-i6ewcau",
+  "description": null,
+  "type": "MOCK_API",
+  "config": {
+    "auth": {},
+    "auth_type": "HOOKDECK_SIGNATURE",
+    "http_method": null,
+    "path_forwarding_disabled": false,
+    "rate_limit": null,
+    "rate_limit_period": "second"
+  },
+  "disabled_at": null,
+  "updated_at": "2026-06-10T18:44:03.846Z",
+  "created_at": "2026-06-10T18:44:03.845Z"
+}
+Destination ID: des_8NrIpyoDo3TP
+
+=== Creating connection: hmac-connection-zr-i6ewcau ===
+{
+  "id": "web_sTuI3zqnWDcr",
+  "name": "hmac-connection-zr-i6ewcau",
+  "full_name": "hmac-source-zr-i6ewcau -\u003e hmac-connection-zr-i6ewcau",
+  "description": null,
+  "team_id": "tm_y0vMXx2IWjqZ",
+  "destination": {
+    "id": "des_8NrIpyoDo3TP",
+    "team_id": "tm_y0vMXx2IWjqZ",
+    "name": "hmac-dest-zr-i6ewcau",
+    "description": null,
+    "type": "MOCK_API",
+    "config": {
+      "auth": {},
+      "auth_type": "HOOKDECK_SIGNATURE",
+      "http_method": null,
+      "path_forwarding_disabled": false,
+      "rate_limit": null,
+      "rate_limit_period": "second"
+    },
+    "disabled_at": null,
+    "updated_at": "2026-06-10T18:44:03.846Z",
+    "created_at": "2026-06-10T18:44:03.845Z"
+  },
+  "source": {
+    "id": "src_1beawpo313xot9",
+    "name": "hmac-source-zr-i6ewcau",
+    "description": null,
+    "url": "https://hkdk.events/1beawpo313xot9",
+    "type": "WEBHOOK",
+    "config": {
+      "allowed_http_methods": [
+        "POST",
+        "PUT",
+        "PATCH",
+        "DELETE"
+      ],
+      "custom_response": null
+    },
+    "disabled_at": null,
+    "updated_at": "2026-06-10T18:44:03.285Z",
+    "created_at": "2026-06-10T18:44:03.283Z"
+  },
+  "rules": [
+    {
+      "transformation_id": "trs_LtbPNCqbYVaRy6",
+      "type": "transform"
+    }
+  ],
+  "disabled_at": null,
+  "paused_at": null,
+  "updated_at": "2026-06-10T18:44:04.089Z",
+  "created_at": "2026-06-10T18:44:04.095Z"
+}
+Connection ID: web_sTuI3zqnWDcr
+
+Source ID: src_1beawpo313xot9
+Connection ID: web_sTuI3zqnWDcr
+
+=== Done ===
+Source ID: src_1beawpo313xot9
+Connection ID: web_sTuI3zqnWDcr

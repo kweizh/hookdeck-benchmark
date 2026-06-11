@@ -1,0 +1,74 @@
+Skipping image OS validation for hb__custom_retry_strategy: docker inspect returned 1
+Running command: apt-get update && apt-get install -y curl ripgrep
+Command outputs captured
+Running command: set -euo pipefail; curl -fsSL https://getpochi.com/install.sh | bash -x -s -- pochi-v0.6.14 && mkdir -p /logs/agent/pochi && ~/.pochi/bin/pochi --version
+Command outputs captured
+Running command: ln -sf ~/.pochi/bin/pochi /usr/local/bin/pochi
+Command outputs captured
+Running command: echo zr-rkdv7od > /logs/artifacts/run-id && echo custom_retry_strategy__RKDv7od > /logs/artifacts/trial_id
+Command outputs captured
+Running command: mkdir -p ~/.pochi && cat << 'EOF' | sed -e "s/OPENAI_API_KEY/${OPENAI_API_KEY}/g" -e "s/DEEPINFRA_API_KEY/${DEEPINFRA_API_KEY}/g" > ~/.pochi/config.jsonc
+{
+  "providers": {
+    "deepinfra": {
+      "kind": "openai",
+      "baseURL": "https://api.deepinfra.com/v1/openai",
+      "apiKey": "DEEPINFRA_API_KEY",
+      "models": {
+        "zai-org/GLM-4.7-Flash": {
+          "name": "glm-4.7-flash"
+        },
+        "moonshotai/Kimi-K2.6": {
+          "name": "kimi-K2.6"
+        },
+        "deepseek-ai/DeepSeek-V4-Pro": {
+          "name": "DeepSeek-V4-Pro"
+        }
+      }
+    },
+    "openai": {
+      "kind": "openai",
+      "baseURL": "https://api.openai.com/v1",
+      "apiKey": "OPENAI_API_KEY",
+      "models": {
+        "gpt-5.4": {
+          "name": "gpt-5.4"
+        }
+      }
+    }
+  }
+}
+EOF
+Command outputs captured
+Running command: if [ -f /bootstrap/test_initial_state.py ]; then pytest -s --log-cli-level=DEBUG /bootstrap/test_initial_state.py > >(tee /logs/agent/pochi/initial-test-stdout.txt) 2> >(tee /logs/agent/pochi/initial-test-stderr.txt >&2); fi
+Command outputs captured
+Running command: pochi --model google/gemini-3.5-flash --max-steps 200 --max-retries 10 --blobs-dir /logs/agent/pochi/blobs --experimental-stream-trajectory /logs/agent/pochi/trajectory.jsonl > >(tee /logs/agent/pochi/stdout.txt) 2> >(tee /logs/agent/pochi/stderr.txt >&2) <<'EOF'
+# Configure a Custom Retry Strategy in Hookdeck
+
+## Background
+Hookdeck provides robust automatic retry mechanisms for failed events. By default, connections might retry all failures, but you can configure specific rules based on HTTP response status codes. Your task is to create a connection that only retries 5xx errors and ignores 4xx errors.
+
+## Requirements
+- Create a new Connection named `custom-retry-conn-${run-id}`.
+- The Connection must link a Source named `custom-retry-source-${run-id}` to a Mock Destination named `custom-retry-dest-${run-id}`.
+- Configure a retry rule on the connection to retry exactly 5 times, with a linear strategy and a 1-minute (60000ms) interval.
+- The retry rule must only trigger for HTTP 5xx errors (e.g., `500-599`). It must NOT retry 4xx errors.
+- Write the resulting Connection ID to a log file.
+
+## Implementation Hints
+- Read the `run-id` from the `ZEALT_RUN_ID` environment variable and append it to all resource names.
+- You may use the Hookdeck CLI or REST API. Remember that the evaluation environment is headless.
+
+## Acceptance Criteria
+- Project path: /home/user/hookdeck-task
+- Ensure the connection creation is executed and the resources exist in the Hookdeck workspace.
+- Output a log file at `/home/user/hookdeck-task/output.log` containing the Connection ID in the exact format: `Connection ID: <connection_id>`.
+- The connection must exist with the exact name `custom-retry-conn-${run-id}`.
+- The connection's rules must include a retry rule configured for 5 retries, a linear strategy, a 60000ms interval, and `response_status_codes` covering `500-599`.
+
+
+EOF
+Command outputs captured
+Running command: rm -f ~/.pochi/config.jsonc
+Command outputs captured
+The verifier.env contains an API key (often the case for LLM-based verifiers). You will incur costs associated with the API calls.

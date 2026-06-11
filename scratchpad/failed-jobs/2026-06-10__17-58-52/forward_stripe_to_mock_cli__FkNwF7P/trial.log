@@ -1,0 +1,78 @@
+Skipping image OS validation for hb__forward_stripe_to_mock_cli: docker inspect returned 1
+Running command: apt-get update && apt-get install -y curl ripgrep
+Command outputs captured
+Running command: set -euo pipefail; curl -fsSL https://getpochi.com/install.sh | bash -x -s -- pochi-v0.6.14 && mkdir -p /logs/agent/pochi && ~/.pochi/bin/pochi --version
+Command outputs captured
+Running command: ln -sf ~/.pochi/bin/pochi /usr/local/bin/pochi
+Command outputs captured
+Running command: echo zr-fknwf7p > /logs/artifacts/run-id && echo forward_stripe_to_mock_cli__FkNwF7P > /logs/artifacts/trial_id
+Command outputs captured
+Running command: mkdir -p ~/.pochi && cat << 'EOF' | sed -e "s/OPENAI_API_KEY/${OPENAI_API_KEY}/g" -e "s/DEEPINFRA_API_KEY/${DEEPINFRA_API_KEY}/g" > ~/.pochi/config.jsonc
+{
+  "providers": {
+    "deepinfra": {
+      "kind": "openai",
+      "baseURL": "https://api.deepinfra.com/v1/openai",
+      "apiKey": "DEEPINFRA_API_KEY",
+      "models": {
+        "zai-org/GLM-4.7-Flash": {
+          "name": "glm-4.7-flash"
+        },
+        "moonshotai/Kimi-K2.6": {
+          "name": "kimi-K2.6"
+        },
+        "deepseek-ai/DeepSeek-V4-Pro": {
+          "name": "DeepSeek-V4-Pro"
+        }
+      }
+    },
+    "openai": {
+      "kind": "openai",
+      "baseURL": "https://api.openai.com/v1",
+      "apiKey": "OPENAI_API_KEY",
+      "models": {
+        "gpt-5.4": {
+          "name": "gpt-5.4"
+        }
+      }
+    }
+  }
+}
+EOF
+Command outputs captured
+Running command: if [ -f /bootstrap/test_initial_state.py ]; then pytest -s --log-cli-level=DEBUG /bootstrap/test_initial_state.py > >(tee /logs/agent/pochi/initial-test-stdout.txt) 2> >(tee /logs/agent/pochi/initial-test-stderr.txt >&2); fi
+Command outputs captured
+Running command: pochi --model anthropic/claude-4-6-sonnet --max-steps 200 --max-retries 10 --blobs-dir /logs/agent/pochi/blobs --experimental-stream-trajectory /logs/agent/pochi/trajectory.jsonl > >(tee /logs/agent/pochi/stdout.txt) 2> >(tee /logs/agent/pochi/stderr.txt >&2) <<'EOF'
+# Forward Stripe Webhooks to Mock Destination
+
+## Background
+Hookdeck acts as an Event Gateway to receive, process, and deliver webhooks. In this task, you will configure a Connection to receive webhooks from Stripe and forward them to a Mock API destination using the Hookdeck CLI.
+
+## Requirements
+- Create a bash script `setup.sh` that authenticates with Hookdeck in a headless environment.
+- The script must create a new Hookdeck Connection with a Source named `stripe-${run-id}` (type `STRIPE`) and a Destination named `mock-dest-${run-id}` (type `MOCK`).
+- The connection itself must be named `stripe-to-mock-${run-id}`.
+- Save the resulting connection creation output to a log file.
+
+## Implementation Hints
+- The evaluation environment is headless. Use `hookdeck ci --api-key $HOOKDECK_API_KEY` to authenticate.
+- Use the `ZEALT_RUN_ID` environment variable to append the `run-id` to your resource names to avoid collisions.
+- Use the `hookdeck gateway connection create` command to create the connection with a Mock destination.
+- Write the output of the creation command to the required log file.
+
+## Acceptance Criteria
+- Project path: /home/user/hookdeck-task
+- Ensure the real connection creation action is executed and the log artifact exists.
+- Log file: /home/user/hookdeck-task/output.log
+- Required Test Criteria:
+  1. A Connection named `stripe-to-mock-${run-id}` must exist in Hookdeck.
+  2. The Connection's Source must be named `stripe-${run-id}` and have the type `STRIPE`.
+  3. The Connection's Destination must be named `mock-dest-${run-id}` and have the type `MOCK`.
+  4. The `/home/user/hookdeck-task/output.log` file must exist.
+
+
+EOF
+Command outputs captured
+Running command: rm -f ~/.pochi/config.jsonc
+Command outputs captured
+The verifier.env contains an API key (often the case for LLM-based verifiers). You will incur costs associated with the API calls.

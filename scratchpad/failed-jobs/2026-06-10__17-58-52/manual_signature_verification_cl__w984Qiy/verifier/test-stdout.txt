@@ -1,0 +1,54 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-7.4.4, pluggy-1.4.0
+rootdir: /tests
+plugins: json-ctrf-0.5.2
+collected 2 items
+
+tests/test_final_state.py .F                                             [100%]
+
+=================================== FAILURES ===================================
+_______________________ test_source_verification_config ________________________
+
+    def test_source_verification_config():
+        run_id = os.environ.get("ZEALT_RUN_ID")
+        assert run_id, "ZEALT_RUN_ID environment variable is not set."
+    
+        with open(LOG_FILE, "r") as f:
+            content = f.read()
+        match = re.search(r"Source ID:\s*(src_[a-zA-Z0-9]+)", content)
+        assert match is not None, "Source ID not found in log file."
+        source_id = match.group(1)
+    
+        api_key = os.environ.get("HOOKDECK_API_KEY")
+        assert api_key, "HOOKDECK_API_KEY environment variable is not set."
+    
+        result = subprocess.run(
+            [
+                "curl", "-s",
+                "-H", f"Authorization: Bearer {api_key}",
+                f"https://api.hookdeck.com/2025-07-01/sources/{source_id}"
+            ],
+            capture_output=True, text=True
+        )
+    
+        assert result.returncode == 0, f"curl request failed: {result.stderr}"
+    
+        try:
+            data = json.loads(result.stdout)
+        except json.JSONDecodeError:
+            pytest.fail(f"Failed to parse JSON response: {result.stdout}")
+    
+        expected_name = f"secure-source-{run_id}"
+        assert data.get("name") == expected_name, f"Expected source name '{expected_name}', got '{data.get('name')}'"
+    
+        verification = data.get("verification")
+>       assert verification is not None, "Verification configuration not found in response."
+E       AssertionError: Verification configuration not found in response.
+E       assert None is not None
+
+tests/test_final_state.py:50: AssertionError
+==================================== PASSES ====================================
+=========================== short test summary info ============================
+PASSED tests/test_final_state.py::test_log_file_exists_and_contains_source_id
+FAILED tests/test_final_state.py::test_source_verification_config - Assertion...
+========================= 1 failed, 1 passed in 0.25s ==========================

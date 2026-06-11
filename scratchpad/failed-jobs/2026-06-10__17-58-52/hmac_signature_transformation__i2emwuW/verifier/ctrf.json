@@ -1,0 +1,59 @@
+{
+    "reportFormat": "CTRF",
+    "specVersion": "0.0.0",
+    "timestamp": "2026-06-10T18:02:00.603556+00:00",
+    "generatedBy": "pytest",
+    "results": {
+        "tool": {
+            "name": "pytest",
+            "version": "7.4.4"
+        },
+        "summary": {
+            "tests": 3,
+            "passed": 2,
+            "failed": 1,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1781114504984,
+            "stop": 1781114520603
+        },
+        "environment": {
+            "buildName": "Pytest JSON CTRF Report",
+            "buildNumber": "000",
+            "buildUrl": "https://ctrf.io"
+        },
+        "tests": [
+            {
+                "name": "test_final_state.py::test_log_file_exists",
+                "status": "passed",
+                "duration": 1,
+                "start": 1781114505139,
+                "stop": 1781114505140,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_extract_ids_and_verify_connection",
+                "status": "passed",
+                "duration": 189,
+                "start": 1781114505140,
+                "stop": 1781114505329,
+                "retries": 0,
+                "file_path": "test_final_state.py"
+            },
+            {
+                "name": "test_final_state.py::test_publish_and_verify_hmac",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 15273,
+                "start": 1781114505329,
+                "stop": 1781114520602,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "def test_publish_and_verify_hmac():\n        run_id, api_key, hmac_secret = get_env_vars()\n    \n        with open(LOG_FILE, \"r\") as f:\n            content = f.read()\n        source_match = re.search(r\"Source ID:\\s*([a-zA-Z0-9_]+)\", content)\n        assert source_match, \"Could not find 'Source ID: <id>' in output.log\"\n        source_id = source_match.group(1)\n    \n        # Publish event\n        publish_url = \"https://hkdk.events/v1/publish\"\n        publish_headers = {\n            \"Authorization\": f\"Bearer {api_key}\",\n            \"X-Hookdeck-Source-Name\": f\"hmac-source-{run_id}\",\n            \"Content-Type\": \"application/json\"\n        }\n        payload = {\"message\": \"hello world\"}\n    \n        pub_res = requests.post(publish_url, headers=publish_headers, json=payload)\n        assert pub_res.status_code == 200, f\"Failed to publish event: {pub_res.text}\"\n    \n        # Wait for processing\n        time.sleep(5)\n    \n        # Query events\n        events_url = f\"https://api.hookdeck.com/2025-07-01/events?source_id={source_id}&limit=5\"\n        headers = {\"Authorization\": f\"Bearer {api_key}\"}\n    \n        # Retry logic for fetching the processed event\n        found_hmac = None\n        expected_hmac = hmac.new(\n            hmac_secret.encode('utf-8'),\n            json.dumps(payload).encode('utf-8'),\n            hashlib.sha256\n        ).hexdigest()\n    \n        for _ in range(3):\n            ev_res = requests.get(events_url, headers=headers)\n            assert ev_res.status_code == 200, f\"Failed to fetch events: {ev_res.text}\"\n    \n            events_data = ev_res.json()\n            models = events_data.get(\"models\", [])\n    \n            for event in models:\n                # Look at event attempts or headers\n                # Hookdeck events/attempts usually store headers in `headers` or `request_headers`\n                event_str = json.dumps(event).lower()\n                if \"x-hmac-signature\" in event_str:\n                    # Try to extract the value\n                    match = re.search(r'\"x-hmac-signature\":\\s*\"([^\"]+)\"', json.dumps(event, ignore_nan=True) if hasattr(json, 'ignore_nan') else json.dumps(event))\n                    if not match:\n                        match = re.search(r'\"x-hmac-signature\":\\s*\\[\"([^\"]+)\"\\]', json.dumps(event))\n                    if match:\n                        found_hmac = match.group(1)\n                        break\n    \n            if found_hmac:\n                break\n            time.sleep(3)\n    \n>       assert found_hmac is not None, \"Could not find 'x-hmac-signature' in the delivered event headers.\"\nE       AssertionError: Could not find 'x-hmac-signature' in the delivered event headers.\nE       assert None is not None\n\ntests/test_final_state.py:109: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            }
+        ]
+    }
+}

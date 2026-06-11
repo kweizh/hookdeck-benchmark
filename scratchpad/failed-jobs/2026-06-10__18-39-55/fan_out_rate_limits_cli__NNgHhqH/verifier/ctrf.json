@@ -1,0 +1,53 @@
+{
+    "reportFormat": "CTRF",
+    "specVersion": "0.0.0",
+    "timestamp": "2026-06-10T18:57:56.849736+00:00",
+    "generatedBy": "pytest",
+    "results": {
+        "tool": {
+            "name": "pytest",
+            "version": "7.4.4"
+        },
+        "summary": {
+            "tests": 2,
+            "passed": 0,
+            "failed": 2,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1781117876538,
+            "stop": 1781117876849
+        },
+        "environment": {
+            "buildName": "Pytest JSON CTRF Report",
+            "buildNumber": "000",
+            "buildUrl": "https://ctrf.io"
+        },
+        "tests": [
+            {
+                "name": "test_final_state.py::test_log_file_exists_and_contains_url",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 18,
+                "start": 1781117876565,
+                "stop": 1781117876583,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "def test_log_file_exists_and_contains_url():\n        \"\"\"Verify that the script output the Source URL to the log file.\"\"\"\n        assert os.path.isfile(LOG_FILE), f\"Log file {LOG_FILE} does not exist.\"\n        with open(LOG_FILE, \"r\") as f:\n            content = f.read()\n    \n>       assert \"Source URL: https://events.hookdeck.com/e/\" in content, \\\n            f\"Expected 'Source URL: https://events.hookdeck.com/e/' in {LOG_FILE}, but got:\\n{content}\"\nE       AssertionError: Expected 'Source URL: https://events.hookdeck.com/e/' in /home/user/hookdeck-task/output.log, but got:\nE         Source URL: https://hkdk.events/gizc59uwmx1qbg\nE         \nE       assert 'Source URL: https://events.hookdeck.com/e/' in 'Source URL: https://hkdk.events/gizc59uwmx1qbg\\n'\n\ntests/test_final_state.py:20: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            },
+            {
+                "name": "test_final_state.py::test_hookdeck_connections_and_rate_limits",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 265,
+                "start": 1781117876584,
+                "stop": 1781117876849,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "def test_hookdeck_connections_and_rate_limits():\n        \"\"\"Use Hookdeck CLI to verify the fan-out architecture and rate limits.\"\"\"\n        run_id = get_run_id()\n        dest_1_name = f\"mock-dest-1-{run_id}\"\n        dest_2_name = f\"mock-dest-2-{run_id}\"\n        expected_source_name = f\"fan-out-source-{run_id}\"\n    \n        result = subprocess.run(\n            [\"hookdeck\", \"gateway\", \"connection\", \"list\", \"--output\", \"json\"],\n            capture_output=True, text=True, cwd=PROJECT_DIR\n        )\n        assert result.returncode == 0, f\"'hookdeck gateway connection list' failed: {result.stderr}\"\n    \n        try:\n            connections = json.loads(result.stdout)\n        except json.JSONDecodeError:\n            pytest.fail(f\"Failed to parse JSON output from hookdeck CLI: {result.stdout}\")\n    \n        # Find connection for dest 1\n>       conn_1 = next((c for c in connections if c.get(\"destination\", {}).get(\"name\") == dest_1_name), None)\n\ntests/test_final_state.py:42: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\n.0 = <dict_keyiterator object at 0x7f7cd6f8e930>\n\n>   conn_1 = next((c for c in connections if c.get(\"destination\", {}).get(\"name\") == dest_1_name), None)\nE   AttributeError: 'str' object has no attribute 'get'\n\ntests/test_final_state.py:42: AttributeError",
+                "message": "The test failed in the call phase"
+            }
+        ]
+    }
+}

@@ -1,0 +1,48 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-7.4.4, pluggy-1.4.0
+rootdir: /tests
+plugins: json-ctrf-0.5.2
+collected 3 items
+
+tests/test_final_state.py ..F                                            [100%]
+
+=================================== FAILURES ===================================
+______________________ test_event_processed_successfully _______________________
+
+    def test_event_processed_successfully():
+        assert os.path.isfile(LOG_FILE), "Cannot verify event without log file."
+    
+        with open(LOG_FILE, "r") as f:
+            content = f.read()
+    
+        event_match = re.search(r"Event ID:\s*([a-zA-Z0-9_-]+)", content)
+        assert event_match, "Event ID not found in the log file in the expected format."
+        event_id = event_match.group(1)
+    
+        run_id = get_run_id()
+        api_key = get_api_key()
+    
+        headers = {
+            "Authorization": f"Bearer {api_key}"
+        }
+    
+        response = requests.get(f"https://api.hookdeck.com/2025-07-01/events/{event_id}", headers=headers)
+        assert response.status_code == 200, f"Failed to fetch event details: {response.text}"
+    
+        data = response.json()
+        assert data.get("status") == "SUCCESSFUL", f"Expected event status 'SUCCESSFUL', got {data.get('status')}"
+    
+        body = data.get("body", {})
+>       assert body.get("test_id") == run_id, f"Expected event body.test_id '{run_id}', got {body.get('test_id')}"
+E       AssertionError: Expected event body.test_id 'zr-uqkxhyp', got None
+E       assert None == 'zr-uqkxhyp'
+E        +  where None = <built-in method get of dict object at 0x7eff9052e940>('test_id')
+E        +    where <built-in method get of dict object at 0x7eff9052e940> = {}.get
+
+tests/test_final_state.py:75: AssertionError
+==================================== PASSES ====================================
+=========================== short test summary info ============================
+PASSED tests/test_final_state.py::test_log_file_exists
+PASSED tests/test_final_state.py::test_connection_created_correctly
+FAILED tests/test_final_state.py::test_event_processed_successfully - Asserti...
+========================= 1 failed, 2 passed in 0.64s ==========================

@@ -1,0 +1,75 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-7.4.4, pluggy-1.4.0
+rootdir: /tests
+plugins: json-ctrf-0.5.2
+collected 2 items
+
+tests/test_final_state.py .F                                             [100%]
+
+=================================== FAILURES ===================================
+__________ test_transformation_restructures_payload_and_adds_headers ___________
+
+    def test_transformation_restructures_payload_and_adds_headers():
+        run_id = get_run_id()
+        api_key = get_api_key()
+        source_name = f"legacy-source-{run_id}"
+    
+        # Send a test event using the Publish API
+        publish_url = "https://hkdk.events/v1/publish"
+        headers = {
+            "Authorization": f"Bearer {api_key}",
+            "X-Hookdeck-Source-Name": source_name,
+            "Content-Type": "application/json"
+        }
+        test_value = f"test_value_{run_id}"
+        payload = {
+            "data": {
+                "object": {
+                    "test_key": test_value
+                }
+            }
+        }
+    
+        response = requests.post(publish_url, headers=headers, json=payload)
+        assert response.status_code == 200, f"Failed to publish event. Status: {response.status_code}, Response: {response.text}"
+    
+        # Wait for the event to be processed
+        time.sleep(5)
+    
+        # Get the source ID
+        sources_url = f"https://api.hookdeck.com/2025-07-01/sources?name={source_name}"
+        headers_api = {
+            "Authorization": f"Bearer {api_key}"
+        }
+        response = requests.get(sources_url, headers=headers_api)
+        assert response.status_code == 200, f"Failed to list sources. Status: {response.status_code}, Response: {response.text}"
+    
+        sources_data = response.json()
+        assert "models" in sources_data and len(sources_data["models"]) > 0, f"Source '{source_name}' not found."
+        source_id = sources_data["models"][0]["id"]
+    
+        # Query events
+        events_url = f"https://api.hookdeck.com/2025-07-01/events?source_id={source_id}&status=SUCCESSFUL"
+    
+        # Retry logic for event delivery
+        max_retries = 3
+        events_data = None
+        for attempt in range(max_retries):
+            response = requests.get(events_url, headers=headers_api)
+            assert response.status_code == 200, f"Failed to query events. Status: {response.status_code}, Response: {response.text}"
+            events_data = response.json()
+            if "models" in events_data and len(events_data["models"]) > 0:
+                break
+            time.sleep(3)
+    
+>       assert events_data and "models" in events_data and len(events_data["models"]) > 0, "No SUCCESSFUL events found for the source."
+E       AssertionError: No SUCCESSFUL events found for the source.
+E       assert ({'count': 0, 'models': [], 'pagination': {'dir': 'desc', 'limit': 50, 'order_by': 'created_at'}} and 'models' in {'count': 0, 'models': [], 'pagination': {'dir': 'desc', 'limit': 50, 'order_by': 'created_at'}} and 0 > 0)
+E        +  where 0 = len([])
+
+tests/test_final_state.py:81: AssertionError
+==================================== PASSES ====================================
+=========================== short test summary info ============================
+PASSED tests/test_final_state.py::test_log_file_exists_and_contains_connection_id
+FAILED tests/test_final_state.py::test_transformation_restructures_payload_and_adds_headers
+========================= 1 failed, 1 passed in 15.69s =========================

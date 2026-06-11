@@ -1,0 +1,80 @@
+Skipping image OS validation for hb__end_to_end_api_workflow: docker inspect returned 1
+Running command: apt-get update && apt-get install -y curl ripgrep
+Command outputs captured
+Running command: set -euo pipefail; curl -fsSL https://getpochi.com/install.sh | bash -x -s -- pochi-v0.6.14 && mkdir -p /logs/agent/pochi && ~/.pochi/bin/pochi --version
+Command outputs captured
+Running command: ln -sf ~/.pochi/bin/pochi /usr/local/bin/pochi
+Command outputs captured
+Running command: echo zr-uqkxhyp > /logs/artifacts/run-id && echo end_to_end_api_workflow__uQKXHYP > /logs/artifacts/trial_id
+Command outputs captured
+Running command: mkdir -p ~/.pochi && cat << 'EOF' | sed -e "s/OPENAI_API_KEY/${OPENAI_API_KEY}/g" -e "s/DEEPINFRA_API_KEY/${DEEPINFRA_API_KEY}/g" > ~/.pochi/config.jsonc
+{
+  "providers": {
+    "deepinfra": {
+      "kind": "openai",
+      "baseURL": "https://api.deepinfra.com/v1/openai",
+      "apiKey": "DEEPINFRA_API_KEY",
+      "models": {
+        "zai-org/GLM-4.7-Flash": {
+          "name": "glm-4.7-flash"
+        },
+        "moonshotai/Kimi-K2.6": {
+          "name": "kimi-K2.6"
+        },
+        "deepseek-ai/DeepSeek-V4-Pro": {
+          "name": "DeepSeek-V4-Pro"
+        }
+      }
+    },
+    "openai": {
+      "kind": "openai",
+      "baseURL": "https://api.openai.com/v1",
+      "apiKey": "OPENAI_API_KEY",
+      "models": {
+        "gpt-5.4": {
+          "name": "gpt-5.4"
+        }
+      }
+    }
+  }
+}
+EOF
+Command outputs captured
+Running command: if [ -f /bootstrap/test_initial_state.py ]; then pytest -s --log-cli-level=DEBUG /bootstrap/test_initial_state.py > >(tee /logs/agent/pochi/initial-test-stdout.txt) 2> >(tee /logs/agent/pochi/initial-test-stderr.txt >&2); fi
+Command outputs captured
+Running command: pochi --model google/gemini-3.1-pro --max-steps 200 --max-retries 10 --blobs-dir /logs/agent/pochi/blobs --experimental-stream-trajectory /logs/agent/pochi/trajectory.jsonl > >(tee /logs/agent/pochi/stdout.txt) 2> >(tee /logs/agent/pochi/stderr.txt >&2) <<'EOF'
+# Hookdeck End-to-End Workflow
+
+## Background
+Set up a complete Hookdeck event pipeline in a headless environment, and verify its operation by publishing and inspecting an event.
+
+## Requirements
+- Authenticate with Hookdeck in a headless CI environment.
+- Create a Source named `source-${run-id}`.
+- Create a Destination named `mock-dest-${run-id}` using the Mock API destination type.
+- Create a Connection named `conn-${run-id}` linking the Source and Destination.
+- Publish a test event to the Source with a JSON payload containing `{"test_id": "${run-id}"}`.
+- Verify the event is processed successfully.
+- Write the Connection ID and the Event ID to a log file.
+
+## Implementation Hints
+- Read `run-id` from the `ZEALT_RUN_ID` environment variable.
+- Authenticate via `hookdeck ci --api-key $HOOKDECK_API_KEY`.
+- Use the Mock API destination type to avoid needing a local server or active tunnel.
+- You may use the Hookdeck CLI or REST API to provision resources, publish events, and inspect the delivery status.
+
+## Acceptance Criteria
+- Project path: /home/user/hookdeck-project
+- Ensure the real resources are created in Hookdeck, the event is published, and the log artifact exists.
+- Log file: /home/user/hookdeck-project/output.log
+- The log file must contain exactly these two lines with the corresponding IDs:
+  Connection ID: <connection_id>
+  Event ID: <event_id>
+- The Hookdeck Connection `conn-${run-id}` must exist and link `source-${run-id}` to `mock-dest-${run-id}`.
+- The Event with the logged Event ID must have a `SUCCESSFUL` status and its payload must match `{"test_id": "${run-id}"}`.
+
+EOF
+Command outputs captured
+Running command: rm -f ~/.pochi/config.jsonc
+Command outputs captured
+The verifier.env contains an API key (often the case for LLM-based verifiers). You will incur costs associated with the API calls.

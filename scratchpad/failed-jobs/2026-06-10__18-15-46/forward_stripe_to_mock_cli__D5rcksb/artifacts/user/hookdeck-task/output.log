@@ -1,0 +1,46 @@
+{
+  "id": "web_4V7uS9t9gH5B",
+  "name": "stripe-to-mock-zr-d5rcksb",
+  "full_name": "stripe-zr-d5rcksb -\u003e stripe-to-mock-zr-d5rcksb",
+  "description": null,
+  "team_id": "tm_y0vMXx2IWjqZ",
+  "destination": {
+    "id": "des_JEjLBCmTo9b1",
+    "team_id": "tm_y0vMXx2IWjqZ",
+    "name": "mock-dest-zr-d5rcksb",
+    "description": null,
+    "type": "MOCK_API",
+    "config": {
+      "auth": {},
+      "auth_type": "HOOKDECK_SIGNATURE",
+      "http_method": null,
+      "path_forwarding_disabled": false,
+      "rate_limit": null,
+      "rate_limit_period": "second"
+    },
+    "disabled_at": null,
+    "updated_at": "2026-06-10T18:17:19.948Z",
+    "created_at": "2026-06-10T18:17:19.95Z"
+  },
+  "source": {
+    "id": "src_yrex62k80t5j1f",
+    "name": "stripe-zr-d5rcksb",
+    "description": null,
+    "url": "https://hkdk.events/yrex62k80t5j1f",
+    "type": "STRIPE",
+    "config": {
+      "allowed_http_methods": [
+        "POST"
+      ],
+      "custom_response": null
+    },
+    "disabled_at": null,
+    "updated_at": "2026-06-10T18:17:19.948Z",
+    "created_at": "2026-06-10T18:17:19.951Z"
+  },
+  "rules": [],
+  "disabled_at": null,
+  "paused_at": null,
+  "updated_at": "2026-06-10T18:17:19.948Z",
+  "created_at": "2026-06-10T18:17:20.279Z"
+}

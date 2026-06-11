@@ -1,0 +1,78 @@
+Skipping image OS validation for hb__manual_signature_verification_cli: docker inspect returned 1
+Running command: apt-get update && apt-get install -y curl ripgrep
+Command outputs captured
+Running command: set -euo pipefail; curl -fsSL https://getpochi.com/install.sh | bash -x -s -- pochi-v0.6.14 && mkdir -p /logs/agent/pochi && ~/.pochi/bin/pochi --version
+Command outputs captured
+Running command: ln -sf ~/.pochi/bin/pochi /usr/local/bin/pochi
+Command outputs captured
+Running command: echo zr-m87my5c > /logs/artifacts/run-id && echo manual_signature_verification_cl__m87my5C > /logs/artifacts/trial_id
+Command outputs captured
+Running command: mkdir -p ~/.pochi && cat << 'EOF' | sed -e "s/OPENAI_API_KEY/${OPENAI_API_KEY}/g" -e "s/DEEPINFRA_API_KEY/${DEEPINFRA_API_KEY}/g" > ~/.pochi/config.jsonc
+{
+  "providers": {
+    "deepinfra": {
+      "kind": "openai",
+      "baseURL": "https://api.deepinfra.com/v1/openai",
+      "apiKey": "DEEPINFRA_API_KEY",
+      "models": {
+        "zai-org/GLM-4.7-Flash": {
+          "name": "glm-4.7-flash"
+        },
+        "moonshotai/Kimi-K2.6": {
+          "name": "kimi-K2.6"
+        },
+        "deepseek-ai/DeepSeek-V4-Pro": {
+          "name": "DeepSeek-V4-Pro"
+        }
+      }
+    },
+    "openai": {
+      "kind": "openai",
+      "baseURL": "https://api.openai.com/v1",
+      "apiKey": "OPENAI_API_KEY",
+      "models": {
+        "gpt-5.4": {
+          "name": "gpt-5.4"
+        }
+      }
+    }
+  }
+}
+EOF
+Command outputs captured
+Running command: if [ -f /bootstrap/test_initial_state.py ]; then pytest -s --log-cli-level=DEBUG /bootstrap/test_initial_state.py > >(tee /logs/agent/pochi/initial-test-stdout.txt) 2> >(tee /logs/agent/pochi/initial-test-stderr.txt >&2); fi
+Command outputs captured
+Running command: pochi --model google/gemini-3.5-flash --max-steps 200 --max-retries 10 --blobs-dir /logs/agent/pochi/blobs --experimental-stream-trajectory /logs/agent/pochi/trajectory.jsonl > >(tee /logs/agent/pochi/stdout.txt) 2> >(tee /logs/agent/pochi/stderr.txt >&2) <<'EOF'
+# Setup Manual Signature Verification in Source Config
+
+## Background
+Configure a Hookdeck Source to perform manual HMAC signature verification. This ensures that incoming webhooks are authentic and have not been tampered with.
+
+## Requirements
+- Create a new Hookdeck Source named `secure-source-${run-id}`.
+- Configure the source to use HMAC signature verification.
+- The HMAC algorithm must be `SHA256`.
+- The encoding must be `base64`.
+- The signature must be expected in the `x-custom-signature` header.
+- The secret key must be `my_super_secret_key`.
+- Save the resulting Source ID to a log file.
+
+## Implementation Hints
+- Read the `run-id` from the `ZEALT_RUN_ID` environment variable.
+- You can use the Hookdeck API (`POST https://api.hookdeck.com/2025-07-01/sources`) to create the source with the required `verification` configuration.
+- Write the Source ID to `/home/user/hookdeck-task/output.log`.
+
+## Acceptance Criteria
+- Project path: /home/user/hookdeck-task
+- Ensure the real source creation action is executed and the log artifact exists.
+- Log file: /home/user/hookdeck-task/output.log
+- The source name must be `secure-source-${run-id}` where `run-id` is read from the `ZEALT_RUN_ID` environment variable.
+- The source must have HMAC signature verification configured with `SHA256`, `base64`, header `x-custom-signature`, and secret `my_super_secret_key`.
+- The log file must contain the Source ID in the format: `Source ID: <source_id>`.
+
+
+EOF
+Command outputs captured
+Running command: rm -f ~/.pochi/config.jsonc
+Command outputs captured
+The verifier.env contains an API key (often the case for LLM-based verifiers). You will incur costs associated with the API calls.

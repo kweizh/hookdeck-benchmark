@@ -1,0 +1,4 @@
+{
+  "task": ["HOOKDECK_API_KEY", "HMAC_SECRET"],
+  "verifier": ["HOOKDECK_API_KEY", "HMAC_SECRET"]
+}

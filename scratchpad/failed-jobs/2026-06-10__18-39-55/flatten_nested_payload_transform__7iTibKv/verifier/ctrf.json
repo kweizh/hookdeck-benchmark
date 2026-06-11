@@ -1,0 +1,41 @@
+{
+    "reportFormat": "CTRF",
+    "specVersion": "0.0.0",
+    "timestamp": "2026-06-10T18:59:46.901237+00:00",
+    "generatedBy": "pytest",
+    "results": {
+        "tool": {
+            "name": "pytest",
+            "version": "7.4.4"
+        },
+        "summary": {
+            "tests": 1,
+            "passed": 0,
+            "failed": 1,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1781117986175,
+            "stop": 1781117986900
+        },
+        "environment": {
+            "buildName": "Pytest JSON CTRF Report",
+            "buildNumber": "000",
+            "buildUrl": "https://ctrf.io"
+        },
+        "tests": [
+            {
+                "name": "test_final_state.py::test_hookdeck_transformation_flow",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 563,
+                "start": 1781117986337,
+                "stop": 1781117986900,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "def test_hookdeck_transformation_flow():\n        run_id = os.environ.get(\"ZEALT_RUN_ID\")\n        assert run_id is not None, \"ZEALT_RUN_ID environment variable is not set.\"\n        api_key = os.environ.get(\"HOOKDECK_API_KEY\")\n        assert api_key is not None, \"HOOKDECK_API_KEY environment variable is not set.\"\n    \n        # Run setup.sh\n        setup_script = os.path.join(PROJECT_DIR, \"setup.sh\")\n        assert os.path.isfile(setup_script), \"setup.sh not found.\"\n    \n        result = subprocess.run([\"bash\", \"setup.sh\"], cwd=PROJECT_DIR, capture_output=True, text=True)\n>       assert result.returncode == 0, f\"setup.sh failed with error: {result.stderr}\"\nE       AssertionError: setup.sh failed with error: time=\"Wed, 10 Jun 2026 18:59:46 UTC\" level=info msg=\"The Hookdeck CLI is configured on project Event Gateway Starter in organization zealt\nE         \"\nE         time=\"Wed, 10 Jun 2026 18:59:46 UTC\" level=error msg=\"Unexpected response\" error=\"error: Resource already exists\" method=POST prefix=\"client.Client.PerformRequest 2\" status=409 url=\"https://api.hookdeck.com/2025-07-01/sources\"\nE         \nE       assert 1 == 0\nE        +  where 1 = CompletedProcess(args=['bash', 'setup.sh'], returncode=1, stdout='==> Authenticating with Hookdeck...\\n==> Creating So...s\" method=POST prefix=\"client.Client.PerformRequest 2\" status=409 url=\"https://api.hookdeck.com/2025-07-01/sources\"\\n').returncode\n\ntests/test_final_state.py:20: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            }
+        ]
+    }
+}

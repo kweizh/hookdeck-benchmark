@@ -1,0 +1,41 @@
+{
+    "reportFormat": "CTRF",
+    "specVersion": "0.0.0",
+    "timestamp": "2026-06-10T18:39:41.483417+00:00",
+    "generatedBy": "pytest",
+    "results": {
+        "tool": {
+            "name": "pytest",
+            "version": "7.4.4"
+        },
+        "summary": {
+            "tests": 1,
+            "passed": 0,
+            "failed": 1,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1781116781197,
+            "stop": 1781116781483
+        },
+        "environment": {
+            "buildName": "Pytest JSON CTRF Report",
+            "buildNumber": "000",
+            "buildUrl": "https://ctrf.io"
+        },
+        "tests": [
+            {
+                "name": "test_final_state.py::test_connection_configured_correctly",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 262,
+                "start": 1781116781220,
+                "stop": 1781116781482,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "def test_connection_configured_correctly():\n        \"\"\"Verify that the Hookdeck connection is configured with Basic Auth on the source.\"\"\"\n        run_id = os.environ.get(\"ZEALT_RUN_ID\")\n        assert run_id, \"ZEALT_RUN_ID environment variable is not set.\"\n    \n        conn_name = f\"auth-conn-{run_id}\"\n        source_name = f\"auth-source-{run_id}\"\n        expected_password = f\"secret-password-{run_id}\"\n    \n        result = subprocess.run(\n            [\"hookdeck\", \"gateway\", \"connection\", \"get\", conn_name, \"--include-source-auth\", \"--output\", \"json\"],\n            capture_output=True,\n            text=True\n        )\n    \n>       assert result.returncode == 0, f\"'hookdeck gateway connection get' failed: {result.stderr}\"\nE       AssertionError: 'hookdeck gateway connection get' failed: \nE       assert 1 == 0\nE        +  where 1 = CompletedProcess(args=['hookdeck', 'gateway', 'connection', 'get', 'auth-conn-zr-w5o3kue', '--include-source-auth', '-...ut=\"connection not found: 'auth-conn-zr-w5o3kue'\\n\\nPlease check the connection name or ID and try again\\n\", stderr='').returncode\n\ntests/test_final_state.py:20: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            }
+        ]
+    }
+}

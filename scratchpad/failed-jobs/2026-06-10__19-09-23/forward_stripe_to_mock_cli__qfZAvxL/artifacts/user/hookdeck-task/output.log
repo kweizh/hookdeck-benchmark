@@ -1,0 +1,8 @@
+✔ Connection created successfully
+
+Connection:  stripe-to-mock-zr-qfzavxl (web_5LMTz4BsXDck)
+Source:      stripe-zr-qfzavxl (src_c670kyea5vvhq1)
+Source Type: STRIPE
+Source URL:  https://hkdk.events/c670kyea5vvhq1
+Destination: mock-dest-zr-qfzavxl (des_Gjvb2NPd1Ljn)
+Destination Type: MOCK_API

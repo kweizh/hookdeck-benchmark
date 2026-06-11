@@ -1,0 +1,70 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-7.4.4, pluggy-1.4.0
+rootdir: /tests
+plugins: json-ctrf-0.5.2
+collected 4 items
+
+tests/test_final_state.py FF.F                                           [100%]
+
+=================================== FAILURES ===================================
+_______________________ test_log_file_and_connection_id ________________________
+
+context = {'api_key': 'REDACTED', 'connection_id': None, 'dest_name': 'safe-transform-dest-zr-tzstikr', 'run_id': 'zr-tzstikr', ...}
+
+    def test_log_file_and_connection_id(context):
+>       assert os.path.isfile(OUTPUT_LOG), f"Log file {OUTPUT_LOG} does not exist."
+E       AssertionError: Log file /home/user/hookdeck-task/output.log does not exist.
+E       assert False
+E        +  where False = <function isfile at 0x7f8410504220>('/home/user/hookdeck-task/output.log')
+E        +    where <function isfile at 0x7f8410504220> = <module 'posixpath' (frozen)>.isfile
+E        +      where <module 'posixpath' (frozen)> = os.path
+
+tests/test_final_state.py:25: AssertionError
+___________________________ test_connection_details ____________________________
+
+context = {'api_key': 'REDACTED', 'connection_id': None, 'dest_name': 'safe-transform-dest-zr-tzstikr', 'run_id': 'zr-tzstikr', ...}
+
+    def test_connection_details(context):
+        connection_id = context["connection_id"]
+        api_key = context["api_key"]
+        run_id = context["run_id"]
+    
+        response = requests.get(
+            f"https://api.hookdeck.com/2025-07-01/connections/{connection_id}",
+            headers={"Authorization": f"Bearer {api_key}"}
+        )
+>       assert response.status_code == 200, f"Failed to fetch connection details: {response.text}"
+E       AssertionError: Failed to fetch connection details: {"code":"NOT_FOUND","status":404,"message":"Not Found"}
+E       assert 404 == 200
+E        +  where 404 = <Response [404]>.status_code
+
+tests/test_final_state.py:47: AssertionError
+__________________________ test_event_transformations __________________________
+
+context = {'api_key': 'REDACTED', 'connection_id': None, 'dest_name': 'safe-transform-dest-zr-tzstikr', 'run_id': 'zr-tzstikr', ...}
+
+    def test_event_transformations(context):
+        api_key = context["api_key"]
+        source_id = context["source_id"]
+    
+        response = requests.get(
+            f"https://api.hookdeck.com/2025-07-01/events?source_id={source_id}&limit=2",
+            headers={"Authorization": f"Bearer {api_key}"}
+        )
+        assert response.status_code == 200, f"Failed to fetch events: {response.text}"
+    
+        data = response.json()
+        events = data.get("models", [])
+>       assert len(events) >= 2, f"Expected at least 2 events, found {len(events)}"
+E       AssertionError: Expected at least 2 events, found 0
+E       assert 0 >= 2
+E        +  where 0 = len([])
+
+tests/test_final_state.py:102: AssertionError
+==================================== PASSES ====================================
+=========================== short test summary info ============================
+PASSED tests/test_final_state.py::test_publish_events
+FAILED tests/test_final_state.py::test_log_file_and_connection_id - Assertion...
+FAILED tests/test_final_state.py::test_connection_details - AssertionError: F...
+FAILED tests/test_final_state.py::test_event_transformations - AssertionError...
+========================= 3 failed, 1 passed in 4.21s ==========================

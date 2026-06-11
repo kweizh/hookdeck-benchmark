@@ -1,0 +1,56 @@
+{
+  "id": "web_6lxwkxZivgHc",
+  "name": "order-filter-zr-tb2krzg",
+  "full_name": "stripe-source-zr-tb2krzg -\u003e order-filter-zr-tb2krzg",
+  "description": null,
+  "team_id": "tm_y0vMXx2IWjqZ",
+  "destination": {
+    "id": "des_WQ3JuERUQkQh",
+    "team_id": "tm_y0vMXx2IWjqZ",
+    "name": "mock-dest-zr-tb2krzg",
+    "description": null,
+    "type": "MOCK_API",
+    "config": {
+      "auth": {},
+      "auth_type": "HOOKDECK_SIGNATURE",
+      "http_method": null,
+      "path_forwarding_disabled": false,
+      "rate_limit": null,
+      "rate_limit_period": "second"
+    },
+    "disabled_at": null,
+    "updated_at": "2026-06-10T19:10:40.532Z",
+    "created_at": "2026-06-10T19:10:40.533Z"
+  },
+  "source": {
+    "id": "src_b5nrdg0i75fdew",
+    "name": "stripe-source-zr-tb2krzg",
+    "description": null,
+    "url": "https://hkdk.events/b5nrdg0i75fdew",
+    "type": "WEBHOOK",
+    "config": {
+      "allowed_http_methods": [
+        "POST",
+        "PUT",
+        "PATCH",
+        "DELETE"
+      ],
+      "custom_response": null
+    },
+    "disabled_at": null,
+    "updated_at": "2026-06-10T19:10:40.532Z",
+    "created_at": "2026-06-10T19:10:40.534Z"
+  },
+  "rules": [
+    {
+      "body": {
+        "type": "order.created"
+      },
+      "type": "filter"
+    }
+  ],
+  "disabled_at": null,
+  "paused_at": null,
+  "updated_at": "2026-06-10T19:10:40.532Z",
+  "created_at": "2026-06-10T19:10:40.757Z"
+}

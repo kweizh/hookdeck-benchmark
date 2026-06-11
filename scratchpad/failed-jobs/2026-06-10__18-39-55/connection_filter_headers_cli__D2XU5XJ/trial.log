@@ -1,0 +1,79 @@
+Skipping image OS validation for hb__connection_filter_headers_cli: docker inspect returned 1
+Running command: apt-get update && apt-get install -y curl ripgrep
+Command outputs captured
+Running command: set -euo pipefail; curl -fsSL https://getpochi.com/install.sh | bash -x -s -- pochi-v0.6.14 && mkdir -p /logs/agent/pochi && ~/.pochi/bin/pochi --version
+Command outputs captured
+Running command: ln -sf ~/.pochi/bin/pochi /usr/local/bin/pochi
+Command outputs captured
+Running command: echo zr-d2xu5xj > /logs/artifacts/run-id && echo connection_filter_headers_cli__D2XU5XJ > /logs/artifacts/trial_id
+Command outputs captured
+Running command: mkdir -p ~/.pochi && cat << 'EOF' | sed -e "s/OPENAI_API_KEY/${OPENAI_API_KEY}/g" -e "s/DEEPINFRA_API_KEY/${DEEPINFRA_API_KEY}/g" > ~/.pochi/config.jsonc
+{
+  "providers": {
+    "deepinfra": {
+      "kind": "openai",
+      "baseURL": "https://api.deepinfra.com/v1/openai",
+      "apiKey": "DEEPINFRA_API_KEY",
+      "models": {
+        "zai-org/GLM-4.7-Flash": {
+          "name": "glm-4.7-flash"
+        },
+        "moonshotai/Kimi-K2.6": {
+          "name": "kimi-K2.6"
+        },
+        "deepseek-ai/DeepSeek-V4-Pro": {
+          "name": "DeepSeek-V4-Pro"
+        }
+      }
+    },
+    "openai": {
+      "kind": "openai",
+      "baseURL": "https://api.openai.com/v1",
+      "apiKey": "OPENAI_API_KEY",
+      "models": {
+        "gpt-5.4": {
+          "name": "gpt-5.4"
+        }
+      }
+    }
+  }
+}
+EOF
+Command outputs captured
+Running command: if [ -f /bootstrap/test_initial_state.py ]; then pytest -s --log-cli-level=DEBUG /bootstrap/test_initial_state.py > >(tee /logs/agent/pochi/initial-test-stdout.txt) 2> >(tee /logs/agent/pochi/initial-test-stderr.txt >&2); fi
+Command outputs captured
+Running command: pochi --model deepseek/deepseek-4-pro --max-steps 200 --max-retries 10 --blobs-dir /logs/agent/pochi/blobs --experimental-stream-trajectory /logs/agent/pochi/trajectory.jsonl > >(tee /logs/agent/pochi/stdout.txt) 2> >(tee /logs/agent/pochi/stderr.txt >&2) <<'EOF'
+# Create a Hookdeck Connection with Header Filter
+
+## Background
+You need to configure Hookdeck to receive webhooks and route them to a Mock API destination, but only if they contain a specific HTTP header. You are in a headless environment.
+
+## Requirements
+- Authenticate with Hookdeck in a headless CI environment.
+- Create a new Connection named `header-filter-conn-${run-id}`.
+- The Connection must use a Source named `header-source-${run-id}`.
+- The Connection must route to a Mock API Destination named `mock-dest-${run-id}`.
+- The Connection must include a Filter rule that only allows events where the HTTP header `x-target-event` equals exactly `process`.
+- Output the resulting Connection ID to a log file.
+
+## Implementation Hints
+- Read the current `run-id` from the `ZEALT_RUN_ID` environment variable.
+- Ensure you login to Hookdeck CLI properly for a headless environment.
+- You can use the Hookdeck CLI or the Hookdeck REST API to create the resources.
+- Write the Connection ID to `/home/user/hookdeck-task/output.log`.
+
+## Acceptance Criteria
+- Project path: `/home/user/hookdeck-task`
+- Ensure the script is executed and the artifacts exist.
+- Log file: `/home/user/hookdeck-task/output.log`
+- The log file must contain the Connection ID in the format: `Connection ID: <connection_id>`.
+- The connection must exist in Hookdeck with the exact name `header-filter-conn-${run-id}`.
+- The connection must be linked to a source named `header-source-${run-id}` and a destination named `mock-dest-${run-id}`.
+- The connection must have a filter rule configured to allow only events where the header `x-target-event` equals `process`.
+
+
+EOF
+Command outputs captured
+Running command: rm -f ~/.pochi/config.jsonc
+Command outputs captured
+The verifier.env contains an API key (often the case for LLM-based verifiers). You will incur costs associated with the API calls.

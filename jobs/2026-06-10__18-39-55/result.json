@@ -1,0 +1,66 @@
+{
+    "id": "4f5c8584-cd33-4fc0-844b-1672aec04151",
+    "started_at": "2026-06-10T18:39:57.694915",
+    "updated_at": "2026-06-10T19:09:20.885985",
+    "finished_at": "2026-06-10T19:09:20.885985",
+    "n_total_trials": 20,
+    "stats": {
+        "n_completed_trials": 20,
+        "n_errored_trials": 3,
+        "n_running_trials": 0,
+        "n_pending_trials": 0,
+        "n_cancelled_trials": 0,
+        "n_retries": 0,
+        "evals": {
+            "pochi__deepseek-4-pro__pending-tasks": {
+                "n_trials": 20,
+                "n_errors": 3,
+                "metrics": [
+                    {
+                        "mean": 0.4
+                    }
+                ],
+                "pass_at_k": {},
+                "reward_stats": {
+                    "reward": {
+                        "0.0": [
+                            "filter_payload_property_cli__hntBQWW",
+                            "hmac_signature_transformation__i6EwcaU",
+                            "trigger_mock_event__vPKM7MW",
+                            "manual_signature_verification_cl__voHywfj",
+                            "forward_events_specific_path_cli__dHeRAP7",
+                            "fan_out_rate_limits_cli__NNgHhqH",
+                            "flatten_nested_payload_transform__7iTibKv",
+                            "transform_inject_header_cli__yowCmKL",
+                            "transform_restructure_payload_cl__U4KJ7j9",
+                            "query_events_inspect_api__FFrGKr2",
+                            "end_to_end_api_workflow__MjzzWqJ",
+                            "create_connection_mock_cli__ygQDr4j"
+                        ],
+                        "1.0": [
+                            "forward_stripe_to_mock_cli__cMD2Czb",
+                            "configure_allowed_http_methods__BbtrK2G",
+                            "connection_filter_headers_cli__D2XU5XJ",
+                            "list_sources_api__xeaqiDy",
+                            "custom_retry_strategy__sxofgdv",
+                            "fan_out_routing_cli__iBZXyqv",
+                            "transformation_missing_fields_cl__55vEKVZ",
+                            "configure_source_basic_auth_cli__yiM4MbT"
+                        ]
+                    }
+                },
+                "exception_stats": {
+                    "AgentTimeoutError": [
+                        "trigger_mock_event__vPKM7MW",
+                        "query_events_inspect_api__FFrGKr2",
+                        "transformation_missing_fields_cl__55vEKVZ"
+                    ]
+                }
+            }
+        },
+        "n_input_tokens": 0,
+        "n_cache_tokens": 0,
+        "n_output_tokens": 474894,
+        "cost_usd": null
+    }
+}

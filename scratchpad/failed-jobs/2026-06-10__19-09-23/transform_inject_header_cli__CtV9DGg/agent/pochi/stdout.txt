@@ -1,0 +1,29 @@
+- Initializing MCP connections...
+You
+# Hookdeck Transformation to Inject Headers ## Background Configure a Hookdeck connection that receives events and forwards them to a Mock API destination. Before forwarding, it must inject a custom header using a JavaScript transformation. ## Requirements * Create a Hookdeck connection named `header-conn-${run-id}`. * The source must be named `source-${run-id}`. * The destination must be named `mock-dest-${run-id}` and configured as a MOCK destination. * Create and attach a JavaScript transformation named `inject-header-${run-id}` to the connection. * The transformation must inject a custom header `x-custom-run-id` with the value of the current `run-id` into the request. ## Implementation Hints * Read the `run-id` from the `ZEALT_RUN_ID` environment variable. * You can use the Hookdeck CLI (`hookdeck ci`) or the Hookdeck REST API to create the resources. * The environment provides `HOOKDECK_API_KEY`. ## Acceptance Criteria * Project path: /home/user/hookdeck-task * Ensure the real resources are created in the Hookdeck workspace. * A Connection named `header-conn-${run-id}` must exist. * The Connection must link a Source named `source-${run-id}` to a Destination named `mock-dest-${run-id}`. * The Destination `mock-dest-${run-id}` must be of type `MOCK`. * A Transformation named `inject-header-${run-id}` must be attached to the connection. * The Transformation code must successfully add the header `x-custom-run-id` with the value of `${run-id}` to the request headers.   
+
+Pochi
+💭 Thinking for 209 characters   
+💫 Executing echo $ZEALT_RUN_ID && hookdeck --version ✔ 
+💫 Executing hookdeck help ✔ 
+💫 Executing echo $HOOKDECK_API_KEY ✔ 
+💭 Thinking for 550 characters   
+💫 Executing curl -s -H "Authorization: Bearer $HOOKDECK_API_KEY" https://api.hookdeck.com/2024-03-01/sources | head -n 20 ✔ 
+💭 Thinking for 223 characters   
+💫 Executing curl -s -X POST -H "Authorization: Bearer $HOOKDECK_API_KEY" -H "Content-Type: application/json" -d '{"name": "test-dest", "url": "mock://test"}' https://api.hookdeck.com/2024-03-01/destinations ✔ 
+💫 Executing curl -s -H "Authorization: Bearer $HOOKDECK_API_KEY" https://api.hookdeck.com/2024-03-01/destinations | head -n 20 ✔ 
+💭 Thinking for 492 characters   
+✏️  Writing /home/user/hookdeck-task/create.js ✔ 
+💭 Thinking for 192 characters   
+💫 Executing cd /home/user/hookdeck-task && npm install node-fetch@2 && node create.js ✔ 
+💭 Thinking for 493 characters   
+🎉 Task Completed
+I have successfully created the Hookdeck resources as requested:
+
+1. **Source**: Created a source named `source-zr-ctv9dgg`.
+2. **Destination**: Created a destination named `mock-dest-zr-ctv9dgg` with the Mock URL (`https://mock.hookdeck.com`).
+3. **Transformation**: Created a JavaScript transformation named `inject-header-zr-ctv9dgg` that injects the `x-custom-run-id` header with the current run ID (`zr-ctv9dgg`).
+4. **Connection**: Created a connection named `header-conn-zr-ctv9dgg` linking the source and destination, and attached the transformation rule to it.
+
+All resources were created via the Hookdeck REST API using the provided `HOOKDECK_API_KEY` and the `ZEALT_RUN_ID` environment variables. The project path `/home/user/hookdeck-task` was used to execute the setup script.   
+  

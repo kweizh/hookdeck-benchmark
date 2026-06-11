@@ -1,0 +1,61 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-7.4.4, pluggy-1.4.0
+rootdir: /tests
+plugins: json-ctrf-0.5.2
+collected 2 items
+
+tests/test_final_state.py FF                                             [100%]
+
+=================================== FAILURES ===================================
+____________________ test_log_file_exists_and_contains_url _____________________
+
+    def test_log_file_exists_and_contains_url():
+        """Verify that the script output the Source URL to the log file."""
+        assert os.path.isfile(LOG_FILE), f"Log file {LOG_FILE} does not exist."
+        with open(LOG_FILE, "r") as f:
+            content = f.read()
+    
+>       assert "Source URL: https://events.hookdeck.com/e/" in content, \
+            f"Expected 'Source URL: https://events.hookdeck.com/e/' in {LOG_FILE}, but got:\n{content}"
+E       AssertionError: Expected 'Source URL: https://events.hookdeck.com/e/' in /home/user/hookdeck-task/output.log, but got:
+E         Source URL: https://hkdk.events/le49l4ryi1kdnn
+E         
+E       assert 'Source URL: https://events.hookdeck.com/e/' in 'Source URL: https://hkdk.events/le49l4ryi1kdnn\n'
+
+tests/test_final_state.py:20: AssertionError
+__________________ test_hookdeck_connections_and_rate_limits ___________________
+
+    def test_hookdeck_connections_and_rate_limits():
+        """Use Hookdeck CLI to verify the fan-out architecture and rate limits."""
+        run_id = get_run_id()
+        dest_1_name = f"mock-dest-1-{run_id}"
+        dest_2_name = f"mock-dest-2-{run_id}"
+        expected_source_name = f"fan-out-source-{run_id}"
+    
+        result = subprocess.run(
+            ["hookdeck", "gateway", "connection", "list", "--output", "json"],
+            capture_output=True, text=True, cwd=PROJECT_DIR
+        )
+        assert result.returncode == 0, f"'hookdeck gateway connection list' failed: {result.stderr}"
+    
+        try:
+            connections = json.loads(result.stdout)
+        except json.JSONDecodeError:
+            pytest.fail(f"Failed to parse JSON output from hookdeck CLI: {result.stdout}")
+    
+        # Find connection for dest 1
+>       conn_1 = next((c for c in connections if c.get("destination", {}).get("name") == dest_1_name), None)
+
+tests/test_final_state.py:42: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+.0 = <dict_keyiterator object at 0x7f078735b100>
+
+>   conn_1 = next((c for c in connections if c.get("destination", {}).get("name") == dest_1_name), None)
+E   AttributeError: 'str' object has no attribute 'get'
+
+tests/test_final_state.py:42: AttributeError
+=========================== short test summary info ============================
+FAILED tests/test_final_state.py::test_log_file_exists_and_contains_url - Ass...
+FAILED tests/test_final_state.py::test_hookdeck_connections_and_rate_limits
+============================== 2 failed in 0.34s ===============================

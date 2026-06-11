@@ -1,0 +1,77 @@
+Skipping image OS validation for hb__trigger_mock_event: docker inspect returned 1
+Running command: apt-get update && apt-get install -y curl ripgrep
+Command outputs captured
+Running command: set -euo pipefail; curl -fsSL https://getpochi.com/install.sh | bash -x -s -- pochi-v0.6.14 && mkdir -p /logs/agent/pochi && ~/.pochi/bin/pochi --version
+Command outputs captured
+Running command: ln -sf ~/.pochi/bin/pochi /usr/local/bin/pochi
+Command outputs captured
+Running command: echo zr-houabhf > /logs/artifacts/run-id && echo trigger_mock_event__HouABHF > /logs/artifacts/trial_id
+Command outputs captured
+Running command: mkdir -p ~/.pochi && cat << 'EOF' | sed -e "s/OPENAI_API_KEY/${OPENAI_API_KEY}/g" -e "s/DEEPINFRA_API_KEY/${DEEPINFRA_API_KEY}/g" > ~/.pochi/config.jsonc
+{
+  "providers": {
+    "deepinfra": {
+      "kind": "openai",
+      "baseURL": "https://api.deepinfra.com/v1/openai",
+      "apiKey": "DEEPINFRA_API_KEY",
+      "models": {
+        "zai-org/GLM-4.7-Flash": {
+          "name": "glm-4.7-flash"
+        },
+        "moonshotai/Kimi-K2.6": {
+          "name": "kimi-K2.6"
+        },
+        "deepseek-ai/DeepSeek-V4-Pro": {
+          "name": "DeepSeek-V4-Pro"
+        }
+      }
+    },
+    "openai": {
+      "kind": "openai",
+      "baseURL": "https://api.openai.com/v1",
+      "apiKey": "OPENAI_API_KEY",
+      "models": {
+        "gpt-5.4": {
+          "name": "gpt-5.4"
+        }
+      }
+    }
+  }
+}
+EOF
+Command outputs captured
+Running command: if [ -f /bootstrap/test_initial_state.py ]; then pytest -s --log-cli-level=DEBUG /bootstrap/test_initial_state.py > >(tee /logs/agent/pochi/initial-test-stdout.txt) 2> >(tee /logs/agent/pochi/initial-test-stderr.txt >&2); fi
+Command outputs captured
+Running command: pochi --model google/gemini-3.1-pro --max-steps 200 --max-retries 10 --blobs-dir /logs/agent/pochi/blobs --experimental-stream-trajectory /logs/agent/pochi/trajectory.jsonl > >(tee /logs/agent/pochi/stdout.txt) 2> >(tee /logs/agent/pochi/stderr.txt >&2) <<'EOF'
+# Trigger Mock Event via Publish API
+
+## Background
+Hookdeck provides a Publish API to directly send events to a source, which is useful for testing without a real third-party provider. In this task, you will create a connection to a Mock destination and use the Publish API to trigger an event.
+
+## Requirements
+- Write a bash script `run.sh` that uses the Hookdeck CLI and/or API to accomplish the following.
+- Create a Hookdeck connection named `mock-conn-${run-id}` from a source named `mock-source-${run-id}` to a destination named `mock-dest-${run-id}`. The destination MUST be a Mock API destination.
+- Trigger an event to the source `mock-source-${run-id}` using the Hookdeck Publish API.
+- Retrieve the ID of the triggered event and append it to a log file.
+
+## Implementation Hints
+- Use `hookdeck ci --api-key $HOOKDECK_API_KEY` to authenticate in the headless environment.
+- Use the Hookdeck CLI or REST API to create the connection with a MOCK destination.
+- Use the Publish API (`https://hkdk.events/v1/publish`) to trigger the event.
+- Use the Inspect API (`https://api.hookdeck.com/2025-07-01/events`) to find the triggered event ID.
+
+## Acceptance Criteria
+- Project path: /home/user/hookdeck-task
+- Ensure the script `run.sh` is executed and the required actions are performed.
+- Log file: /home/user/hookdeck-task/output.log
+- A connection named `mock-conn-${run-id}` linking source `mock-source-${run-id}` to destination `mock-dest-${run-id}` must be created in the Hookdeck workspace.
+- The destination `mock-dest-${run-id}` must be of type MOCK.
+- At least one event must be successfully published to `mock-source-${run-id}`.
+- The log file must contain the triggered event ID in the exact format: `Event ID: <event_id>`.
+
+
+EOF
+Command outputs captured
+Running command: rm -f ~/.pochi/config.jsonc
+Command outputs captured
+The verifier.env contains an API key (often the case for LLM-based verifiers). You will incur costs associated with the API calls.

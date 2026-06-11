@@ -1,0 +1,41 @@
+{
+    "reportFormat": "CTRF",
+    "specVersion": "0.0.0",
+    "timestamp": "2026-06-10T19:20:23.290395+00:00",
+    "generatedBy": "pytest",
+    "results": {
+        "tool": {
+            "name": "pytest",
+            "version": "7.4.4"
+        },
+        "summary": {
+            "tests": 1,
+            "passed": 0,
+            "failed": 1,
+            "skipped": 0,
+            "pending": 0,
+            "other": 0,
+            "start": 1781119200243,
+            "stop": 1781119223289
+        },
+        "environment": {
+            "buildName": "Pytest JSON CTRF Report",
+            "buildNumber": "000",
+            "buildUrl": "https://ctrf.io"
+        },
+        "tests": [
+            {
+                "name": "test_final_state.py::test_hookdeck_transformation_flow",
+                "status": "failed",
+                "raw_status": "call_failed",
+                "duration": 22864,
+                "start": 1781119200425,
+                "stop": 1781119223289,
+                "retries": 0,
+                "file_path": "test_final_state.py",
+                "trace": "def test_hookdeck_transformation_flow():\n        run_id = os.environ.get(\"ZEALT_RUN_ID\")\n        assert run_id is not None, \"ZEALT_RUN_ID environment variable is not set.\"\n        api_key = os.environ.get(\"HOOKDECK_API_KEY\")\n        assert api_key is not None, \"HOOKDECK_API_KEY environment variable is not set.\"\n    \n        # Run setup.sh\n        setup_script = os.path.join(PROJECT_DIR, \"setup.sh\")\n        assert os.path.isfile(setup_script), \"setup.sh not found.\"\n    \n        result = subprocess.run([\"bash\", \"setup.sh\"], cwd=PROJECT_DIR, capture_output=True, text=True)\n        assert result.returncode == 0, f\"setup.sh failed with error: {result.stderr}\"\n    \n        # Wait a bit for the resources to be fully available\n        time.sleep(2)\n    \n        source_name = f\"source-{run_id}\"\n        headers = {\"Authorization\": f\"Bearer {api_key}\"}\n    \n        sources_resp = requests.get(\"https://api.hookdeck.com/2025-07-01/sources\", headers=headers)\n        assert sources_resp.status_code == 200, f\"Failed to list sources: {sources_resp.text}\"\n        sources = sources_resp.json().get(\"models\", [])\n    \n        source_id = None\n        for s in sources:\n            if s.get(\"name\") == source_name:\n                source_id = s.get(\"id\")\n                break\n    \n        assert source_id is not None, f\"Source named {source_name} not found.\"\n    \n        # Publish event\n        publish_url = \"https://hkdk.events/v1/publish\"\n        publish_headers = {\n            \"Authorization\": f\"Bearer {api_key}\",\n            \"X-Hookdeck-Source-Name\": source_name,\n            \"Content-Type\": \"application/json\"\n        }\n        test_payload = {\n            \"data\": {\n                \"object\": {\n                    \"flattened\": True,\n                    \"test_id\": run_id\n                }\n            }\n        }\n    \n        pub_resp = requests.post(publish_url, headers=publish_headers, json=test_payload)\n        assert pub_resp.status_code == 200, f\"Failed to publish event: {pub_resp.text}\"\n    \n        # Wait for processing\n        time.sleep(5)\n    \n        # Inspect events\n        inspect_url = f\"https://api.hookdeck.com/2025-07-01/events?source_id={source_id}&status=SUCCESSFUL\"\n        inspect_resp = requests.get(inspect_url, headers=headers)\n        assert inspect_resp.status_code == 200, f\"Failed to get events: {inspect_resp.text}\"\n    \n        events = inspect_resp.json().get(\"models\", [])\n        assert len(events) > 0, \"No successful events found for the source.\"\n    \n        # Find the event with our test_id\n        found_transformed = False\n        for event in events:\n            body = event.get(\"body\", {})\n            if body.get(\"test_id\") == run_id:\n                assert body.get(\"flattened\") is True, f\"Payload was not flattened correctly. Got body: {body}\"\n                found_transformed = True\n                break\n    \n>       assert found_transformed, \"Could not find the successfully transformed event with the expected test_id.\"\nE       AssertionError: Could not find the successfully transformed event with the expected test_id.\nE       assert False\n\ntests/test_final_state.py:79: AssertionError",
+                "message": "The test failed in the call phase due to an assertion error"
+            }
+        ]
+    }
+}
