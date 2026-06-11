@@ -25,6 +25,121 @@ A Connection links a Source to a Destination and can include Rules (Filters, Tra
 *   **API Creation**: `POST https://api.hookdeck.com/2025-07-01/connections`
 *   **Documentation**: [Connections](https://hookdeck.com/docs/connections.md)
 
+### Models & Object Representations
+
+Based on the REST API, here are the core object models represented by their JSON responses:
+
+#### Connection Object
+A connection links a source to a destination and contains rules for processing events.
+```json
+{
+  "id": "web_nbbweTiOtzsm",
+  "team_id": "tm_lbhzBKgFOUnB",
+  "updated_at": "2026-01-14T13:36:41.582Z",
+  "created_at": "2026-01-14T13:36:41.595Z",
+  "paused_at": null,
+  "name": "shopify-my-api",
+  "rules": [],
+  "description": null,
+  "destination": { /* Destination Object */ },
+  "source": { /* Source Object */ },
+  "disabled_at": null,
+  "full_name": "shopify -> shopify-my-api"
+}
+```
+
+#### Source Object
+A source represents the origin of the webhooks. It supports various types (e.g., `WEBHOOK`, `STRIPE`, `SHOPIFY`, `FIREBLOCKS`, `BRIDGE_XYZ`) and contains type-specific configurations.
+*Note: For `FIREBLOCKS` sources, `config.auth.environment` is required and `public_key` is not used. The `BRIDGE` type was split into `BRIDGE_XYZ` and `BRIDGE_API`.*
+```json
+{
+  "id": "src_qa5626p6y5o79b",
+  "team_id": "tm_lbhzBKgFOUnB",
+  "updated_at": "2026-01-14T13:36:41.583Z",
+  "created_at": "2026-01-14T13:35:55.226Z",
+  "name": "shopify",
+  "description": null,
+  "type": "WEBHOOK",
+  "config": {
+    "allowed_http_methods": [
+      "POST",
+      "PUT",
+      "PATCH",
+      "DELETE"
+    ],
+    "custom_response": null
+  },
+  "url": "http://localhost:8787/qa5626p6y5o79b",
+  "disabled_at": null,
+  "authenticated": false
+}
+```
+
+#### Destination Object
+A destination represents where Hookdeck forwards the webhooks. Types include `HTTP`, `CLI`, `MOCK_API`, etc.
+```json
+{
+  "id": "des_TU9ioCk5EHUU",
+  "team_id": "tm_lbhzBKgFOUnB",
+  "updated_at": "2026-01-14T13:36:41.584Z",
+  "created_at": "2026-01-14T13:35:55.263Z",
+  "name": "my-api",
+  "description": null,
+  "type": "HTTP",
+  "config": {
+    "url": "https://mock.hookdeck.com/example",
+    "rate_limit": null,
+    "rate_limit_period": "second",
+    "http_method": null,
+    "path_forwarding_disabled": false,
+    "auth": {},
+    "auth_type": "HOOKDECK_SIGNATURE"
+  },
+  "disabled_at": null
+}
+```
+
+#### Rules Object (Deduplicate Rule Example)
+Rules like filters, transformations, delays, retries, and deduplication can be applied to connections. Transformations and filters are ordered via the `rules` array.
+```json
+{
+  "type": "deduplicate",
+  "window": 300,
+  "include_fields": ["id", "type", "user_id"]
+}
+```
+
+#### Error Object
+Hookdeck uses standard HTTP response codes. Errors are returned in this format:
+```json
+{
+  "handled": true,
+  "status": 422,
+  "message": "Connection does not exist or is disabled",
+  "data": {
+    "id": "web_xxxxxxxxxxx"
+  }
+}
+```
+
+#### Pagination Object
+All `GET` endpoints that retrieve a list of resources are paged using cursor (keyset) pagination.
+```json
+{
+  "pagination": {
+    "order_by": "created_at",
+    "dir": "desc",
+    "limit": 100,
+    "next": "web_2urj7h9puxk6obro3x",
+    "prev": "web_2urj7h9puxk6obuf6i"
+  }
+}
+```
+
+#### Query Formatting
+*   **Arrays**: Appended with `[]` (e.g., `?item[1]=hello&item[2]=world`).
+*   **Operators**: Supported operators include `gte`, `gt`, `lte`, `lt`, `any`, and `contains` (e.g., `?number[gte]=1&number[lte]=10`).
+
 ### APIs
 
 Hookdeck provides a robust REST API for managing resources programmatically.
@@ -41,31 +156,33 @@ Hookdeck provides a robust REST API for managing resources programmatically.
       },
       "count": 1,
       "models": [
-        {
-          "id": "src_123",
-          "name": "stripe",
-          "description": "Stripe webhooks",
-          "url": "https://events.hookdeck.com/e/src_123",
-          "created_at": "2025-01-01T00:00:00.000Z",
-          "updated_at": "2025-01-01T00:00:00.000Z",
-          "config": {
-            "auth_type": "BASIC_AUTH",
-            "auth": {
-              "username": "user@hookdeck.com",
-              "password": "my-password"
-            },
-            "custom_response": {
-              "content_type": "json",
-              "body": "{ \"prop\": \"value\"}"
-            },
-            "allowed_http_methods": [
-              "POST",
-              "PUT",
-              "PATCH",
-              "DELETE"
-            ]
-          }
-        }
+      {
+        "id": "src_5b3mzbxk83dciim",
+        "name": "my-api",
+        "type": "WEBHOOK",
+        "url": "https://hkdk.events/5b3mzbxk83dciim",
+        "config": {
+          "auth_type": "BASIC_AUTH",
+          "auth": {
+            "username": "user@hookdeck.com",
+            "password": "my-password"
+          },
+          "custom_response": {
+            "content_type": "json",
+            "body": "{ \"prop\": \"value\"}"
+          },
+          "allowed_http_methods": [
+            "POST",
+            "PUT",
+            "PATCH",
+            "DELETE"
+          ]
+        },
+        "team_id": "tm_5b3mzbxk83c0k7i",
+        "disabled_at": null,
+        "updated_at": "2025-01-26T17:15:31.079Z",
+        "created_at": "2025-01-22T18:22:38.015Z"
+      }
       ]
     }
     ```
@@ -86,8 +203,63 @@ Hookdeck provides a robust REST API for managing resources programmatically.
     }
     ```
 
+*   **Retrieve Request**:
+    A request represent a webhook received by Hookdeck.
+
+    ```bash
+    curl -X GET \
+      "https://api.hookdeck.com/2025-07-01/requests/<id>" \
+      -H "Authorization: Bearer $API_KEY"
+    ```
+
+    Response
+
+    ```json
+    {
+      "id": "req_fpSzYE7G0Op42UkKvFOB",
+      "team_id": "tm_lbhzBKgFOUnB",
+      "verified": false,
+      "rejection_cause": null,
+      "service_tier": "level1",
+      "ingested_at": "2026-01-14T13:36:06.368Z",
+      "source_id": "src_qa5626p6y5o79b",
+      "original_event_data_id": "edt_zjQsVjdTqSMI0cNIPPXE",
+      "ignored_count": 0,
+      "events_count": 1,
+      "cli_events_count": 0,
+      "created_at": "2026-01-14T13:36:06.415515Z",
+      "updated_at": "2026-01-14T13:36:06.415515Z",
+      "data": {
+        "body": {
+          "headers": {
+            "content-type": "application/json"
+          },
+          "body": {
+            "type": "order.created",
+            "customer": {
+              "id": "cust_123",
+              "email": "customer@example.com"
+            },
+            "total": 99.99,
+            "timestamp": "2026-01-14T13:36:06.365Z"
+          }
+        },
+        "headers": {
+          "content-length": "192",
+          "content-type": "application/json",
+          "user-agent": "axios/1.11.0",
+          "x-hookdeck-original-ip": "::1"
+        },
+        "parsed_query": {},
+        "path": "",
+        "query": "",
+        "is_large_payload": false
+      }
+    }
+    ```
+
 Hookdeck allows you to simulate destinations and manually trigger events.
-*   **Mock Destination**: Set `--destination-type MOCK` to have Hookdeck accept events and return 200 OK without forwarding.
+*   **Mock Destination**: Set destination-type to MOCK_API to have Hookdeck accept events and return 200 OK without forwarding.
 *   **Publish API (Outbound Mocking)**: Send events directly to a source via API.
     ```bash
     curl -X POST "https://hkdk.events/v1/publish" \
@@ -98,9 +270,101 @@ Hookdeck allows you to simulate destinations and manually trigger events.
     ```
 *   **Querying Events (Inspect API)**:
     ```bash
-    curl "https://api.hookdeck.com/2025-07-01/events?source_id=src_123&status=SUCCESSFUL" \
+    curl "https://api.hookdeck.com/2025-07-01/events/<id>" \
       -H "Authorization: Bearer $API_KEY"
     ```
+    *Note: The `/events/:id/retry` endpoint returns only the Event object in the root of the response. The `/attempts` endpoint only returns attempts with status `SUCCESSFUL` or `FAILED`.*
+
+    Response:
+
+    ```
+    {
+      "webhook_id": "web_FMKlTwAoGFRu",
+      "team_id": "tm_lbhzBKgFOUnB",
+      "source_id": "src_qa5626p6y5o79b",
+      "destination_id": "des_TU9ioCk5EHUU",
+      "event_data_id": "edt_zjQsVjdTqSMI0cNIPPXE",
+      "request_id": "req_fpSzYE7G0Op42UkKvFOB",
+      "cli_id": null,
+      "attempts": 2,
+      "status": "SUCCESSFUL",
+      "id": "evt_EKbUbpGzNMIdfqnXzA",
+      "last_attempt_at": "2026-01-14T13:36:31.820Z",
+      "next_attempt_at": null,
+      "response_status": 200,
+      "error_code": null,
+      "successful_at": "2026-01-14T13:36:06.675Z",
+      "created_at": "2026-01-14T13:36:06.415Z",
+      "updated_at": "2026-01-14T13:36:32.172Z",
+      "data": {
+        "method": "POST",
+        "url": "https://mock.hookdeck.com/e/example",
+        "headers": {
+          "Accept": "application/json, text/plain, */*",
+          "Idempotency-Key": "evt_EKbUbpGzNMIdfqnXzA",
+          "content-length": "192",
+          "content-type": "application/json",
+          "user-agent": "axios/1.11.0",
+          "X-Hookdeck-Signature": "Mpto1l/p+tdzO/85huGU3lwbl7xPHr/m+13qA9PeKUQ=",
+          "X-Hookdeck-EventID": "evt_EKbUbpGzNMIdfqnXzA",
+          "X-Hookdeck-RequestID": "req_fpSzYE7G0Op42UkKvFOB",
+          "X-Hookdeck-Original-IP": "::1",
+          "X-Hookdeck-Verified": "false",
+          "X-Hookdeck-Event-URL": "http://localhost:3000/events/evt_EKbUbpGzNMIdfqnXzA",
+          "X-Hookdeck-Source-Name": "shopify",
+          "X-Hookdeck-Connection-Name": "shopify-orders",
+          "X-Hookdeck-Destination-Name": "my-api",
+          "X-Hookdeck-Attempt-Count": "3",
+          "X-Hookdeck-Attempt-Trigger": "MANUAL",
+          "X-Hookdeck-Will-Retry-After": ""
+        },
+        "body": {
+          "headers": {
+            "content-type": "application/json"
+          },
+          "body": {
+            "type": "order.created",
+            "customer": {
+              "id": "cust_123",
+              "email": "customer@example.com"
+            },
+            "total": 99.99,
+            "timestamp": "2026-01-14T13:36:06.365Z"
+          }
+        },
+        "appended_headers": [
+          "Accept",
+          "Idempotency-Key",
+          "X-Hookdeck-Signature",
+          "X-Hookdeck-EventID",
+          "X-Hookdeck-RequestID",
+          "X-Hookdeck-Original-IP",
+          "X-Hookdeck-Verified",
+          "X-Hookdeck-Event-URL",
+          "X-Hookdeck-Source-Name",
+          "X-Hookdeck-Connection-Name",
+          "X-Hookdeck-Destination-Name",
+          "X-Hookdeck-Attempt-Count",
+          "X-Hookdeck-Attempt-Trigger",
+          "X-Hookdeck-Will-Retry-After"
+        ],
+        "path": "/e/example",
+        "query": "",
+        "parsed_query": {}
+      }
+    }
+    ```
+
+*   **Metrics API Endpoints**:
+    Provides analytics and monitoring for webhook infrastructure.
+    *   `GET /metrics/requests` - Request volume metrics
+    *   `GET /metrics/events` - Event processing stats
+    *   `GET /metrics/attempts` - Delivery attempt metrics
+    *   `GET /metrics/events-by-issue` - Event failures grouped by issue type
+    *   `GET /metrics/queue-depth` - Queue depth metrics
+    *   `GET /metrics/transformations` - Transformation execution performance
+    *   `GET /metrics/events-pending-timeseries` - Time-series data for pending events
+
 *   **Documentation**: [Publish API](https://hookdeck.com/docs/api/publish.md), [Inspect API](https://hookdeck.com/docs/api/inspect.md)
 
 ### CLI Forwarding (Localhost Testing)
