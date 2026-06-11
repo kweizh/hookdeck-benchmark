@@ -1,7 +1,0 @@
-profile = 'default'
-
-[default]
-api_key = '4j9060uo5apucm097opqhccs2eg0kmn9zq053znky81rpyqgkk'
-project_id = 'tm_y0vMXx2IWjqZ'
-project_mode = 'inbound'
-project_type = 'Gateway'

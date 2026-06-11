@@ -1,4 +1,0 @@
-{
-  "name": "safe-transform-fn-zr-tzgtau3",
-  "code": "addHandler(\"transform\", (request, context) => { request.body.user_id = request.body?.data?.user?.id ?? null; return request; });"
-}
